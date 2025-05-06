@@ -3,7 +3,7 @@ exports.up = function (knex) {
   return knex.schema.createTable('users', (table) => {
     table.increments('id').primary(); // Unique user ID (auto-incrementing primary key)
 
-    table.string('name'); // The user's name
+    table.string('username'); // The user's username
 
     table.integer('age'); // The user's age
 
