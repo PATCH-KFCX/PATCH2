@@ -1,0 +1,100 @@
+.site-header {
+  position: sticky; /* Makes the header stick to the top */
+  top: 0; /* Ensures it sticks to the very top of the page */
+  z-index: 1000; /* Keeps the header above other elements */
+  background-color: #0077b6; /* Medical blue for the header */
+  color: white; /* Ensure text is visible on the new background */
+  padding: 15px 30px;
+  border-bottom: 3px solid #023e8a; /* Add a bold border for separation */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#logo {
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white; /* Ensure the logo text is visible */
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: transform 0.2s ease; /* Add a hover effect */
+}
+
+#logo:hover {
+  transform: scale(1.1); /* Slightly enlarge the logo on hover */
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 16px;
+  color: white; /* Ensure links are visible */
+  border-radius: 8px;
+  border: 2px solid transparent; /* Add a border with a transparent default */
+  transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+}
+
+/* Dashboard Button */
+.nav-links a[href="/dashboard"] {
+  background: linear-gradient(90deg, #00b4d8, #48cae4); /* Gradient for Dashboard */
+  border-color: #00b4d8; /* Add a border matching the gradient */
+}
+
+.nav-links a[href="/dashboard"]:hover {
+  background: linear-gradient(90deg, #48cae4, #00b4d8); /* Reverse gradient on hover */
+  border-color: #48cae4; /* Change border color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+/* Login Button */
+.nav-links a[href="/login"] {
+  background: linear-gradient(90deg, #ff7f50, #ff6f61); /* Coral gradient for Login */
+  border-color: #ff7f50; /* Add a border matching the gradient */
+}
+
+.nav-links a[href="/login"]:hover {
+  background: linear-gradient(90deg, #ff6f61, #ff7f50); /* Reverse gradient on hover */
+  border-color: #ff6f61; /* Change border color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+/* Sign Up Button */
+.nav-links a[href="/sign-up"] {
+  background: linear-gradient(90deg, #52b788, #40916c); /* Gradient for Sign Up */
+  border-color: #40916c; /* Add a border matching the gradient */
+}
+
+.nav-links a[href="/sign-up"]:hover {
+  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
+  border-color: #52b788; /* Change border color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.nav-btn.blue {
+  background-color: #90e0ef; /* Light blue for buttons */
+  color: white;
+}
+
+.nav-btn.green {
+  background-color: #52b788; /* Medical green for buttons */
+  color: white;
+}
+
+.nav-btn.blue:hover,
+.nav-btn.green:hover {
+  background-color: #0077b6; /* Darker blue for hover effect */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
