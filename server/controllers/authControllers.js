@@ -1,6 +1,8 @@
 const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
+  console.log('Received registration request:', req.body); // Debug: log registration payload
+
   // Request needs a body
   if (!req.body) {
     return res.status(400).send({ message: 'Username and password required' });
@@ -21,6 +23,8 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  // console.log('Login attempt:', req.body); // Optional: Debug login attempts
+
   // Request needs a body
   if (!req.body) {
     return res.status(400).send({ message: 'Username and password required' });
@@ -33,7 +37,7 @@ exports.loginUser = async (req, res) => {
   }
 
   // Username must be valid
-  const user = await User.findByUsername(username);
+  const user = await User.findByName(username);
   if (!user) {
     return res.status(404).send({ message: 'User not found.' });
   }
@@ -49,8 +53,9 @@ exports.loginUser = async (req, res) => {
   res.send(user);
 };
 
-
 exports.showMe = async (req, res) => {
+  // console.log('Checking current session'); // Optional: Debug auth check
+
   // no cookie with an id => Not authenticated.
   if (!req.session.userId) {
     return res.status(401).send({ message: "User must be authenticated." });
@@ -62,6 +67,7 @@ exports.showMe = async (req, res) => {
 };
 
 exports.logoutUser = (req, res) => {
+  // console.log('🚪 User logged out'); // Optional: Debug logout
   req.session = null; // "erase" the cookie
   res.status(204).send({ message: "User logged out." });
 };

@@ -1,16 +1,140 @@
+// Import the User model, which contains logic for creating and managing users
 const User = require('../../models/User');
+
 /**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
+ * This function runs when you execute `knex seed:run`.
+ * It will populate your database with initial data for development/testing.
  */
 exports.seed = async (knex) => {
-  await knex('users').del();
+  // Clear existing data from the tables to start fresh
+  await knex('symptom_logs').del(); // Delete all existing symptom logs
+  await knex('users').del();        // Delete all existing users
 
-  // resets user_id to 1 each time the seed file is executed.
+  // Reset the auto-incrementing IDs for both tables (PostgreSQL-specific)
+  await knex.raw('ALTER SEQUENCE symptom_logs_id_seq RESTART WITH 1');
   await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
 
-  // We could use `knex.raw` queries to create these users but we'll use the model
-  await User.create('cool_cat', '1234');
-  await User.create('l33t-guy', '1234');
-  await User.create('wowow', '1234');
+  // Create 10 test users with realistic usernames
+  const usernames = [
+    'cool_cat23',
+    'l33t_guy',
+    'jane.doe',
+    'doctor_avocado',
+    'sunny_days',
+    'techie123',
+    'mellow_vibes',
+    'bookworm88',
+    'runnergirl',
+    'gamer_guy99',
+  ];
+
+  const users = [];
+
+  // Use the User model to securely create each user and store their info
+  for (let i = 0; i < usernames.length; i++) {
+    const newUser = await User.create(usernames[i], 'password123'); // Creates user with hashed password
+    users.push(newUser); // Save the user for later use when assigning symptom logs
+  }
+
+  // Step 3: Create 10 sample symptom log entries (1 per user)
+  const symptomLogs = [
+    {
+      date: '2025-05-01',
+      symptoms: 'Headache and nausea',
+      pain_type: 'sharp',
+      pain_location: 'forehead',
+      pain_level: 5,
+      doctor_type: 'Primary Care',
+      other_notes: 'Felt worse in the morning',
+    },
+    {
+      date: '2025-05-02',
+      symptoms: 'Chest tightness',
+      pain_type: 'tightness',
+      pain_location: 'chest',
+      pain_level: 7,
+      doctor_type: 'Cardiologist',
+      other_notes: 'After running up stairs',
+    },
+    {
+      date: '2025-05-03',
+      symptoms: 'Stomach cramps',
+      pain_type: 'aching',
+      pain_location: 'lower abdomen',
+      pain_level: 4,
+      doctor_type: 'Gastroenterologist',
+      other_notes: 'Felt after lunch',
+    },
+    {
+      date: '2025-05-03',
+      symptoms: 'Sinus pressure',
+      pain_type: 'dull',
+      pain_location: 'behind eyes',
+      pain_level: 3,
+      doctor_type: 'Allergist',
+      other_notes: 'Allergy season trigger',
+    },
+    {
+      date: '2025-05-03',
+      symptoms: 'Back pain',
+      pain_type: 'chronic',
+      pain_location: 'lower back',
+      pain_level: 6,
+      doctor_type: 'Physical Therapist',
+      other_notes: 'After lifting boxes',
+    },
+    {
+      date: '2025-05-03',
+      symptoms: 'Wheezing',
+      pain_type: 'tightness',
+      pain_location: 'lungs',
+      pain_level: 5,
+      doctor_type: 'Pulmonologist',
+      other_notes: 'After walking stairs',
+    },
+    {
+      date: '2025-05-04',
+      symptoms: 'Mild fever',
+      pain_type: 'heat',
+      pain_location: 'body',
+      pain_level: 2,
+      doctor_type: 'Primary Care',
+      other_notes: 'Ongoing since yesterday',
+    },
+    {
+      date: '2025-05-04',
+      symptoms: 'Toothache',
+      pain_type: 'sharp',
+      pain_location: 'upper molar',
+      pain_level: 8,
+      doctor_type: 'Dentist',
+      other_notes: 'Gets worse at night',
+    },
+    {
+      date: '2025-05-04',
+      symptoms: 'Ear ringing',
+      pain_type: 'buzzing',
+      pain_location: 'left ear',
+      pain_level: 3,
+      doctor_type: 'ENT',
+      other_notes: 'Off and on for two days',
+    },
+    {
+      date: '2025-05-04',
+      symptoms: 'Neck stiffness',
+      pain_type: 'dull',
+      pain_location: 'back of neck',
+      pain_level: 4,
+      doctor_type: 'Chiropractor',
+      other_notes: 'After sleeping wrong',
+    },
+  ];
+
+  // Step 4: Link each symptom log to one of the newly created users
+  for (let i = 0; i < users.length; i++) {
+    await knex('symptom_logs').insert({
+      user_id: users[i].id, // Foreign key reference to the user
+      ...symptomLogs[i],    // Spread the rest of the symptom log fields
+    });
+  }
 };
