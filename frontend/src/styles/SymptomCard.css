@@ -49,3 +49,19 @@
   background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
+
+.delete-log-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #f44336; /* Red for delete */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-log-btn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
