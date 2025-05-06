@@ -1,0 +1,51 @@
+.symptom-card {
+  min-width: 220px;
+  max-width: 230px;
+  flex: 0 0 auto;
+  background: linear-gradient(90deg, #e0f7fa, #b2ebf2); /* Light blue gradient for cards */
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+  font-size: 14px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #00b4d8; /* Teal border for a clean medical look */
+}
+
+.symptom-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #0077b6; /* Medical blue for headings */
+}
+
+.symptom-card p {
+  margin: 4px 0;
+  line-height: 1.4;
+  color: #333; /* Neutral text color for readability */
+}
+
+.appointment-buttons {
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  margin-top: 12px;
+}
+
+.create-appointment-btn {
+  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-appointment-btn:hover {
+  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
