@@ -103,3 +103,336 @@
   background-color: #90e0ef; /* Light blue for scrollbar thumb */
   border-radius: 4px;
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 450px; /* Set a consistent width for all modals */
+  max-width: 90%; /* Ensure responsiveness on smaller screens */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Ensure buttons align with modal width */
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0077b6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-buttons button:hover {
+  background-color: #005f8a;
+  transform: scale(1.05);
+}
+
+.modal-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Modal Step Styling */
+.modal-step {
+  width: 100%; /* Ensure content fits within the modal */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.symptom-options {
+  margin-top: 15px;
+}
+
+.symptom-category {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.symptom-category.mild {
+  color: #4caf50; /* Green for mild symptoms */
+}
+
+.symptom-category.moderate {
+  color: #ff9800; /* Orange for moderate symptoms */
+}
+
+.symptom-category.severe {
+  color: #f44336; /* Red for severe symptoms */
+}
+
+.symptom-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.symptom-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.symptom-item:hover {
+  background-color: #f0f0f0;
+}
+
+.symptom-item input {
+  margin-right: 8px;
+}
+
+/* Pain Location Options */
+.pain-location-options {
+  margin-top: 15px;
+}
+
+.pain-category {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.pain-category.extremities {
+  color: #4caf50; /* Green for extremities */
+}
+
+.pain-category.torso {
+  color: #ff9800; /* Orange for torso */
+}
+
+.pain-category.head-neck {
+  color: #f44336; /* Red for head/neck */
+}
+
+.pain-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pain-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pain-item:hover {
+  background-color: #f0f0f0;
+}
+
+.pain-item input {
+  margin-right: 8px;
+}
+
+/* Pain Type Options */
+.pain-type-options {
+  margin-top: 15px;
+}
+
+.pain-type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pain-type-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pain-type-item:hover {
+  background-color: #f0f0f0;
+}
+
+.pain-type-item input {
+  margin-right: 8px;
+}
+
+/* Doctor Type Options */
+.doctor-type-options {
+  margin-top: 15px;
+}
+
+.doctor-type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.doctor-type-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.doctor-type-item:hover {
+  background-color: #f0f0f0;
+}
+
+.doctor-type-item input {
+  margin-right: 8px;
+}
+
+/* Slider Container */
+.slider-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.slider:hover {
+  background: #d0d0d0;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #0077b6; /* Medical blue */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #005f8a; /* Darker blue on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #0077b6;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  background: #005f8a;
+  transform: scale(1.1);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.slider-value {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0077b6; /* Medical blue */
+}
+
+/* Uniform Checkbox Styling */
+.checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox-item:hover {
+  background-color: #f0f0f0;
+}
+
+.checkbox-item input {
+  margin-right: 8px;
+}
