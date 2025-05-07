@@ -8,7 +8,7 @@ export default function HomePage() {
         <div className="hero-content">
           <h1>Welcome to PATCH</h1>
           <p>Your personal health assistant for tracking symptoms and managing appointments.</p>
-          <Link to="/signup" className="cta-button">Get Started</Link>
+          <Link to="/sign-up" className="cta-button">Get Started</Link>
         </div>
       </header>
       <section className="features-section">
