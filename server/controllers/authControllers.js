@@ -9,13 +9,13 @@ exports.registerUser = async (req, res) => {
   }
 
   // Body needs a username and password
-  const { username, password } = req.body;
-  if (!username || !password) {
+  const { name, age, email, password } = req.body;
+  if (!name || !age || !email || !password) {
     return res.status(400).send({ message: 'Username and password required' });
   }
 
   // User.create will handle hashing the password and storing in the database
-  const user = await User.create(username, password);
+  const user = await User.create( name, age, email, password );
 
   // Add the user id to the cookie and send the user data back
   req.session.userId = user.id;
@@ -31,13 +31,13 @@ exports.loginUser = async (req, res) => {
   }
 
   // Body needs a username and password
-  const { username, password } = req.body;
-  if (!username || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res.status(400).send({ message: 'Username and password required' });
   }
 
   // Username must be valid
-  const user = await User.findByName(username);
+  const user = await User.findByEmail(email);
   if (!user) {
     return res.status(404).send({ message: 'User not found.' });
   }
