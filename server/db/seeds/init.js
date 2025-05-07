@@ -39,7 +39,7 @@ exports.seed = async (knex) => {
     8,
     9,
     10,
-  ]
+  ];
 
   const emails = [
     'cool_cat23@gmail.com',
@@ -54,13 +54,11 @@ exports.seed = async (knex) => {
     'gamer_guy99@gmail.com',
   ];
 
-  const users = [];
-
   // Use the User model to securely create each user and store their info
-  for (let i = 0; i < names.length; i++) {
-    const newUser = await User.create(names[i], age[i], emails[i], 'password123'); // Creates user with hashed password
-    users.push(newUser); // Save the user for later use when assigning symptom logs
-  }
+  const users = await Promise.all(names.map((name, i) => User.create(name, age[i], emails[i], 'password123')));
+  // Creates users with hashed passwords
+
+  // Close the Promise.all parenthesis
 
   // Step 3: Create 10 sample symptom log entries (1 per user)
   const symptomLogs = [
@@ -157,10 +155,10 @@ exports.seed = async (knex) => {
   ];
 
   // Step 4: Link each symptom log to one of the newly created users
-  // for (let i = 0; i < users.length; i++) {
-  //   await knex('symptom_logs').insert({
-  //     user_id: users[i].id, // Foreign key reference to the user
-  //     ...symptomLogs[i],    // Spread the rest of the symptom log fields
-  //   });
-  // }
+  await Promise.all(
+    users.map((user, i) => knex('symptom_logs').insert({
+      user_id: user.id, // Foreign key reference to the user
+      ...symptomLogs[i], // Spread the rest of the symptom log fields
+    })),
+  );
 };
