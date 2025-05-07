@@ -8,14 +8,14 @@ const User = require('../../models/User');
 exports.seed = async (knex) => {
   // Clear existing data from the tables to start fresh
   await knex('symptom_logs').del(); // Delete all existing symptom logs
-  await knex('users').del();        // Delete all existing users
+  await knex('users').del(); // Delete all existing users
 
   // Reset the auto-incrementing IDs for both tables (PostgreSQL-specific)
   await knex.raw('ALTER SEQUENCE symptom_logs_id_seq RESTART WITH 1');
   await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
 
   // Create 10 test users with realistic usernames
-  const usernames = [
+  const names = [
     'cool_cat23',
     'l33t_guy',
     'jane.doe',
@@ -28,11 +28,37 @@ exports.seed = async (knex) => {
     'gamer_guy99',
   ];
 
+  const age = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+  ]
+
+  const emails = [
+    'cool_cat23@gmail.com',
+    'l33t_guy@gmail.com',
+    'jane.doe@gmail.com',
+    'doctor_avocado@gmail.com',
+    'sunny_days@gmail.com',
+    'techie123@gmail.com',
+    'mellow_vibes@gmail.com',
+    'bookworm88@gmail.com',
+    'runnergirl@gmail.com',
+    'gamer_guy99@gmail.com',
+  ];
+
   const users = [];
 
   // Use the User model to securely create each user and store their info
-  for (let i = 0; i < usernames.length; i++) {
-    const newUser = await User.create(usernames[i], 'password123'); // Creates user with hashed password
+  for (let i = 0; i < names.length; i++) {
+    const newUser = await User.create(names[i], age[i], emails[i], 'password123'); // Creates user with hashed password
     users.push(newUser); // Save the user for later use when assigning symptom logs
   }
 
@@ -131,10 +157,10 @@ exports.seed = async (knex) => {
   ];
 
   // Step 4: Link each symptom log to one of the newly created users
-  for (let i = 0; i < users.length; i++) {
-    await knex('symptom_logs').insert({
-      user_id: users[i].id, // Foreign key reference to the user
-      ...symptomLogs[i],    // Spread the rest of the symptom log fields
-    });
-  }
+  // for (let i = 0; i < users.length; i++) {
+  //   await knex('symptom_logs').insert({
+  //     user_id: users[i].id, // Foreign key reference to the user
+  //     ...symptomLogs[i],    // Spread the rest of the symptom log fields
+  //   });
+  // }
 };
