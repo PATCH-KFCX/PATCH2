@@ -25,6 +25,11 @@ export default function SignUpPage() {
     navigate('/');
   };
 
+  const navigateHome = () => {
+    navigate('/')
+    
+  };
+
   return (
     <div className="signup-container">
       <div className="signup-card">
@@ -49,11 +54,10 @@ export default function SignUpPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
-          <button type="submit">Sign Up Now!</button>
+          <button type="submit" onClick={navigateHome}>Sign Up Now!</button>
         </form>
         {!!errorText && <p className="error-text">{errorText}</p>}
-        <p>Already have an account? <Link to="/login">Log in!</Link></p>
+        <p><Link to="/login">Already have an account? Log in!</Link></p>
       </div>
     </div>
   );
