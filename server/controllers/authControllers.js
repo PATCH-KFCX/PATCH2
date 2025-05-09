@@ -1,21 +1,21 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 exports.registerUser = async (req, res) => {
-  console.log('Received registration request:', req.body); // Debug: log registration payload
+  console.log("Received registration request:", req.body); // Debug: log registration payload
 
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: "Username and password required" });
   }
 
   // Body needs a username and password
   const { name, age, email, password } = req.body;
   if (!name || !age || !email || !password) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: "Username and password required" });
   }
 
   // User.create will handle hashing the password and storing in the database
-  const user = await User.create( name, age, email, password );
+  const user = await User.create(name, age, email, password);
 
   // Add the user id to the cookie and send the user data back
   req.session.userId = user.id;
@@ -27,25 +27,26 @@ exports.loginUser = async (req, res) => {
 
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: "Username and password required" });
   }
 
   // Body needs a username and password
   const { email, password } = req.body;
+  console.log(`TESTING EMAIL: ${email}, PASSWORD: ${password}`);
   if (!email || !password) {
-    return res.status(400).send({ message: 'Username and password required' });
+    return res.status(400).send({ message: "Email and password required" });
   }
 
   // Username must be valid
   const user = await User.findByEmail(email);
   if (!user) {
-    return res.status(404).send({ message: 'User not found.' });
+    return res.status(404).send({ message: "User not found." });
   }
 
   // Password must match
   const isPasswordValid = await user.isValidPassword(password);
   if (!isPasswordValid) {
-    return res.status(401).send({ message: 'Invalid credentials.' });
+    return res.status(401).send({ message: "Invalid credentials." });
   }
 
   // Add the user id to the cookie and send the user data back

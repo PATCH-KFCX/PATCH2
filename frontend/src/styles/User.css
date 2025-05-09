@@ -1,0 +1,52 @@
+html {
+  background: linear-gradient(135deg, #71ccfd, #d6f3f9);
+}
+
+.user-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #eaeaea, #eaeaea);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.842);
+  font-family: "Segoe UI", sans-serif;
+  color: skyblue;
+}
+
+.user-page_username {
+  font-size: 2rem;
+  font-weight: bold;
+  color: skyblue;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.user-page_bio {
+  font-size: 1rem;
+  color: skyblue;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.user-page_controls {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.user-page_logout-button {
+  background: linear-gradient(135deg, #0077b6, #48cae4);
+  color: rgba(255, 255, 255, 0.901);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-page_logout-button:hover {
+  background-color: #13fbff;
+}
