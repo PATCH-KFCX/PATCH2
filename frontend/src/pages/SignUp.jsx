@@ -7,22 +7,29 @@ import "../styles/SignUp.css";
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const [errorText, setErrorText] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState("");
+  const [name, setUsername] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrorText('');
-    if (!username || !password) return setErrorText('Missing username or password');
+    setErrorText("");
+    if (!name || !age || !email || !password)
+      return setErrorText("Missing name or password");
 
-    const [user, error] = await registerUser({ username, password });
+    const [user, error] = await registerUser({ name, age, email, password });
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate('/');
+    navigate("/");
+  };
+
+  const navigateHome = () => {
+    navigate("/");
   };
 
   return (
@@ -30,14 +37,33 @@ export default function SignUpPage() {
       <div className="signup-card">
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="name">Name</label>
           <input
-            autoComplete="off"
+            autoComplete="name"
             type="text"
-            id="username"
-            name="username"
-            value={username}
+            id="name"
+            name="name"
+            value={name}
             onChange={(e) => setUsername(e.target.value)}
+          />
+          <label htmlFor="age">Age</label>
+          <input
+            autoComplete="age"
+            type="number"
+            id="age"
+            name="age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+
+          <label htmlFor="email">Email</label>
+          <input
+            autoComplete="email"
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <label htmlFor="password">Password</label>
@@ -49,11 +75,12 @@ export default function SignUpPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <button type="submit">Sign Up Now!</button>
         </form>
         {!!errorText && <p className="error-text">{errorText}</p>}
-        <p>Already have an account? <Link to="/login">Log in!</Link></p>
+        <p>
+          <Link to="/login">Already have an account? Log in!</Link>
+        </p>
       </div>
     </div>
   );

@@ -6,9 +6,9 @@ import "../styles/Login.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [errorText, setErrorText] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   // Redirect logged-in users to their profile page
@@ -16,13 +16,16 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrorText('');
-
-    const [user, error] = await logUserIn({ username, password });
+    setErrorText("");
+    const [user, error] = await logUserIn({ email, password });
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
     navigate(`/users/${user.id}`);
+  };
+
+  const navigateHomePage = () => {
+    navigate("/");
   };
 
   return (
@@ -30,14 +33,14 @@ export default function LoginPage() {
       <div className="login-card">
         <h1>Login</h1>
         <form onSubmit={handleSubmit} aria-labelledby="login-heading">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            autoComplete="username"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            autoComplete="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <label htmlFor="password">Password</label>
@@ -53,7 +56,9 @@ export default function LoginPage() {
           <button type="submit">Log in!</button>
         </form>
         {!!errorText && <p className="error-text">{errorText}</p>}
-        <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+        <a href="/forgot-password" className="forgot-password">
+          Forgot Password?
+        </a>
       </div>
     </div>
   );
