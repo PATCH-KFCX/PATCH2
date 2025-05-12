@@ -24,16 +24,23 @@ class User {
   // in the users table. Returns the newly created user, using
   // the constructor to hide the passwordHash. 
   static async create(name, age, email, password) {
-    // hash the plain-text password using bcrypt before storing it in the database
+    // Check if email already exists
+    const existingUser = await knex('users').where({ email }).first();
+    if (existingUser) {
+      throw new Error('Email is already in use');
+    }
+  
+    // Hash the plain-text password using bcrypt
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-
+  
     const query = `INSERT INTO users (name, age, email, password_hash)
       VALUES (?, ?, ?, ?) RETURNING *`;
     const result = await knex.raw(query, [name, age, email, passwordHash]);
-
+  
     const rawUserData = result.rows[0];
     return new User(rawUserData);
   }
+  
 
   // Fetches ALL users from the users table, uses the constructor
   // to format each user (and hide their password hash), and returns.

@@ -70,6 +70,10 @@ exports.createUser = async (req, res) => {
 
   try {
     // Try to create the user and return their info
+    /* Add email and age for user registration from the new user info,
+    also inside of the adapters in the frontend
+    conditional saying 'if email exists' send a status error message 409 */
+
     const newUser = await User.create(name, password);
     res.status(201).send(newUser);
   } catch (err) {
