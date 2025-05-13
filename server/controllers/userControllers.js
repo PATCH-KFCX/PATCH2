@@ -32,9 +32,9 @@ Allows a user to update their own username.
 It checks that the logged-in user is only modifying their own account.
 */
 exports.updateUser = async (req, res) => {
-  const { username } = req.body; // New username provided by the user
-  if (!username) {
-    return res.status(400).send({ message: 'New username required.' }); // Require a username
+  const { email } = req.body; // New username provided by the user
+  if (!email) {
+    return res.status(400).send({ message: 'New Email required.' }); // Require a username
   }
 
   // Convert IDs to numbers to avoid string mismatch
@@ -47,7 +47,7 @@ exports.updateUser = async (req, res) => {
   }
 
   // Attempt to update the user in the database
-  const updatedUser = await User.update(userToModify, username);
+  const updatedUser = await User.update(userToModify, email);
   if (!updatedUser) {
     return res.status(404).send({ message: 'User not found.' }); // If user not found
   }
