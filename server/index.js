@@ -1,11 +1,11 @@
 // Imports
-import 'dotenv/config';
-import path from 'path';
-import express from 'express';
-
-// Middleware imports
 import cors from 'cors';
 
+require('dotenv').config();
+const path = require('path');
+const express = require('express');
+
+// Middleware imports
 const handleCookieSessions = require('./middleware/handleCookieSessions');
 const checkAuthentication = require('./middleware/checkAuthentication');
 const logRoutes = require('./middleware/logRoutes');
@@ -19,10 +19,10 @@ const userControllers = require('./controllers/userControllers');
 const symptomRoutes = require('./routes/symptomRoutes');
 
 const app = express();
+
 // Optional: Enable CORS in development
 if (process.env.NODE_ENV !== 'production') {
   app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-// (Remove this line entirely)
 }
 
 // Middleware
