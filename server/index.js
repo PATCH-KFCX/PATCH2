@@ -1,56 +1,57 @@
-// Imports
-
+// Load environment variables from .env
 require('dotenv').config();
+
 const path = require('path');
 const express = require('express');
 
-// middleware imports
+const app = express();
+
+// Middleware
 const handleCookieSessions = require('./middleware/handleCookieSessions');
 const checkAuthentication = require('./middleware/checkAuthentication');
 const logRoutes = require('./middleware/logRoutes');
 const logErrors = require('./middleware/logErrors');
 
-// controller imports
+// Controllers
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 
-const app = express();
+// Routes
+const symptomRoutes = require('./routes/symptomRoutes'); // for /api/symptoms
+// In the future, you’ll add: const insulinRoutes = require('./routes/insulinRoutes');
 
-// middleware
-app.use(handleCookieSessions); // adds a session property to each request representing the cookie
-app.use(logRoutes); // print information about each incoming request
-app.use(express.json()); // parse incoming request bodies as JSON
-app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the dist folder of the frontend
+// Apply Middleware
+app.use(handleCookieSessions); // Sets up req.session via cookie-session
+app.use(logRoutes); // Logs all incoming requests
+app.use(express.json()); // Parses incoming JSON
+app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serves frontend build
 
 // Auth Routes
-
 app.post('/api/auth/register', authControllers.registerUser);
 app.post('/api/auth/login', authControllers.loginUser);
 app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
-// User Routes
-
-// These actions require users to be logged in (authentication)
-// Express lets us pass a piece of middleware to run for a specific endpoint
+// User Routes (Protected)
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
-// Fallback Routes
+// Symptom Routes (Protected)
+app.use('/api/symptoms', checkAuthentication, symptomRoutes);
 
-// Requests meant for the API will be sent along to the router.
-// For all other requests, send back the index.html file in the dist folder.
+// Fallback for SPA Frontend
+// Serves index.html for any non-API routes
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) return next();
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
+// Error Logging Middleware
 app.use(logErrors);
 
-// Start Listening
-
+// Start Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(` Server running at http://localhost:${port}/`);
 });
