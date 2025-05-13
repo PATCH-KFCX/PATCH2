@@ -1,5 +1,6 @@
-const knex = require("../db/knex");
 const bcrypt = require("bcrypt");
+const knex = require("../db/knex");
+
 const SALT_ROUNDS = 12;
 
 class User {
@@ -16,9 +17,7 @@ class User {
   }
 
   // Controllers can use this instance method to validate passwords prior to sending responses
-  isValidPassword = async (password) => {
-    return await bcrypt.compare(password, this.#passwordHash);
-  };
+  isValidPassword = (password) => bcrypt.compare(password, this.#passwordHash);
 
   // Hashes the given password and then creates a new user
   // in the users table. Returns the newly created user, using
