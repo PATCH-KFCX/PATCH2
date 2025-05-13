@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+/*import { useEffect, useState } from "react";
 import { getAllUsers } from "../adapters/user-adapter";
 import UserLink from "../components/UserLink";
 
@@ -26,3 +26,4 @@ export default function UsersPage() {
     </ul>
   </>;
 }
+*/
