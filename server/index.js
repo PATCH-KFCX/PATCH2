@@ -17,8 +17,7 @@ const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 
 // Routes
-const symptomRoutes = require('./routes/symptomRoutes'); // for /api/symptoms
-// In the future, you’ll add: const insulinRoutes = require('./routes/insulinRoutes');
+const symptomRoutes = require('./routes/symptomRoutes'); // Importing symptom routes
 
 // Apply Middleware
 app.use(handleCookieSessions); // Sets up req.session via cookie-session
