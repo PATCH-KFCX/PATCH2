@@ -30,13 +30,11 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 exports.loginUser = async (req, res) => {
   // console.log('Login attempt:', req.body); // Optional: Debug login attempts
 
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: "Username and password required" });
     return res.status(400).send({ message: "Username and password required" });
   }
 
@@ -46,20 +44,17 @@ exports.loginUser = async (req, res) => {
   console.log(`TESTING EMAIL: ${email}, PASSWORD: ${password}`);
   if (!email || !password) {
     return res.status(400).send({ message: "Email and password required" });
-    return res.status(400).send({ message: "Email and password required" });
   }
 
   // Username must be valid
   const user = await User.findByEmail(email);
   if (!user) {
     return res.status(404).send({ message: "User not found." });
-    return res.status(404).send({ message: "User not found." });
   }
 
   // Password must match
   const isPasswordValid = await user.isValidPassword(password);
   if (!isPasswordValid) {
-    return res.status(401).send({ message: "Invalid credentials." });
     return res.status(401).send({ message: "Invalid credentials." });
   }
 

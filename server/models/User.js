@@ -17,9 +17,7 @@ class User {
   }
 
   // Controllers can use this instance method to validate passwords prior to sending responses
-  isValidPassword = async (password) => {
-  return await bcrypt.compare(password, this.#passwordHash);
-  }
+  isValidPassword = async (password) => bcrypt.compare(password, this.#passwordHash);
 
   // Hashes the given password and then creates a new user
   // in the users table. Returns the newly created user, using
@@ -30,18 +28,17 @@ class User {
     if (existingUser) {
       throw new Error('Email is already in use');
     }
-  
+
     // Hash the plain-text password using bcrypt
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-  
+
     const query = `INSERT INTO users (name, age, email, password_hash)
       VALUES (?, ?, ?, ?) RETURNING *`;
     const result = await knex.raw(query, [name, age, email, passwordHash]);
-  
+
     const rawUserData = result.rows[0];
     return new User(rawUserData);
   }
-  
 
   // Fetches ALL users from the users table, uses the constructor
   // to format each user (and hide their password hash), and returns.
@@ -61,31 +58,33 @@ class User {
     return rawUserData ? new User(rawUserData) : null;
   }
 
-
   // Same as above but uses the username to find the user
   static async findByEmail(email) {
     const query = `SELECT * FROM users WHERE email = ?`;
+
     const result = await knex.raw(query, [email]);
+
     const rawUserData = result.rows[0];
+
     return rawUserData ? new User(rawUserData) : null;
   }
 
   // Updates the user that matches the given id with a new username.
-  // Returns the modified user, using the constructor to hide the passwordHash. 
+  // Returns the modified user, using the constructor to hide the passwordHash.
   static async update(id, username) {
     const query = `
       UPDATE users
       SET username=?
       WHERE id=?
       RETURNING *
-    `
-    const result = await knex.raw(query, [username, id])
+    `;
+    const result = await knex.raw(query, [username, id]);
     const rawUpdatedUser = result.rows[0];
     return rawUpdatedUser ? new User(rawUpdatedUser) : null;
-  };
+  }
 
   static async deleteAll() {
-    return knex('users').del()
+    return knex('users').del();
   }
 }
 
