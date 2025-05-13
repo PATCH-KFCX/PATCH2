@@ -27,7 +27,6 @@ export default function SignUpPage() {
 
   const navigateHome = () => {
     navigate('/')
-    
   };
 
   return (

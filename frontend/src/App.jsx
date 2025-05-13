@@ -10,6 +10,8 @@ import { checkForLoggedInUser } from './adapters/auth-adapter';
 import UsersPage from './pages/Users';
 import UserPage from './pages/User';
 import Dashboard from './pages/Dashboard';
+import DiabetesPage from './pages/DiabetesPage'
+
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
@@ -23,7 +25,7 @@ export default function App() {
   }, [setCurrentUser]);
 
   return <>
-    <SiteHeadingAndNav />
+     <SiteHeadingAndNav />
     <main>
       <Routes>
         <Route path='/' element={<Home />} />
@@ -32,6 +34,7 @@ export default function App() {
         <Route path='/users' element={<UsersPage />} />
         <Route path='/users/:id' element={<UserPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/diabetes-tracker' element={<DiabetesPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </main>
