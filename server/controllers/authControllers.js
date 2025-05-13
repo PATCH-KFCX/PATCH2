@@ -5,13 +5,13 @@ exports.registerUser = async (req, res) => {
 
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: "Username and password required" });
+    return res.status(400).send({ message: "Email and password required" });
   }
 
   // Body needs a username and password
   const { name, age, email, password } = req.body;
   if (!name || !age || !email || !password) {
-    return res.status(400).send({ message: "Username and password required" });
+    return res.status(400).send({ message: "Email and password required" });
   }
 
   // User.create will handle hashing the password and storing in the database
@@ -27,7 +27,7 @@ exports.loginUser = async (req, res) => {
 
   // Request needs a body
   if (!req.body) {
-    return res.status(400).send({ message: "Username and password required" });
+    return res.status(400).send({ message: "Email and password required" });
   }
 
   // Body needs a username and password
@@ -40,7 +40,7 @@ exports.loginUser = async (req, res) => {
   // Username must be valid
   const user = await User.findByEmail(email);
   if (!user) {
-    return res.status(404).send({ message: "User not found." });
+    return res.status(404).send({ message: "Email not found." });
   }
 
   // Password must match

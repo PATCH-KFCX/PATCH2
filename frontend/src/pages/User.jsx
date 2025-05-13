@@ -26,27 +26,37 @@ export default function UserPage() {
   const handleLogout = async () => {
     logUserOut();
     setCurrentUser(null);
-    navigate('/');
+    navigate("/");
   };
 
-  if (error) return <p>Sorry, there was a problem loading user. Please try again later.</p>;
+  if (error)
+    return (
+      <p>Sorry, there was a problem loading user. Please try again later.</p>
+    );
 
   if (!userProfile) return null;
 
   // When we update the username, the userProfile state won't change but the currentUser state will.
-  const profileUsername = isCurrentUserProfile ? currentUser.username : userProfile.username;
+  const profileUsername = isCurrentUserProfile
+    ? currentUser.name
+    : userProfile.name;
 
-  return <>
-    <h1>{profileUsername}</h1>
-    <p>If the user had any data, here it would be</p>
-    <p>Fake Bio or something</p>
-    {
-      isCurrentUserProfile ? (
+  return (
+    <>
+      <h1>{profileUsername}</h1>
+      <p>If the user had any data, here it would be</p>
+      <p>Fake Bio or something</p>
+      {isCurrentUserProfile ? (
         <>
-          <UpdateUsernameForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          <UpdateUsernameForm
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
           <button onClick={handleLogout}>Log Out</button>
         </>
-      ) : ''
-    }
-  </>;
+      ) : (
+        ""
+      )}
+    </>
+  );
 }

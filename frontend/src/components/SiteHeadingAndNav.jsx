@@ -13,16 +13,25 @@ export default function SiteHeadingAndNav() {
       </a>
       <nav>
         <ul className="nav-links">
-          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
           {currentUser ? (
             <>
-              <li><NavLink to="/users" end={true}>Users</NavLink></li>
-              <li><NavLink to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
+              <li>
+                <NavLink to={`/users/${currentUser.id}`}>
+                  {currentUser.name}
+                </NavLink>
+              </li>
             </>
           ) : (
             <>
-              <li><NavLink to="/login">Login</NavLink></li>
-              <li><NavLink to="/sign-up">Sign Up</NavLink></li>
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+              <li>
+                <NavLink to="/sign-up">Sign Up</NavLink>
+              </li>
             </>
           )}
         </ul>
