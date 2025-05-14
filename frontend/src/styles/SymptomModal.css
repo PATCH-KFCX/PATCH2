@@ -1,0 +1,162 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 450px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #e63946; /* Red color on hover */
+}
+
+.modal h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #0077b6; /* Medical blue */
+}
+
+.modal-step {
+  margin-bottom: 20px;
+}
+
+.modal-step label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.symptom-options,
+.pain-location-options,
+.pain-type-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.symptom-options label,
+.pain-location-options label,
+.pain-type-options label {
+  background: #f0f9ff; /* Light blue background */
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #0077b6; /* Medical blue border */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.symptom-options label:hover,
+.pain-location-options label:hover,
+.pain-type-options label:hover {
+  background: #0077b6; /* Medical blue on hover */
+  color: white;
+}
+
+input[type="checkbox"] {
+  display: none; /* Hide the checkbox */
+}
+
+input[type="checkbox"]:checked + label {
+  background: #0077b6; /* Medical blue when selected */
+  color: white;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 20px 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  height: 6px;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #0077b6;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: #005f99;
+}
+
+.toggle-button {
+  background: #f0f9ff; /* Light blue background */
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #0077b6; /* Medical blue border */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 5px;
+}
+
+.toggle-button.selected {
+  background: #0077b6; /* Medical blue when selected */
+  color: white;
+}
+
+.toggle-button:hover {
+  background: #005f99; /* Darker blue on hover */
+  color: white;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0077b6;
+  color: white;
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

@@ -65,3 +65,39 @@
 .delete-log-btn:hover {
   background-color: #d32f2f; /* Darker red on hover */
 }
+
+/* Symptom Cards Section */
+.symptom-cards {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #f0f9ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0077b6;
+  max-height: 400px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+}
+
+.symptom-cards::-webkit-scrollbar {
+  height: 8px; /* Set the height of the horizontal scrollbar */
+}
+
+.symptom-cards::-webkit-scrollbar-thumb {
+  background-color: #90e0ef;
+  border-radius: 4px;
+}
+
+.symptom-cards::-webkit-scrollbar-track {
+  background-color: #f0f9ff;
+}
+
+.symptom-cards.empty {
+  min-height: 400px; /* Increase height when no cards are present */
+  padding: 20px; /* Add more padding for better spacing */
+  font-size: 16px;
+  color: #555; /* Neutral text color */
+}

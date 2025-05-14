@@ -9,6 +9,8 @@ import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import UserPage from "./pages/User";
 import Dashboard from "./pages/Dashboard";
+import DiabetesTracker from './pages/DiabetesTracker';
+
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
@@ -31,6 +33,9 @@ export default function App() {
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:id" element={<Dashboard />} />
+          <Route path="/blood-sugar-tracker" element={<DiabetesTracker />} />
+          {/* Catch-all route for 404 Not Found */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
