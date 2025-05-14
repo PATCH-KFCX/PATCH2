@@ -1,4 +1,4 @@
-const User = require('../models/User'); // Import the User model to interact with the database
+const User = require("../models/User"); // Import the User model to interact with the database
 
 /*
 GET /api/users
@@ -20,7 +20,7 @@ exports.showUser = async (req, res) => {
 
   const user = await User.find(id); // Try to find the user in the database
   if (!user) {
-    return res.status(404).send({ message: 'User not found.' }); // If not found, return error
+    return res.status(404).send({ message: "User not found." }); // If not found, return error
   }
 
   res.send(user); // Otherwise, return the user info
@@ -32,9 +32,9 @@ Allows a user to update their own username.
 It checks that the logged-in user is only modifying their own account.
 */
 exports.updateUser = async (req, res) => {
-  const { email } = req.body; // New username provided by the user
-  if (!email) {
-    return res.status(400).send({ message: 'New Email required.' }); // Require a username
+  const { name } = req.body; // New username provided by the user
+  if (!name) {
+    return res.status(400).send({ message: "New Email required." }); // Require a username
   }
 
   // Convert IDs to numbers to avoid string mismatch
@@ -47,9 +47,9 @@ exports.updateUser = async (req, res) => {
   }
 
   // Attempt to update the user in the database
-  const updatedUser = await User.update(userToModify, email);
+  const updatedUser = await User.update(userToModify, name);
   if (!updatedUser) {
-    return res.status(404).send({ message: 'User not found.' }); // If user not found
+    return res.status(404).send({ message: "User not found." }); // If user not found
   }
 
   res.send(updatedUser); // Send back the updated user info
@@ -65,7 +65,7 @@ Not part of login system but functions similarly to registration.
 exports.createUser = async (req, res) => {
   const { name, password } = req.body; // New user info
   if (!name || !password) {
-    return res.status(400).send({ message: 'Name and password required.' });
+    return res.status(400).send({ message: "Name and password required." });
   }
 
   try {
@@ -75,6 +75,6 @@ exports.createUser = async (req, res) => {
   } catch (err) {
     // Handle unexpected errors gracefully
     console.error(err);
-    res.status(500).send({ message: 'Error creating user.' });
+    res.status(500).send({ message: "Error creating user." });
   }
 };
