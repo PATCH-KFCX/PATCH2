@@ -1,5 +1,6 @@
 // Import Express to create a router instance
 const express = require('express');
+
 const router = express.Router();
 
 // Import the UsersController to connect routes to logic
@@ -16,4 +17,3 @@ router.get('/:id', UsersController.show);
 
 // Export the router so it can be used in the main server file
 module.exports = router;
-
