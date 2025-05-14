@@ -13,5 +13,7 @@ export const getUser = async (id) => {
 };
 
 export const updateUsername = async ({ id, name }) => {
-  return fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ id, name }));
+  console.log("Sending PATCH to:", `${baseUrl}/${id}`);
+  console.log("Body:", { name });
+  return fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ name }));
 };
