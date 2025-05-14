@@ -40,6 +40,51 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 // Symptom Routes (Requires authentication)
 app.use('/api/symptoms', checkAuthentication, symptomRoutes);
 
+app.post('/api/symptoms', checkAuthentication, async (req, res) => {
+  const { date, symptoms } = req.body;
+
+  if (!date || !symptoms) {
+    return res.status(400).json({ error: 'Date and symptoms are required' });
+  }
+
+  try {
+    const newLog = await db('symptom_logs')
+      .insert({ date, symptoms })
+      .returning('*');
+    res.status(201).json(newLog[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save symptom log' });
+  }
+});
+
+app.delete('/api/symptoms/:id', checkAuthentication, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedCount = await db('symptom_logs').where({ id }).del();
+    if (deletedCount) {
+      res.status(200).json({ message: 'Log deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Log not found' });
+    }
+  } catch (err) {
+    console.error('Error deleting log:', err); // Log the error for debugging
+    res.status(500).json({ error: 'Failed to delete log' });
+  }
+});
+
+app.get('/api/symptoms', checkAuthentication, async (req, res) => {
+  try {
+    const userId = req.session.user.id; // Assuming user ID is stored in the session
+    const logs = await SymptomLog.listForUser(userId);
+    res.json(logs);
+  } catch (err) {
+    console.error('Error fetching symptom logs:', err);
+    res.status(500).json({ error: 'Failed to fetch symptom logs' });
+  }
+});
+
 // User Routes (Requires authentication)
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
