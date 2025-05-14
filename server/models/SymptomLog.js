@@ -1,24 +1,56 @@
-const knex = require('../db/knex');
+const knex = require('knex');
+const config = require('../knexfile');
+const db = knex(config.development);
 
 class SymptomLog {
-  static async create(userId, logData) {
-    const { date, symptoms, pain_type, pain_location, pain_level } = logData;
+  static async create(userId, data) {
+    const { date, symptoms, painType, painLocation, painLevel } = data;
 
-    const result = await knex('symptom_logs').insert({
-      user_id: userId,
-      date,
-      symptoms,
-      pain_type,
-      pain_location,
-      pain_level,
-    }).returning('*');
+    const [newLog] = await db('symptom_logs')
+      .insert({
+        user_id: userId,
+        date,
+        symptoms: symptoms.join(', '),
+        pain_type: painType.join(', '),
+        pain_location: painLocation.join(', '),
+        pain_level: painLevel,
+      })
+      .returning([
+        'id',
+        'date',
+        'symptoms',
+        'pain_type',
+        'pain_location',
+        'pain_level',
+      ]);
 
-    return result[0];
+    return {
+      id: newLog.id,
+      date: newLog.date,
+      symptoms: newLog.symptoms?.split(', ') || [],
+      painType: newLog.pain_type?.split(', ') || [],
+      painLocation: newLog.pain_location?.split(', ') || [],
+      painLevel: newLog.pain_level,
+    };
   }
 
   static async listForUser(userId) {
-    const logs = await knex('symptom_logs').where({ user_id: userId }).orderBy('date', 'desc');
-    return logs;
+    const rows = await db('symptom_logs')
+      .where({ user_id: userId })
+      .orderBy('date', 'desc');
+
+    return rows.map((row) => ({
+      id: row.id,
+      date: row.date,
+      symptoms: row.symptoms?.split(', ') || [],
+      painType: row.pain_type?.split(', ') || [],
+      painLocation: row.pain_location?.split(', ') || [],
+      painLevel: row.pain_level,
+    }));
+  }
+
+  static async delete(userId, logId) {
+    return db('symptom_logs').where({ id: logId, user_id: userId }).del();
   }
 }
 

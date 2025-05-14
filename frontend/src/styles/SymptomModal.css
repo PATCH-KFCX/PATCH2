@@ -1,162 +1,315 @@
+:root {
+  --primary-color: #1abc9c;
+  --accent-color: #16a085;
+  --text-color: #2c3e50;
+  --background-color: #ffffff;
+  --border-color: #e0e0e0;
+  --radius: 10px;
+  --spacing: 1rem;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .modal {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  width: 450px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: var(--background-color);
+  padding: 2rem;
+  border-radius: var(--radius);
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   position: relative;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  font-size: 1.5rem;
   border: none;
-  font-size: 24px;
   cursor: pointer;
-  color: #333;
-  transition: color 0.3s ease;
+  color: var(--text-color);
+  transition: color 0.3s;
 }
 
 .close-button:hover {
-  color: #e63946; /* Red color on hover */
+  color: var(--primary-color);
 }
 
-.modal h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #0077b6; /* Medical blue */
-}
-
-.modal-step {
-  margin-bottom: 20px;
-}
-
-.modal-step label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.symptom-options,
-.pain-location-options,
-.pain-type-options {
+/* Center the form and make it full-width */
+.symptom-form {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  align-items: stretch; /* Ensure the form elements stretch to the container's width */
+  width: 100%; /* Make the form take up the full width of the modal */
+  gap: var(--spacing); /* Add consistent spacing between form elements */
 }
 
-.symptom-options label,
-.pain-location-options label,
-.pain-type-options label {
-  background: #f0f9ff; /* Light blue background */
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #0077b6; /* Medical blue border */
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Input and Textarea Styling */
+.symptom-form input,
+.symptom-form textarea {
+  width: 100%; /* Make inputs and textareas take up the full width of the form */
+  padding: 1rem; /* Increase padding for better usability */
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
 }
 
-.symptom-options label:hover,
-.pain-location-options label:hover,
-.pain-type-options label:hover {
-  background: #0077b6; /* Medical blue on hover */
-  color: white;
-}
-
-input[type="checkbox"] {
-  display: none; /* Hide the checkbox */
-}
-
-input[type="checkbox"]:checked + label {
-  background: #0077b6; /* Medical blue when selected */
-  color: white;
-}
-
-input[type="range"] {
-  width: 100%;
-  margin: 20px 0;
-  -webkit-appearance: none;
-  appearance: none;
-  background: #ddd;
-  height: 6px;
-  border-radius: 5px;
+.symptom-form input:focus,
+.symptom-form textarea:focus {
+  border-color: var(--primary-color);
   outline: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #0077b6;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.form-actions {
+  display: flex;
+  justify-content: space-between; /* Spread buttons evenly across the form */
+  gap: 1rem; /* Add spacing between buttons */
+  margin-top: var(--spacing);
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
-  background-color: #005f99;
-}
-
-.toggle-button {
-  background: #f0f9ff; /* Light blue background */
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #0077b6; /* Medical blue border */
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin: 5px;
-}
-
-.toggle-button.selected {
-  background: #0077b6; /* Medical blue when selected */
+/* Submit Button */
+.submit-btn {
+  flex: 1; /* Make the button stretch to fill available space */
+  background: var(--primary-color);
   color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-.toggle-button:hover {
-  background: #005f99; /* Darker blue on hover */
-  color: white;
+.submit-btn:hover {
+  background: var(--accent-color);
 }
 
-.modal-buttons {
+/* Cancel Button */
+.cancel-btn {
+  flex: 1; /* Make the button stretch to fill available space */
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #f9f9f9;
+  color: var(--primary-color);
+}
+
+.progress-bar {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0077b6;
+.progress-bar .step {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 50%;
+  background: #ccc;
   color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.3s;
 }
 
-button:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
+.progress-bar .step.active {
+  background: var(--primary-color);
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider-value {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.summary-note {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f8f9fa;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  user-select: none;
+}
+
+.checkbox-group label:hover {
+  background: #e0f4ff;
+  border-color: var(--accent-color);
+}
+
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.checkbox-group input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  width: 0.5rem;
+  height: 0.9rem;
+  border: solid var(--primary-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  top: 0.05rem;
+  left: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  border-color: var(--primary-color);
+  background-color: #d1ecf1;
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-group label {
+  background-color: #f0f0f0;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+  user-select: none;
+}
+
+.checkbox-group input[type="checkbox"]:checked + label {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.checkbox-group label:hover {
+  background-color: #e6f4ff;
+  border-color: var(--accent-color);
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.progress-bar .step {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 50%;
+  background: #ccc;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.progress-bar .step.active {
+  background: var(--primary-color);
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.slider-value {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.summary-note {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
