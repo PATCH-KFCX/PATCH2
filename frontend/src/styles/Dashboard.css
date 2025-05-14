@@ -16,6 +16,7 @@
   border-bottom: 2px solid #023e8a; /* Add a bold underline for separation */
 }
 
+/* Dashboard Content Layout */
 .dashboard-content {
   display: flex;
   gap: 30px;
@@ -27,8 +28,8 @@
 .sidebar-column {
   display: flex;
   flex-direction: column; /* Stack sidebars vertically */
-  gap: 18px; /* Add a small space between sidebars */
-  width: 25%; /* Adjust width for the column */
+  gap: 18px; /* Add spacing between the sidebars */
+  width: 25%; /* Sidebar column width */
 }
 
 /* Sidebar */
@@ -42,8 +43,30 @@
 
 .sidebar h2 {
   font-size: 18px;
-  margin-bottom: 16px;
-  color: #40916c; /* Medical green for the heading */
+  margin-bottom: 10px;
+  color: #0077b6; /* Medical blue */
+}
+
+.sidebar p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.tracker-link {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #0077b6; /* Medical blue */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.tracker-link:hover {
+  background-color: #005f99; /* Darker blue on hover */
 }
 
 .log-list {
@@ -79,29 +102,34 @@
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-/* Symptom Card Section */
+/* Symptom Cards Section */
 .symptom-cards {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: nowrap; /* Prevent wrapping of cards */
   gap: 20px;
+  width: 100%; /* Take up the full width of the container */
   padding: 12px;
-  width: 72%;
-  height: 450px;
   background-color: #f0f9ff; /* Light blue for the symptom card section */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  scroll-behavior: smooth;
   border: 2px solid #0077b6; /* Medical blue border */
+  max-height: 400px; /* Optional: Limit the height */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+  height: 500px; /* Set a fixed height for the section */
 }
 
 .symptom-cards::-webkit-scrollbar {
-  height: 6px;
+  height: 8px; /* Set the height of the horizontal scrollbar */
 }
 
 .symptom-cards::-webkit-scrollbar-thumb {
   background-color: #90e0ef; /* Light blue for scrollbar thumb */
-  border-radius: 4px;
+  border-radius: 4px; /* Rounded edges for the scrollbar thumb */
+}
+
+.symptom-cards::-webkit-scrollbar-track {
+  background-color: #f0f9ff; /* Match the background color */
 }
 
 /* Modal Styles */
@@ -306,38 +334,6 @@
 }
 
 .pain-type-item input {
-  margin-right: 8px;
-}
-
-/* Doctor Type Options */
-.doctor-type-options {
-  margin-top: 15px;
-}
-
-.doctor-type-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.doctor-type-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.doctor-type-item:hover {
-  background-color: #f0f0f0;
-}
-
-.doctor-type-item input {
   margin-right: 8px;
 }
 
