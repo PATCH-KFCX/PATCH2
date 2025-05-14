@@ -63,14 +63,14 @@ class User {
 
   // Updates the user that matches the given id with a new username.
   // Returns the modified user, using the constructor to hide the passwordHash.
-  static async update(id, email) {
+  static async update(id, name) {
     const query = `
       UPDATE users
-      SET username=?
+      SET name=?
       WHERE id=?
       RETURNING *
     `;
-    const result = await knex.raw(query, [email, id]);
+    const result = await knex.raw(query, [name, id]);
     const rawUpdatedUser = result.rows[0];
     return rawUpdatedUser ? new User(rawUpdatedUser) : null;
   }
