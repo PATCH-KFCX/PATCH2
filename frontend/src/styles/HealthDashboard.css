@@ -1,0 +1,139 @@
+/* General Health Dashboard Styling */
+.health-dashboard {
+  padding: 2rem;
+  background-color: var(--bg, #f9fafc);
+  min-height: 100vh;
+  color: var(--text, #222);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.dashboard-header .actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.dashboard-header .actions button {
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-header .actions button:hover {
+  background-color: #16a085;
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Card Column Styling */
+.card-column {
+  flex: 1;
+  min-width: 300px;
+  background-color: var(--card, #fff);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-column:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-column h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #34495e;
+}
+
+.card-column p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Scrollable Section */
+.scrollable {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #1abc9c #e0e0e0;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #1abc9c;
+  border-radius: 4px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background-color: #e0e0e0;
+}
+
+/* Chart Section */
+.chart-section {
+  margin-top: 3rem;
+  background-color: var(--card, #fff);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-section h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.chart-section canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Export Button */
+.export-button {
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-button:hover {
+  background-color: #005b91;
+}
