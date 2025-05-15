@@ -39,6 +39,30 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+  max-height: 500px; /* Increased maximum height for the card list */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem; /* Add padding for better spacing */
+  border: 1px solid #e0e0e0; /* Optional: Add a border for a clean look */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #ffffff; /* Optional: Set a background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  scrollbar-width: thin; /* For modern browsers, make the scrollbar thinner */
+  scrollbar-color: #1abc9c #f4f4f9; /* Custom scrollbar colors */
+}
+
+/* Custom scrollbar styling for WebKit browsers */
+.card-list::-webkit-scrollbar {
+  width: 8px; /* Narrow scrollbar */
+}
+
+.card-list::-webkit-scrollbar-track {
+  background: #f4f4f9; /* Light background for the track */
+  border-radius: 8px; /* Match container's rounded corners */
+}
+
+.card-list::-webkit-scrollbar-thumb {
+  background: #1abc9c; /* Accent color for the scrollbar */
+  border-radius: 8px; /* Rounded scrollbar thumb */
 }
 
 .no-data {
@@ -68,4 +92,50 @@
   padding: 20px;
   flex-grow: 1;
   min-height: 300px;
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red color for delete */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.diabetes-card {
+  background-color: #ffffff; /* Clean white background */
+  border: 1px solid #e0e0e0; /* Light border for a clean look */
+  border-radius: 12px; /* Modern rounded corners */
+  padding: 16px; /* Add padding for better spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between elements */
+}
+
+.diabetes-card:hover {
+  transform: translateY(-4px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.diabetes-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #333; /* Darker text for readability */
+}
+
+.diabetes-card p strong {
+  color: #256d4a; /* Accent color for labels */
+}
+
+.diabetes-card .delete-button {
+  align-self: flex-end; /* Align the delete button to the right */
+  margin-top: 8px; /* Add spacing above the button */
 }
