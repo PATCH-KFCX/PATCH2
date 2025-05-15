@@ -1,6 +1,5 @@
-// HealthDashboard.jsx
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from React Router
+import { Link, useNavigate } from 'react-router-dom';
 import SymptomCard from '../components/SymptomCard';
 import DiabetesCards from '../components/DiabetesCards';
 import InsulinChart from '../components/InsulinChart';
@@ -15,6 +14,7 @@ export default function HealthDashboard() {
   const [showSymptomModal, setShowSymptomModal] = useState(false);
   const [showInsulinModal, setShowInsulinModal] = useState(false);
   const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSymptoms = async () => {
@@ -47,33 +47,36 @@ export default function HealthDashboard() {
 
   return (
     <div className="health-dashboard">
-      <header className="dashboard-header">
-        <h1>Health Dashboard</h1>
-        <button onClick={() => document.body.classList.toggle('dark-mode')}>🌓 Toggle Theme</button>
-      </header>
 
-      <div className="dashboard-section">
-        <div className="card-column">
+      <div className="dashboard-body">
+        {/* Symptom Logs Section */}
+        <div className="dashboard-column">
           <h2>Symptom Logs</h2>
-          {/* Updated Button */}
-          <Link to="/dashboard" className="button">
-            Go To Symptom Dashboard
-          </Link>
-          <div className="scrollable">
-            {symptomLogs.map(log => (
-              <SymptomCard key={log.id} log={log} />
-            ))}
+          <Link to="/dashboard" className="create-log-btn">Go to Symptom Dashboard</Link>
+          <div className="symptom-log-container">
+            {symptomLogs.length > 0 ? (
+              symptomLogs.map(log => (
+                <SymptomCard key={log.id} log={log} />
+              ))
+            ) : (
+              <div className="no-data-message">No symptom logs available</div>
+            )}
           </div>
         </div>
 
-        <div className="card-column">
+        {/* Insulin Logs Section */}
+        <div className="dashboard-column">
           <h2>Insulin Logs</h2>
-          <button onClick={() => setShowInsulinModal(true)}>+ Add Insulin Log</button>
-          <button className="export-button" onClick={downloadCSV}>Export Logs</button>
-          <div className="scrollable">
-            {insulinLogs.map(log => (
-              <DiabetesCards key={log.id} log={log} />
-            ))}
+          <Link to="/blood-sugar-tracker" className="create-log-btn">Go to Blood Sugar Tracker</Link>
+          <button onClick={downloadCSV} className="export-button">Export Logs</button>
+          <div className="symptom-log-container">
+            {insulinLogs.length > 0 ? (
+              insulinLogs.map(log => (
+                <DiabetesCards key={log.id} log={log} />
+              ))
+            ) : (
+              <div className="no-data-message">No insulin logs available</div>
+            )}
           </div>
         </div>
       </div>
@@ -83,16 +86,22 @@ export default function HealthDashboard() {
       </div>
 
       {showSymptomModal && (
-        <SymptomModal isOpen={true} onClose={() => setShowSymptomModal(false)} onSubmit={(newLog) => setSymptomLogs([...symptomLogs, newLog])} />
+        <SymptomModal
+          isOpen={true}
+          onClose={() => setShowSymptomModal(false)}
+          onSubmit={(newLog) => setSymptomLogs([...symptomLogs, newLog])}
+        />
       )}
 
       {showInsulinModal && (
-        <InsulinLogModal onClose={() => {
-          setShowInsulinModal(false);
-          fetch('/api/diabetes-logs', { credentials: 'include' })
-            .then(res => res.json())
-            .then(setInsulinLogs);
-        }} />
+        <InsulinLogModal
+          onClose={() => {
+            setShowInsulinModal(false);
+            fetch('/api/diabetes-logs', { credentials: 'include' })
+              .then(res => res.json())
+              .then(setInsulinLogs);
+          }}
+        />
       )}
     </div>
   );
