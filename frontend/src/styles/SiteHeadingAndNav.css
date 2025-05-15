@@ -37,50 +37,90 @@
   align-items: center;
 }
 
+/* General button styling for nav links */
 .nav-links a {
+  display: inline-block;
   text-decoration: none;
   font-weight: bold;
-  padding: 10px 16px;
-  color: white; /* Ensure links are visible */
-  border-radius: 8px;
-  border: 2px solid transparent; /* Add a border with a transparent default */
-  transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+  padding: 10px 20px;
+  color: white; /* Ensure text is visible */
+  border-radius: 25px; /* Rounded edges for a modern look */
+  border: 2px solid transparent; /* Subtle border */
+  transition: all 0.3s ease; /* Smooth hover and focus effects */
+  font-size: 1rem;
+  background: linear-gradient(90deg, #0077b6, #00b4d8); /* Medical blue gradient */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Hover effect for nav links */
+.nav-links a:hover {
+  background: linear-gradient(90deg, #00b4d8, #0077b6); /* Reverse gradient on hover */
+  transform: translateY(-2px); /* Lift effect */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+}
+
+/* Active link styling */
+.nav-links a.active {
+  background: linear-gradient(90deg, #023e8a, #0077b6); /* Darker gradient for active state */
+  border-color: #023e8a; /* Highlight border for active state */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Stronger shadow */
 }
 
 /* Dashboard Button */
 .nav-links a[href="/dashboard"] {
-  background: linear-gradient(90deg, #00b4d8, #48cae4); /* Gradient for Dashboard */
-  border-color: #00b4d8; /* Add a border matching the gradient */
+  background: linear-gradient(90deg, #00b4d8, #48cae4); /* Medical blue gradient */
+  border-color: #00b4d8;
 }
 
 .nav-links a[href="/dashboard"]:hover {
   background: linear-gradient(90deg, #48cae4, #00b4d8); /* Reverse gradient on hover */
-  border-color: #48cae4; /* Change border color on hover */
-  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  border-color: #48cae4;
 }
 
 /* Login Button */
 .nav-links a[href="/login"] {
   background: linear-gradient(90deg, #ff7f50, #ff6f61); /* Coral gradient for Login */
-  border-color: #ff7f50; /* Add a border matching the gradient */
+  border-color: #ff7f50;
 }
 
 .nav-links a[href="/login"]:hover {
   background: linear-gradient(90deg, #ff6f61, #ff7f50); /* Reverse gradient on hover */
-  border-color: #ff6f61; /* Change border color on hover */
-  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  border-color: #ff6f61;
 }
 
 /* Sign Up Button */
 .nav-links a[href="/sign-up"] {
-  background: linear-gradient(90deg, #52b788, #40916c); /* Gradient for Sign Up */
-  border-color: #40916c; /* Add a border matching the gradient */
+  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
+  border-color: #40916c;
 }
 
 .nav-links a[href="/sign-up"]:hover {
   background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
-  border-color: #52b788; /* Change border color on hover */
-  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  border-color: #52b788;
+}
+
+/* Health Dashboard Button */
+.nav-links a[href="/health-dashboard"] {
+  background: linear-gradient(90deg, #0077b6, #023e8a); /* Darker medical blue gradient */
+  border-color: #023e8a;
+}
+
+.nav-links a[href="/health-dashboard"]:hover {
+  background: linear-gradient(90deg, #023e8a, #0077b6); /* Reverse gradient on hover */
+  border-color: #0077b6;
+}
+
+/* Spacing between buttons */
+.nav-links li {
+  margin: 0 10px; /* Add spacing between list items */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .nav-links a {
+    padding: 8px 15px; /* Adjust padding for smaller screens */
+    font-size: 0.9rem; /* Slightly smaller font size */
+  }
 }
 
 .nav-btn.blue {

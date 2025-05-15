@@ -2,7 +2,6 @@ const knex = require('../db/knex');
 
 class DiabetesLog {
   static async create({ userId, date, level, notes }) {
-    console.log('Saving log:', { userId, date, level, notes });
     const query = `
       INSERT INTO diabetes_logs (user_id, date, level, notes)
       VALUES (?, ?, ?, ?)
@@ -20,6 +19,16 @@ class DiabetesLog {
     `;
     const result = await knex.raw(query, [userId]);
     return result.rows;
+  }
+
+  static async deleteById(id, userId) {
+    const query = `
+      DELETE FROM diabetes_logs
+      WHERE id = ? AND user_id = ?
+      RETURNING *;
+    `;
+    const result = await knex.raw(query, [id, userId]);
+    return result.rowCount > 0;
   }
 }
 
