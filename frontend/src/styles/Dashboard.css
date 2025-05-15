@@ -8,16 +8,16 @@
 
 /* Sidebar styling */
 .sidebar {
-  width: 25%; /* Increase the width of the sidebar */
+  width: 30%; /* Increase the width from 25% to 30% */
   background-color: #2c3e50;
   color: #ecf0f1;
-  padding: 30px; /* Increase padding for better spacing */
+  padding: 30px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar h2 {
-  font-size: 2rem; /* Increase font size for headings */
-  margin-bottom: 25px; /* Add more spacing below headings */
+  font-size: 2rem;
+  margin-bottom: 25px;
 }
 
 .sidebar ul {
@@ -26,8 +26,8 @@
 }
 
 .sidebar ul li {
-  margin: 20px 0; /* Increase spacing between list items */
-  font-size: 1.2rem; /* Increase font size for list items */
+  margin: 20px 0;
+  font-size: 1.2rem;
 }
 
 .sidebar ul li a {
@@ -43,36 +43,40 @@
 /* Sidebar card styling */
 .sidebar-card {
   background-color: #34495e;
-  padding: 20px; /* Increase padding for better spacing */
-  margin-bottom: 25px; /* Add more spacing between cards */
-  border-radius: 10px; /* Slightly increase border radius */
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-card h2 {
-  font-size: 1.5rem; /* Increase font size for card headings */
+  font-size: 1.5rem;
   color: #ecf0f1;
-  margin-bottom: 15px; /* Add more spacing below card headings */
+  margin-bottom: 15px;
 }
 
 .sidebar-card p,
 .sidebar-card ul {
   color: #bdc3c7;
-  font-size: 1.1rem; /* Increase font size for card content */
+  font-size: 1.1rem;
 }
 
-.sidebar-card button {
+/* Unified sidebar button and link style */
+.sidebar-button {
+  display: inline-block;
   background-color: #1abc9c;
   color: #fff;
-  border: none;
-  padding: 15px 20px; /* Increase button size */
-  border-radius: 8px; /* Slightly increase border radius */
+  text-decoration: none;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 1.1rem;
   cursor: pointer;
-  font-size: 1.1rem; /* Increase font size for button text */
+  border: none;
+  text-align: center;
   transition: background-color 0.3s;
 }
 
-.sidebar-card button:hover {
+.sidebar-button:hover {
   background-color: #16a085;
 }
 
@@ -87,31 +91,31 @@
 
 /* Symptom log container */
 .symptom-log-container {
-  width: 100%; /* Adjust width as needed */
+  width: 100%;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: 70vh; /* Set a maximum height for the container */
-  margin-top: 20px; /* Add spacing from the title or other elements */
+  overflow-y: auto;
+  min-height: 610px;
+  margin-top: 20px;
 }
 
-/* Optional: Style the no-data message */
+/* No-data message styling */
 .no-data-message {
   text-align: center;
   color: #7f8c8d;
-  font-size: 1.5rem; /* Increase font size */
-  font-weight: bold; /* Make the text bold */
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-top: 20px;
-  padding: 20px; /* Add padding for better spacing */
-  background-color: #f4f4f9; /* Add a subtle background color */
-  border: 1px solid #e0e0e0; /* Add a border for emphasis */
-  border-radius: 8px; /* Add rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  padding: 20px;
+  background-color: #f4f4f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Individual symptom card styling */
+/* Symptom card styling */
 .symptom-card {
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
@@ -134,4 +138,37 @@
 .symptom-card p {
   font-size: 0.9rem;
   color: #555;
+}
+/* Make tracker link look like a button*/
+.tracker-link {
+  text-decoration: none;
+  color: #1abc9c;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+}
+.tracker-link:hover {
+  text-decoration: underline;
+}
+
+.create-log-btn {
+  display: inline-block;
+  background-color: #1abc9c;
+  color: #fff;
+  text-decoration: none;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.create-log-btn:hover {
+  background-color: #16a085;
 }

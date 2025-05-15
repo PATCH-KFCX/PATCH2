@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import SymptomCard from '../components/SymptomCard';
 import SymptomModal from '../components/SymptomModal';
 import '../styles/Dashboard.css';
@@ -6,6 +7,7 @@ import '../styles/Dashboard.css';
 export default function Dashboard() {
   const [symptomLogs, setSymptomLogs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -88,7 +90,12 @@ export default function Dashboard() {
         <div className="sidebar-card">
           <h2>Blood Sugar Tracker</h2>
           <p>Monitor and track your blood sugar levels.</p>
-          <button className="tracker-link">Go to Blood Sugar Tracker</button>
+          <button
+            className="sidebar-button"
+            onClick={() => navigate('/blood-sugar-tracker')}
+          >
+            Go to Blood Sugar Tracker
+          </button>
         </div>
       </div>
 
@@ -97,7 +104,7 @@ export default function Dashboard() {
         <h1 className="dashboard-title">Symptom Logs Dashboard</h1>
 
         {/* Symptom Log Container */}
-        <div className="symptom-log-container">
+        <div className="symptom-log-container scrollable">
           {symptomLogs.length > 0 ? (
             symptomLogs.map((log) => (
               <SymptomCard
