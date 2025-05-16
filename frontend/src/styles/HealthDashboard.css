@@ -100,9 +100,23 @@
 }
 
 .chart-section {
-  margin-top: 3rem;
+  margin-top: 20px;
   background-color: #ffffff;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 500px; /* Adjust as needed */
+  height: 300px; /* Adjust as needed */
+  margin: 0 auto; /* Center the chart */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.insulin-chart-container {
+  max-width: 600px; /* Increase width for the insulin chart */
 }
