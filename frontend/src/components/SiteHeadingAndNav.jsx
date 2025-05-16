@@ -16,16 +16,16 @@ export default function SiteHeadingAndNav() {
           {currentUser ? (
             <>
               <li>
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="/">Home</NavLink>
               </li>
               <li>
-                <NavLink to={`/users/${currentUser.id}`}>
-                  My Profile
+                <NavLink to={`/Health-Dashboard`} className="nav-button">
+                  Health Dashboard
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/health-dashboard" className="nav-button">
-                  Health Dashboard
+                <NavLink to={`/users/${currentUser.id}`} className="nav-button">
+                  My Profile
                 </NavLink>
               </li>
             </>

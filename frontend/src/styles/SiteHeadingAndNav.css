@@ -1,140 +1,51 @@
 .site-header {
-  position: sticky; /* Makes the header stick to the top */
-  top: 0; /* Ensures it sticks to the very top of the page */
-  z-index: 1000; /* Keeps the header above other elements */
-  background-color: #0077b6; /* Medical blue for the header */
-  color: white; /* Ensure text is visible on the new background */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #1e2a34; /* Dark blue-gray */
+  border-bottom: 1px solid #2f3d49;
   padding: 15px 30px;
-  border-bottom: 3px solid #023e8a; /* Add a bold border for separation */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #logo {
-  font-size: 28px;
+  font-size: 1.8rem;
   font-weight: bold;
   text-decoration: none;
-  color: white; /* Ensure the logo text is visible */
-  padding: 8px 14px;
-  border-radius: 6px;
-  transition: transform 0.2s ease; /* Add a hover effect */
+  color: #1abc9c; /* Soft aqua/teal */
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-#logo:hover {
-  transform: scale(1.1); /* Slightly enlarge the logo on hover */
+.logo-icon {
+  font-size: 1.4rem;
 }
 
 .nav-links {
   display: flex;
-  justify-content: center;
   gap: 20px;
   list-style: none;
   padding: 0;
   margin: 0;
-  align-items: center;
 }
 
-/* General button styling for nav links */
 .nav-links a {
-  display: inline-block;
   text-decoration: none;
-  font-weight: bold;
-  padding: 10px 20px;
-  color: white; /* Ensure text is visible */
-  border-radius: 25px; /* Rounded edges for a modern look */
-  border: 2px solid transparent; /* Subtle border */
-  transition: all 0.3s ease; /* Smooth hover and focus effects */
+  color: #ecf0f1;
+  font-weight: 500;
   font-size: 1rem;
-  background: linear-gradient(90deg, #0077b6, #00b4d8); /* Medical blue gradient */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Hover effect for nav links */
-.nav-links a:hover {
-  background: linear-gradient(90deg, #00b4d8, #0077b6); /* Reverse gradient on hover */
-  transform: translateY(-2px); /* Lift effect */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
-}
-
-/* Active link styling */
+.nav-links a:hover,
 .nav-links a.active {
-  background: linear-gradient(90deg, #023e8a, #0077b6); /* Darker gradient for active state */
-  border-color: #023e8a; /* Highlight border for active state */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-}
-
-/* Dashboard Button */
-.nav-links a[href="/dashboard"] {
-  background: linear-gradient(90deg, #00b4d8, #48cae4); /* Medical blue gradient */
-  border-color: #00b4d8;
-}
-
-.nav-links a[href="/dashboard"]:hover {
-  background: linear-gradient(90deg, #48cae4, #00b4d8); /* Reverse gradient on hover */
-  border-color: #48cae4;
-}
-
-/* Login Button */
-.nav-links a[href="/login"] {
-  background: linear-gradient(90deg, #ff7f50, #ff6f61); /* Coral gradient for Login */
-  border-color: #ff7f50;
-}
-
-.nav-links a[href="/login"]:hover {
-  background: linear-gradient(90deg, #ff6f61, #ff7f50); /* Reverse gradient on hover */
-  border-color: #ff6f61;
-}
-
-/* Sign Up Button */
-.nav-links a[href="/sign-up"] {
-  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
-  border-color: #40916c;
-}
-
-.nav-links a[href="/sign-up"]:hover {
-  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
-  border-color: #52b788;
-}
-
-/* Health Dashboard Button */
-.nav-links a[href="/health-dashboard"] {
-  background: linear-gradient(90deg, #0077b6, #023e8a); /* Darker medical blue gradient */
-  border-color: #023e8a;
-}
-
-.nav-links a[href="/health-dashboard"]:hover {
-  background: linear-gradient(90deg, #023e8a, #0077b6); /* Reverse gradient on hover */
-  border-color: #0077b6;
-}
-
-/* Spacing between buttons */
-.nav-links li {
-  margin: 0 10px; /* Add spacing between list items */
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .nav-links a {
-    padding: 8px 15px; /* Adjust padding for smaller screens */
-    font-size: 0.9rem; /* Slightly smaller font size */
-  }
-}
-
-.nav-btn.blue {
-  background-color: #90e0ef; /* Light blue for buttons */
-  color: white;
-}
-
-.nav-btn.green {
-  background-color: #52b788; /* Medical green for buttons */
-  color: white;
-}
-
-.nav-btn.blue:hover,
-.nav-btn.green:hover {
-  background-color: #0077b6; /* Darker blue for hover effect */
-  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  background-color: #2d3b45;
+  color: #1abc9c; /* Highlight with teal */
 }
