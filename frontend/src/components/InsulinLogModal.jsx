@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import '../styles/InsulinLogModal.css';
 import UserContext from '../contexts/current-user-context';
 
-const InsulinLogModal = ({ onClose, onSubmit }) => {
+export default function InsulinLogModal({ onClose, onSubmit }) {
   const [insulinLevel, setInsulinLevel] = useState('');
   const [notes, setNotes] = useState('');
   const { currentUser } = useContext(UserContext);
@@ -11,69 +11,59 @@ const InsulinLogModal = ({ onClose, onSubmit }) => {
     try {
       const response = await fetch('/api/diabetes-logs', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          notes,
+          userId: currentUser.id,
           date: new Date().toISOString(),
           level: insulinLevel,
-          userId: currentUser.id,
+          notes: notes.slice(0, 20),
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit insulin log');
-      }
+      if (!response.ok) throw new Error('Failed to submit insulin log');
 
       const data = await response.json();
-
-      if (onSubmit) {
-        await onSubmit(data);
-      }
-
-      if (onClose) {
-        onClose();
-      }
+      if (onSubmit) await onSubmit(data);
+      if (onClose) onClose();
     } catch (error) {
       console.error('Error submitting insulin log:', error);
     }
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>What is your insulin level?</h2>
-        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-          <input
-            type="number"
-            value={insulinLevel}
-            onChange={(e) => setInsulinLevel(e.target.value)}
-            placeholder="Insulin Level"
-            required
-          />
-          <textarea
-            value={notes}
-            onChange={(e) => {
-              if (e.target.value.length <= 20) {
-                setNotes(e.target.value);
-              }
-            }}
-            maxLength={20}
-            placeholder="Optional notes (max 20 characters)"
-          />
-          <small style={{ fontSize: '0.8rem', color: '#666' }}>
-            {20 - notes.length} characters remaining
-          </small>
-          <div className="modal-buttons">
-            <button type="submit">Submit</button>
-            <button type="button" className="cancel-button" onClick={onClose}>Cancel</button>
+    <div className="insulin-modal-overlay">
+      <div className="insulin-modal">
+        <button className="close-button" onClick={onClose}>&times;</button>
+        <h2 className="modal-title">Add Insulin Log</h2>
+        <form className="modal-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          <div className="form-group">
+            <label htmlFor="insulin-level">Insulin Level</label>
+            <input
+              id="insulin-level"
+              type="number"
+              value={insulinLevel}
+              onChange={(e) => setInsulinLevel(e.target.value)}
+              placeholder="Enter your insulin level"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="insulin-notes">Notes</label>
+            <textarea
+              id="insulin-notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Optional notes (max 20 chars)"
+              maxLength={20}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="submit" className="submit-btn">Submit</button>
+            <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
     </div>
   );
-};
-
-export default InsulinLogModal;
+}
