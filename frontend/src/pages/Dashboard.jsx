@@ -79,7 +79,7 @@ export default function Dashboard() {
             <div className="no-data-message">NO DATA</div>
           )}
         </div>
-        <div className="insulin-chart-container">
+        <div className="wide-chart-container">
           <SymptomFrequencyChart symptomLogs={symptomLogs} />
         </div>
       </div>

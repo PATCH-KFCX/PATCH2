@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-export default function SymptomFrequencyChart({ symptomLogs }) {
+export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
   const symptomCount = {};
 
   symptomLogs.forEach(log => {
@@ -51,8 +51,18 @@ export default function SymptomFrequencyChart({ symptomLogs }) {
     },
   };
 
+const height = size === 'small' ? '250px' : '350px';
+
   return (
-    <div style={{ height: '300px', background: '#fff', borderRadius: '8px', padding: '20px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+    <div
+      style={{
+        height,
+        background: '#fff',
+        borderRadius: '8px',
+        padding: '20px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      }}
+    >
       <Bar data={data} options={options} />
     </div>
   );
