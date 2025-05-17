@@ -1,12 +1,12 @@
 exports.up = function (knex) {
   return knex.schema.createTable('medications', (table) => {
-    table.increments('id').primary(); // Unique ID
-    table.integer('user_id').notNullable(); // Foreign key to users
-    table.string('name').notNullable(); // Medication name
-    table.string('dose').notNullable(); // Dose (e.g., "500mg")
-    table.string('frequency').notNullable(); // Frequency (e.g., "Twice a day")
-    table.text('notes'); // Optional notes
-    table.timestamps(true, true); // Created and updated timestamps
+    table.increments('id').primary();
+    table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE');
+    table.string('name').notNullable();
+    table.decimal('dosage').notNullable();
+    table.string('unit').notNullable(); // e.g., mg, ml
+    table.string('frequency').notNullable(); // e.g., "Twice a day"
+    table.timestamps(true, true);
   });
 };
 

@@ -19,6 +19,7 @@ const userControllers = require('./controllers/userControllers');
 // Route imports
 const symptomRoutes = require('./routes/symptomRoutes');
 const diabetesRoutes = require('./routes/DiabetesRoutes');
+const medicationRoutes = require('./routes/medicationRoutes');
 
 // Optional: Enable CORS in development
 if (process.env.NODE_ENV !== 'production') {
@@ -40,6 +41,7 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 // Routes that require authentication
 app.use('/api/symptoms', checkAuthentication, symptomRoutes); // ✅ symptom routes
 app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); // ✅ diabetes tracker
+app.use('/api/medications', checkAuthentication, medicationRoutes); // ✅ medication routes
 
 // User Routes
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
