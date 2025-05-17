@@ -1,143 +1,191 @@
 :root {
-  --primary: #1abc9c;
-  --accent: #16a085;
-  --text: #ecf0f1;
-  --bg: #2c3e50;
-  --card: #34495e;
-  --input-bg: #3d566e;
-  --input-border: #566c84;
-  --radius: 10px;
+  --primary: #007bff; /* Professional blue */
+  --secondary: #0056b3; /* Darker blue for hover states */
+  --bg-light: #ffffff;
+  --bg-dark: #f8f9fa; /* Light gray background */
+  --text-dark: #212529; /* Darker text for better readability */
+  --text-muted: #6c757d; /* Muted gray text */
+  --input-border: #ced4da; /* Subtle gray border */
+  --input-focus: #007bff; /* Blue focus for inputs */
+  --shadow-light: rgba(0, 0, 0, 0.1); /* Softer shadow */
+  --shadow-dark: rgba(0, 0, 0, 0.25); /* Slightly darker shadow */
 }
 
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Slightly lighter overlay */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 1000;
 }
 
-.modal {
-  background: var(--card);
-  padding: 2rem;
-  border-radius: var(--radius);
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+/* Modal container */
+.modal-container {
+  background-color: var(--bg-light);
+  border-radius: 8px; /* Less rounded corners for a cleaner look */
+  padding: 30px; /* Reduced padding */
+  width: 100%;
+  max-width: 450px; /* Smaller modal width */
+  box-shadow: 0 6px 20px var(--shadow-dark); /* Softer shadow */
   position: relative;
-  color: var(--text);
+  text-align: center;
 }
 
-.close-button {
+/* Close button */
+.modal-close-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  color: var(--text);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--text-muted);
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.progress-bar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+.modal-close-button:hover {
+  color: #dc3545; /* Red for hover state */
 }
 
-.step {
-  width: 30px;
-  height: 30px;
-  background: #566c84;
-  color: var(--text);
-  border-radius: 50%;
-  text-align: center;
-  line-height: 30px;
-  font-weight: bold;
+/* Title */
+.modal-title {
+  font-size: 1.5rem; /* Slightly smaller title */
+  font-weight: 600; /* Semi-bold for emphasis */
+  color: var(--text-dark);
+  margin-bottom: 20px;
 }
 
-.step.active {
-  background: var(--primary);
+/* Back button */
+.modal-back-button {
+  background-color: #dc3545; /* Red for the back button */
+  color: var(--bg-light);
+  border: none;
+  padding: 10px 25px; /* Compact button size */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Slightly smaller font size */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.symptom-form {
+.modal-back-button:hover {
+  background-color: #c82333; /* Darker red for hover state */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.modal-back-button:active {
+  transform: translateY(0); /* Reset lift effect */
+}
+
+/* Form */
+.modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 20px; /* Reduced spacing for compactness */
 }
 
-.checkbox-group {
+/* Checkbox group */
+.modal-checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 10px; /* Reduced spacing between checkboxes */
+  justify-content: center;
 }
 
-.checkbox-group input[type="checkbox"] {
-  display: none;
-}
-
-.checkbox-group label {
-  background-color: var(--input-bg);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
+.modal-checkbox-group label {
+  background-color: var(--bg-dark);
+  color: var(--bg-light); /* White text by default */
+  padding: 10px 20px; /* Compact padding */
+  border-radius: 16px; /* Rounded pill shape */
   border: 1px solid var(--input-border);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* Slightly smaller font size */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.checkbox-group input[type="checkbox"]:checked + label {
-  background-color: var(--primary);
+.modal-checkbox-group input[type="checkbox"] {
+  display: none; /* Hide the default checkbox */
+}
+
+.modal-checkbox-group input[type="checkbox"]:checked + label {
+  background-color: var(--primary); /* Blue background for selected state */
+  color: var(--bg-light); /* White text for selected state */
   border-color: var(--primary);
 }
 
-.slider-group input[type="range"] {
-  width: 100%;
-}
-
-.slider-value {
-  text-align: center;
-  font-weight: bold;
-  color: var(--text);
-}
-
-.summary-note {
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.form-actions {
+/* Slider */
+.modal-slider-group {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.form-actions button {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: var(--radius);
-  font-weight: bold;
+.modal-slider-group input[type="range"] {
+  width: 100%;
+  max-width: 350px; /* Smaller slider width */
+  appearance: none;
+  height: 5px;
+  background: var(--input-border);
+  border-radius: 3px;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.modal-slider-group input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-button[type="button"] {
-  background-color: #7f8c8d;
-  color: white;
+.modal-slider-group input[type="range"]:hover::-webkit-slider-thumb {
+  background: var(--secondary);
 }
 
-.submit-btn {
+.modal-slider-value {
+  font-size: 1rem; /* Slightly smaller font size */
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Actions */
+.modal-actions {
+  display: flex;
+  justify-content: center; /* Center buttons */
+  gap: 10px; /* Reduced space between buttons */
+}
+
+.modal-next-button,
+.modal-submit-button {
   background-color: var(--primary);
-  color: white;
+  color: var(--bg-light);
+  border: none;
+  padding: 10px 25px; /* Compact button size */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Slightly smaller font size */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.submit-btn:hover {
-  background-color: var(--accent);
+.modal-next-button:hover,
+.modal-submit-button:hover {
+  background-color: var(--secondary);
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.modal-next-button:active,
+.modal-submit-button:active {
+  transform: translateY(0); /* Reset lift effect */
 }
