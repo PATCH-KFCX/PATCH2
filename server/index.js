@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Middleware
-app.use(handleCookieSessions); // Adds a session property to each request representing the cookie
+// app.use(handleCookieSessions); // Adds a session property to each request representing the cookie
 app.use(logRoutes); // Print information about each incoming request
 app.use(express.json()); // Parse incoming request bodies as JSON
 app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the frontend
