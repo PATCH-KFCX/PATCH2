@@ -10,50 +10,49 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import '../styles/InsulinChart.css';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const InsulinChart = ({ logs }) => {
-  const chartData = {
-    labels: logs.map((log) => new Date(log.date).toLocaleDateString()),
+export default function InsulinChart({ logs, size = 'large' }) {
+  const data = {
+    labels: logs.map(log => new Date(log.date).toLocaleDateString()),
     datasets: [
       {
         label: 'Insulin Levels',
-        data: logs.map((log) => log.level),
+        data: logs.map(log => log.level),
         borderColor: '#0077b6',
         backgroundColor: 'rgba(0, 119, 182, 0.2)',
-        tension: 0.4,
+        tension: 0,
       },
     ],
   };
 
-  const chartOptions = {
+  const options = {
     responsive: true,
-    maintainAspectRatio: false, // allow full height/width
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top' },
-      title: { display: true, text: 'Insulin Levels Over Time' },
+      title: { display: true, text: 'Insulin Over Time' },
     },
     scales: {
       x: { title: { display: true, text: 'Date' } },
-      y: { title: { display: true, text: 'Insulin Level' }, beginAtZero: true },
+      y: { title: { display: true, text: 'Level' }, beginAtZero: true },
     },
   };
 
+const height = size === 'small' ? '250px' : '350px';
+
   return (
-    <div className="chart-container">
-      <Line data={chartData} options={chartOptions} />
+    <div
+      style={{
+        height,
+        background: '#fff',
+        borderRadius: '8px',
+        padding: '20px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      }}
+    >
+      <Line data={data} options={options} />
     </div>
   );
-};
-
-export default InsulinChart;
+}

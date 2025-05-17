@@ -21,7 +21,7 @@ export default function LoginPage() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/users/${user.id}`);
+    navigate("/health-dashboard"); // Redirect to the Health Dashboard page
   };
 
   const navigateHomePage = () => {
