@@ -1,15 +1,23 @@
 import '../styles/Home.css';
 import { Link } from 'react-router-dom';
 import Footer from "../components/Footer";
+import { useContext } from 'react';
+import CurrentUserContext from '../contexts/current-user-context';
 
 export default function HomePage() {
+  const { currentUser } = useContext(CurrentUserContext); // Access the current user context
+
   return (
     <div className="home-container">
       <header className="home-header">
         <div className="hero-content">
           <h1>PATCH</h1>
           <p>Track symptoms. Monitor insulin. Manage your health securely.</p>
-          <Link to="/sign-up" className="cta-button">Get Started</Link>
+          {currentUser ? (
+            <Link to="/health-dashboard" className="cta-button">Go to Dashboard</Link> // Redirect to dashboard if signed in
+          ) : (
+            <Link to="/sign-up" className="cta-button">Get Started</Link> // Redirect to sign-up if not signed in
+          )}
         </div>
       </header>
 
