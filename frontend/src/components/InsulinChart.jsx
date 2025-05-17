@@ -22,7 +22,7 @@ export default function InsulinChart({ logs, size = 'large' }) {
         data: logs.map(log => log.level),
         borderColor: '#0077b6',
         backgroundColor: 'rgba(0, 119, 182, 0.2)',
-        tension: 0.4,
+        tension: 0,
       },
     ],
   };

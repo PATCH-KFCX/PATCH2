@@ -40,20 +40,22 @@
   color: #34495e;
 }
 
+/* Black borders for logs */
 .symptom-log-container,
 .blood-sugar-log-container {
   max-height: 400px; /* Set a fixed height for scrollable area */
   overflow-y: auto; /* Enable vertical scrolling */
   padding: 15px;
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px; /* Add border-radius */
+  border: 2px solid #000000; /* Black border for logs */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .symptom-card,
 .diabetes-card {
   background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
+  border: 2px solid #000000; /* Black border for cards */
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 15px;
@@ -89,6 +91,7 @@
   font-size: 1rem;
   margin-right: 10px;
   margin-top: 10px;
+  margin-bottom: 15px; /* Add margin-bottom to create space below the buttons */
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -107,6 +110,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Black borders for charts */
 .chart-container {
   width: 100%;
   max-width: 500px; /* Adjust as needed */
@@ -115,6 +119,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 12px; /* Add border-radius */
+  background-color: #ffffff; /* Ensure consistent background */
+  border: 2px solid #000000; /* Black border for charts */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .insulin-chart-container {
@@ -128,10 +136,18 @@
   padding: 0 1rem;
 }
 
+/* Black borders for chart boxes */
 .chart-box {
   flex: 1;
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px; /* Add border-radius */
   padding: 20px;
+  border: 2px solid #000000; /* Black border for chart boxes */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.health-dashboard {
+  transform: scale(0.88);
+  transform-origin: top center;
+}
+

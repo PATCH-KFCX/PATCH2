@@ -15,19 +15,34 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend)
 export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
   const symptomCount = {};
 
+  // Count the frequency of each symptom
   symptomLogs.forEach(log => {
     log.symptoms?.forEach(symptom => {
       symptomCount[symptom] = (symptomCount[symptom] || 0) + 1;
     });
   });
 
+  // Generate a unique color for each symptom
+  const generateColors = (count) => {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+      const hue = (i * 137.5) % 360; // Spread colors evenly across the hue spectrum
+      colors.push(`hsl(${hue}, 70%, 60%)`); // HSL color format
+    }
+    return colors;
+  };
+
+  const symptomLabels = Object.keys(symptomCount);
+  const symptomData = Object.values(symptomCount);
+  const backgroundColors = generateColors(symptomLabels.length);
+
   const data = {
-    labels: Object.keys(symptomCount),
+    labels: symptomLabels,
     datasets: [
       {
         label: 'Frequency',
-        data: Object.values(symptomCount),
-        backgroundColor: '#1abc9c',
+        data: symptomData,
+        backgroundColor: backgroundColors, // Assign unique colors to each bar
       },
     ],
   };
@@ -51,7 +66,7 @@ export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
     },
   };
 
-const height = size === 'small' ? '250px' : '350px';
+  const height = size === 'small' ? '250px' : '350px';
 
   return (
     <div
