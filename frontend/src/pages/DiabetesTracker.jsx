@@ -53,6 +53,7 @@ const DiabetesTracker = () => {
 
       <div className="main-content">
         <h1 className="dashboard-title">Blood Sugar Tracker</h1>
+
         <div className="diabetes-log-container">
           {logs.length > 0 ? (
             logs.map((log) => (
@@ -62,8 +63,9 @@ const DiabetesTracker = () => {
             <div className="no-data-message">NO DATA</div>
           )}
         </div>
-        <div className="insulin-chart-container">
-          <InsulinChart logs={logs} />
+
+        <div className="wide-chart-container">
+          <InsulinChart logs={logs} size="large" />
         </div>
       </div>
 

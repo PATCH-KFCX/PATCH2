@@ -1,61 +1,121 @@
-html {
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Softer gradient for a modern look */
-  font-family: "Segoe UI", sans-serif; /* Professional and clean font */
-}
-
-.user-page {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #ffffff; /* Clean white background */
-  border-radius: 16px; /* Slightly more rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  color: #333; /* Neutral text color for better readability */
-}
-
-.user-page_username {
-  font-size: 2.5rem; /* Larger font for emphasis */
-  font-weight: bold;
-  color: #0077b6; /* Medical blue for a professional touch */
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.user-page_bio {
-  font-size: 1.1rem; /* Slightly larger font for readability */
-  color: #555; /* Neutral gray for secondary text */
-  margin: 0.5rem 0;
-  text-align: center;
-}
-
-.user-page_controls {
-  margin-top: 2rem;
+.user-container {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem; /* Increased spacing for a cleaner layout */
+  justify-content: center;
+  padding: 40px;
+  background-color: #f4f4f9;
+  font-family: 'Arial', sans-serif;
+}
+
+.user-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px; /* Increased max-width to make the form wider */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.profile-pic {
+  display: block;
+  margin: 20px auto;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #1abc9c;
+}
+
+.profile-pic.placeholder {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  font-size: 14px;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  margin: 20px auto;
 }
 
-.user-page_logout-button {
-  background: linear-gradient(135deg, #0077b6, #00b4d8); /* Sleek gradient */
-  color: #ffffff; /* White text for contrast */
-  border: none;
-  padding: 0.8rem 1.5rem; /* Larger padding for a modern button size */
-  font-size: 1rem;
-  font-weight: 600; /* Slightly bold text */
-  border-radius: 25px; /* Rounded edges for a sleek look */
+.upload-input {
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.bio-section {
+  margin-top: 20px;
+}
+
+.bio-section h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.bio-input {
+  width: 100%; /* Ensure the textarea takes the full width of the card */
+  height: 120px; /* Increased height for better usability */
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: vertical;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bio-input:focus {
+  outline: none;
+  border-color: #1abc9c;
+  box-shadow: 0 0 6px rgba(26, 188, 156, 0.5);
+}
+
+.bio-text {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #555;
+}
+
+.save-button,
+.logout-button {
+  background-color: #1abc9c;
+  color: white;
+  padding: 12px 20px; /* Increased padding for larger buttons */
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease; /* Smooth hover effect */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Make buttons take the full width */
+  margin-top: 10px;
 }
 
-.user-page_logout-button:hover {
-  background: linear-gradient(135deg, #005f8a, #0077b6); /* Darker gradient on hover */
-  transform: translateY(-2px); /* Lift effect */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+.save-button:hover,
+.logout-button:hover {
+  background-color: #16a085;
+  transform: scale(1.05);
 }
 
-.user-page_logout-button:active {
-  transform: translateY(0); /* Reset lift effect on click */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+.logout-button {
+  background-color: #e74c3c; /* Red color for the button */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Optional: Make the button full width */
+  margin-top: 10px;
+}
+
+.logout-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
