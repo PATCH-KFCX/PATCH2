@@ -7,8 +7,14 @@
   margin-bottom: 10px; /* Reduced margin */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: transform 0.2s, box-shadow 0.2s;
+
+
+  /* Ensure everything stays in the box */
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
+/* Hover Effect */
 .symptom-card:hover {
   transform: translateY(-3px); /* Slightly reduced hover effect */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -19,42 +25,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px; /* Reduced margin */
+  margin-bottom: 8px;
 }
 
 .card-header h3 {
-  font-size: 1rem; /* Reduced font size */
-  color: #2c3e50;
+  font-size: 1rem;
+  color: #2c3e50; /* Darker, readable */
   margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .card-header .log-date {
-  font-size: 0.8rem; /* Reduced font size */
+  font-size: 0.8rem;
   color: #7f8c8d;
 }
 
 /* Card Section */
 .card-section {
-  margin-bottom: 8px; /* Reduced margin */
+  margin-bottom: 8px;
 }
 
 .card-section strong {
   display: block;
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 0.9rem;
   color: #34495e;
-  margin-bottom: 4px; /* Reduced margin */
+  margin-bottom: 4px;
 }
 
 .card-section span,
-.card-section ul {
-  font-size: 0.8rem; /* Reduced font size */
-  color: #555;
+.card-section ul,
+.card-section li {
+  font-size: 0.8rem;
+  color: #2c3e50; /* Darkened for clarity */
+  white-space: normal;
+  word-break: break-word;
 }
 
+/* Scrollable list if too long */
 .card-section ul {
   list-style: disc;
-  padding-left: 15px; /* Reduced padding */
+  padding-left: 15px;
   margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 /* Card Actions */
@@ -62,6 +76,8 @@
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
 }
 
 .card-actions button {
@@ -72,6 +88,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 0.85rem;
 }
 
 .card-actions button:hover {

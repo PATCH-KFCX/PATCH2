@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import SymptomCard from '../components/SymptomCard';
 import SymptomModal from '../components/SymptomModal';
+import SymptomFrequencyChart from '../components/SymptomFrequencyChart';
 import '../styles/Dashboard.css';
-import { Link } from 'react-router-dom'
 
 export default function Dashboard() {
   const [symptomLogs, setSymptomLogs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await fetch('/api/symptoms', {
-          credentials: 'include',
-        });
-        if (response.ok) {
-          const logs = await response.json();
-          setSymptomLogs(logs);
-        } else {
-          console.error('Failed to fetch symptom logs:', response.status);
-        }
+
+        const response = await fetch('/api/symptoms', { credentials: 'include' });
+        const logs = await response.json();
+        setSymptomLogs(logs);
       } catch (err) {
         console.error('Error fetching symptom logs:', err);
       }
@@ -28,20 +27,10 @@ export default function Dashboard() {
     fetchLogs();
   }, []);
 
-  const handleAddLog = (newLog) => {
-    if (!newLog?.id) {
-      console.error('New log is missing ID:', newLog);
-      return;
-    }
-    setSymptomLogs((prev) => [...prev, newLog]);
-  };
+  const handleAddLog = (newLog) => setSymptomLogs((prev) => [...prev, newLog]);
 
   const handleDelete = async (logToDelete) => {
-    if (!logToDelete?.id) {
-      console.error('Cannot delete log — missing ID:', logToDelete);
-      return;
-    }
-
+    if (!logToDelete?.id) return;
     try {
       const response = await fetch(`/api/symptoms/${logToDelete.id}`, {
         method: 'DELETE',
@@ -49,11 +38,7 @@ export default function Dashboard() {
       });
 
       if (response.ok) {
-        setSymptomLogs((prev) =>
-          prev.filter((log) => log.id !== logToDelete.id)
-        );
-      } else {
-        console.error('Failed to delete log');
+        setSymptomLogs((prev) => prev.filter((log) => log.id !== logToDelete.id));
       }
     } catch (error) {
       console.error('Error deleting log:', error);
@@ -62,34 +47,30 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
+
       <div className="sidebar">
-        {/* Symptom Logs Section */}
         <div className="sidebar-card">
           <h2>Symptom Logs & Tracker</h2>
           <ul className="log-list">
-            {symptomLogs.slice(-3).map((log) => (
-              <li key={log.id}>
-                {log.date || 'N/A'} –{' '}
-                {Array.isArray(log.symptoms) && log.symptoms.length > 0
-                  ? log.symptoms.slice(0, 3).join(', ')
-                  : 'No symptoms'}
-              </li>
-            ))}
+            {symptomLogs.slice(-3).map((log) => {
+              const formattedDate = new Date(log.date).toLocaleDateString();
+              const symptoms = Array.isArray(log.symptoms)
+                ? log.symptoms.slice(0, 3).join(', ')
+                : 'No symptoms';
+              return <li key={log.id}><strong>{formattedDate}</strong> – {symptoms}</li>;
+            })}
           </ul>
-          <button
-            className="create-log-btn"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Create New Symptom Log
+          <button className="create-log-btn" onClick={() => setIsModalOpen(true)}>
+            + Add Symptom Log
           </button>
         </div>
 
-        {/* Blood Sugar Tracker Section */}
         <div className="sidebar-card">
           <h2>Blood Sugar Tracker</h2>
           <p>Monitor and track your blood sugar levels.</p>
-          <button className="tracker-link">Go to Blood Sugar Tracker</button>
+          <button className="sidebar-button" onClick={() => navigate('/blood-sugar-tracker')}>
+            Go to Blood Sugar Tracker
+          </button>
         </div>
 
          {/* Medicine Section */}
@@ -102,23 +83,21 @@ export default function Dashboard() {
       </div>
       </div>
 
-      {/* Main Content */}
+
       <div className="main-content">
         <h1 className="dashboard-title">Symptom Logs Dashboard</h1>
-
-        {/* Symptom Log Container */}
         <div className="symptom-log-container">
           {symptomLogs.length > 0 ? (
             symptomLogs.map((log) => (
-              <SymptomCard
-                key={log.id}
-                log={log}
-                handleDelete={handleDelete}
-              />
+              <SymptomCard key={log.id} log={log} handleDelete={handleDelete} />
             ))
           ) : (
             <div className="no-data-message">NO DATA</div>
           )}
+        </div>
+
+        <div className="wide-chart-container">
+          <SymptomFrequencyChart symptomLogs={symptomLogs} />
         </div>
       </div>
 

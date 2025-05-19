@@ -3,7 +3,8 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Disable scrolling */
+  background-color: #f4f4f9; /* Match dashboard background */
+  font-family: 'Arial', sans-serif; /* Match dashboard font */
 }
 
 .signup-container {
@@ -11,25 +12,22 @@ html, body {
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* Full-screen height */
-  width: 100%; /* Ensure the container spans the full width */
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Light blue gradient for background */
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0; /* Remove any default margin */
+  width: 100%;
 }
 
 .signup-card {
-  background-color: white;
+  background-color: #ffffff;
   padding: 30px 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for consistency */
   width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
 .signup-card h1 {
-  font-size: 24px;
-  color: #0077b6; /* Medical blue for the heading */
+  font-size: 1.8rem;
+  color: #2c3e50; /* Dashboard heading color */
   margin-bottom: 20px;
 }
 
@@ -37,46 +35,45 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%; /* Ensure the form takes up the full width of the card */
+  width: 100%;
 }
 
 .signup-card label {
-  font-size: 14px;
-  color: #0077b6; /* Medical blue for labels */
+  font-size: 1rem;
+  color: #34495e; /* Dashboard text color */
   text-align: left;
-  width: 100%; /* Align labels to the left */
+  width: 100%;
 }
 
 .signup-card input {
   padding: 12px 16px;
-  border: 1px solid #90e0ef; /* Light blue border */
+  border: 1px solid #e0e0e0; /* Light gray border */
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 1rem;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  width: 100%; /* Ensure inputs take up the full width of the form */
+  width: 100%;
 }
 
 .signup-card input:focus {
-  border-color: #0077b6; /* Medical blue on focus */
-  box-shadow: 0 0 4px rgba(0, 119, 182, 0.5); /* Subtle glow effect */
+  border-color: #1abc9c; /* Dashboard green on focus */
+  box-shadow: 0 0 4px rgba(26, 188, 156, 0.5); /* Subtle glow effect */
 }
 
 .signup-card button {
-  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
+  background-color: #1abc9c; /* Dashboard button color */
   color: white;
   padding: 12px 16px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 100%; /* Ensure the button takes up the full width of the form */
 }
 
 .signup-card button:hover {
-  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
+  background-color: #16a085; /* Darker green on hover */
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
