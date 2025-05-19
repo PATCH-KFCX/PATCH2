@@ -52,6 +52,8 @@ export default function SignUpPage() {
             type="number"
             id="age"
             name="age"
+            min="1"
+            max="130"
             value={age}
             onChange={(e) => setAge(e.target.value)}
           />
