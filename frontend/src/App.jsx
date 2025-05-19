@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import DiabetesTracker from './pages/DiabetesTracker';
 
 
+
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function App() {
       <SiteHeadingAndNav />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />

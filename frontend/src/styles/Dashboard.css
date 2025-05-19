@@ -1,434 +1,137 @@
+/* General layout for the dashboard */
 .dashboard-container {
-  background-color: #e8f5f9; /* Light medical blue background */
-  min-height: 100vh;
-  padding: 30px;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden; /* Prevent scrolling on the entire page */
-}
-
-.dashboard-title {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 24px;
-  text-align: center;
-  padding: 10px;
-  color: #0077b6; /* Medical blue for the title */
-  border-bottom: 2px solid #023e8a; /* Add a bold underline for separation */
-}
-
-/* Dashboard Content Layout */
-.dashboard-content {
   display: flex;
-  gap: 30px;
-  align-items: flex-start;
-  padding: 20px;
+  height: 100vh;
+  background-color: #f4f4f9;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Sidebar Column */
-.sidebar-column {
-  display: flex;
-  flex-direction: column; /* Stack sidebars vertically */
-  gap: 18px; /* Add spacing between the sidebars */
-  width: 25%; /* Sidebar column width */
-}
-
-/* Sidebar */
+/* Sidebar styling */
 .sidebar {
-  background-color: #f0f9ff; /* Light blue background */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  border: 2px solid #52b788; /* Medical green border */
+  width: 25%; /* Increase the width of the sidebar */
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 30px; /* Increase padding for better spacing */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #0077b6; /* Medical blue */
+  font-size: 2rem; /* Increase font size for headings */
+  margin-bottom: 25px; /* Add more spacing below headings */
 }
 
-.sidebar p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.tracker-link {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #0077b6; /* Medical blue */
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-.tracker-link:hover {
-  background-color: #005f99; /* Darker blue on hover */
-}
-
-.log-list {
-  margin-bottom: 24px;
+.sidebar ul {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
-.log-list li {
-  border-bottom: 1px solid #b7e4c7; /* Light green for list item separator */
-  padding-bottom: 4px;
-  font-size: 13px;
-  color: #333;
+.sidebar ul li {
+  margin: 20px 0; /* Increase spacing between list items */
+  font-size: 1.2rem; /* Increase font size for list items */
 }
 
-.create-log-btn {
-  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
+.sidebar ul li a {
+  color: #ecf0f1;
   text-decoration: none;
-  font-size: 14px;
-  display: inline-block;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: color 0.3s;
 }
 
-.create-log-btn:hover {
-  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
+.sidebar ul li a:hover {
+  color: #1abc9c;
 }
 
-/* Symptom Cards Section */
-.symptom-cards {
-  display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping of cards */
-  gap: 20px;
-  width: 100%; /* Take up the full width of the container */
-  padding: 12px;
-  background-color: #f0f9ff; /* Light blue for the symptom card section */
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  border: 2px solid #0077b6; /* Medical blue border */
-  max-height: 400px; /* Optional: Limit the height */
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
-  height: 500px; /* Set a fixed height for the section */
+/* Sidebar card styling */
+.sidebar-card {
+  background-color: #34495e;
+  padding: 20px; /* Increase padding for better spacing */
+  margin-bottom: 25px; /* Add more spacing between cards */
+  border-radius: 10px; /* Slightly increase border radius */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
-.symptom-cards::-webkit-scrollbar {
-  height: 8px; /* Set the height of the horizontal scrollbar */
+.sidebar-card h2 {
+  font-size: 1.5rem; /* Increase font size for card headings */
+  color: #ecf0f1;
+  margin-bottom: 15px; /* Add more spacing below card headings */
 }
 
-.symptom-cards::-webkit-scrollbar-thumb {
-  background-color: #90e0ef; /* Light blue for scrollbar thumb */
-  border-radius: 4px; /* Rounded edges for the scrollbar thumb */
+.sidebar-card p,
+.sidebar-card ul {
+  color: #bdc3c7;
+  font-size: 1.1rem; /* Increase font size for card content */
 }
 
-.symptom-cards::-webkit-scrollbar-track {
-  background-color: #f0f9ff; /* Match the background color */
+.sidebar-card button {
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 15px 20px; /* Increase button size */
+  border-radius: 8px; /* Slightly increase border radius */
+  cursor: pointer;
+  font-size: 1.1rem; /* Increase font size for button text */
+  transition: background-color 0.3s;
 }
 
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.sidebar-card button:hover {
+  background-color: #16a085;
 }
 
-.modal {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 450px; /* Set a consistent width for all modals */
-  max-width: 90%; /* Ensure responsiveness on smaller screens */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
+/* Main content area */
+.main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.modal-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%; /* Ensure buttons align with modal width */
-}
-
-.modal-buttons button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #0077b6;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.modal-buttons button:hover {
-  background-color: #005f8a;
-  transform: scale(1.05);
-}
-
-.modal-buttons button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Modal Step Styling */
-.modal-step {
-  width: 100%; /* Ensure content fits within the modal */
   padding: 20px;
-  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+/* Symptom log container */
+.symptom-log-container {
+  width: 100%; /* Adjust width as needed */
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 70vh; /* Set a maximum height for the container */
+  margin-top: 20px; /* Add spacing from the title or other elements */
 }
 
-.modal-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
-  display: block;
-}
-
-.symptom-options {
-  margin-top: 15px;
-}
-
-.symptom-category {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.symptom-category.mild {
-  color: #4caf50; /* Green for mild symptoms */
-}
-
-.symptom-category.moderate {
-  color: #ff9800; /* Orange for moderate symptoms */
-}
-
-.symptom-category.severe {
-  color: #f44336; /* Red for severe symptoms */
-}
-
-.symptom-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.symptom-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.symptom-item:hover {
-  background-color: #f0f0f0;
-}
-
-.symptom-item input {
-  margin-right: 8px;
-}
-
-/* Pain Location Options */
-.pain-location-options {
-  margin-top: 15px;
-}
-
-.pain-category {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.pain-category.extremities {
-  color: #4caf50; /* Green for extremities */
-}
-
-.pain-category.torso {
-  color: #ff9800; /* Orange for torso */
-}
-
-.pain-category.head-neck {
-  color: #f44336; /* Red for head/neck */
-}
-
-.pain-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.pain-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.pain-item:hover {
-  background-color: #f0f0f0;
-}
-
-.pain-item input {
-  margin-right: 8px;
-}
-
-/* Pain Type Options */
-.pain-type-options {
-  margin-top: 15px;
-}
-
-.pain-type-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.pain-type-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.pain-type-item:hover {
-  background-color: #f0f0f0;
-}
-
-.pain-type-item input {
-  margin-right: 8px;
-}
-
-/* Slider Container */
-.slider-container {
-  margin-top: 20px;
+/* Optional: Style the no-data message */
+.no-data-message {
   text-align: center;
+  color: #7f8c8d;
+  font-size: 1.5rem; /* Increase font size */
+  font-weight: bold; /* Make the text bold */
+  margin-top: 20px;
+  padding: 20px; /* Add padding for better spacing */
+  background-color: #f4f4f9; /* Add a subtle background color */
+  border: 1px solid #e0e0e0; /* Add a border for emphasis */
+  border-radius: 8px; /* Add rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 5px;
-  outline: none;
-  transition: background 0.3s ease;
+/* Individual symptom card styling */
+.symptom-card {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.slider:hover {
-  background: #d0d0d0;
+.symptom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #0077b6; /* Medical blue */
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+.symptom-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
-.slider::-webkit-slider-thumb:hover {
-  background: #005f8a; /* Darker blue on hover */
-  transform: scale(1.1); /* Slightly enlarge on hover */
-}
-
-.slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: #0077b6;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.slider::-moz-range-thumb:hover {
-  background: #005f8a;
-  transform: scale(1.1);
-}
-
-.slider-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
-
-.slider-value {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #0077b6; /* Medical blue */
-}
-
-/* Uniform Checkbox Styling */
-.checkbox-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.checkbox-item:hover {
-  background-color: #f0f0f0;
-}
-
-.checkbox-item input {
-  margin-right: 8px;
+.symptom-card p {
+  font-size: 0.9rem;
+  color: #555;
 }

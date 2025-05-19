@@ -1,65 +1,82 @@
 import React, { useState } from 'react';
 import '../styles/SymptomModal.css';
 
+const today = new Date().toISOString().split('T')[0];
+
+const SYMPTOMS = ['Headache', 'Fatigue', 'Nausea', 'Fever', 'Cough'];
+const PAIN_TYPES = ['Sharp', 'Dull', 'Throbbing', 'Stabbing'];
+const PAIN_LOCATIONS = ['Head', 'Back', 'Stomach', 'Chest'];
+
 export default function SymptomModal({ isOpen, onClose, onSubmit }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
+    date: today,
     symptoms: [],
-    painLocation: [],
-    painSeverity: '',
     painType: [],
+    painLocation: [],
+    painLevel: 5,
   });
 
-  const handleNext = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Submit the form data
-      onSubmit({
-        ...formData,
-        date: new Date().toLocaleDateString(), // Add the current date
-      });
+  const handleCheckboxChange = (group, value) => {
+    setFormData((prev) => {
+      const current = prev[group];
+      return {
+        ...prev,
+        [group]: current.includes(value)
+          ? current.filter((item) => item !== value)
+          : [...current, value],
+      };
+    });
+  };
 
-      // Reset the modal and form
-      onClose();
-      setCurrentStep(1);
-      setFormData({
-        symptoms: [],
-        painLocation: [],
-        painSeverity: '',
-        painType: [],
-      });
-    }
+  const handleSliderChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      painLevel: parseInt(e.target.value),
+    }));
+  };
+
+  const handleNext = () => {
+    if (currentStep < 3) setCurrentStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
+    if (currentStep > 1) setCurrentStep((prev) => prev - 1);
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleSubmit = async () => {
+  try {
+    const response = await fetch('/api/symptoms', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(formData),
+    });
 
-    if (type === 'checkbox') {
-      setFormData((prevFormData) => {
-        const updatedField = Array.isArray(prevFormData[name])
-          ? [...prevFormData[name]]
-          : [];
+    if (response.ok) {
+      const newLog = await response.json();
 
-        if (checked) {
-          updatedField.push(value); // Add the selected value
-        } else {
-          const index = updatedField.indexOf(value);
-          if (index > -1) updatedField.splice(index, 1); // Remove the unselected value
-        }
+      console.log('✔ New log from backend:', newLog);
+      if (!newLog?.id) {
+        console.error('Missing log ID');
+        return;
+      }
 
-        return { ...prevFormData, [name]: updatedField };
+      onSubmit(newLog);
+      onClose();
+      setCurrentStep(1);
+      setFormData({
+        date: new Date().toISOString().split('T')[0],
+        symptoms: [],
+        painType: [],
+        painLocation: [],
+        painLevel: 5,
       });
-    } else {
-      setFormData({ ...formData, [name]: value });
     }
-  };
+  } catch (err) {
+    console.error('Error saving log:', err);
+  }
+};
 
   if (!isOpen) return null;
 
@@ -69,158 +86,98 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
         <button className="close-button" onClick={onClose}>
           &times;
         </button>
-        <h2>Step {currentStep} of 4</h2>
-        {currentStep === 1 && (
-          <div className="modal-step">
-            <label>Select your symptoms today:</label>
-            <div className="symptom-options">
-              <label>
-                <input
-                  type="checkbox"
-                  name="symptoms"
-                  value="Headache"
-                  onChange={handleChange}
-                />
-                Headache
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="symptoms"
-                  value="Fatigue"
-                  onChange={handleChange}
-                />
-                Fatigue
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="symptoms"
-                  value="Sneezing"
-                  onChange={handleChange}
-                />
-                Sneezing
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="symptoms"
-                  value="Mild Cough"
-                  onChange={handleChange}
-                />
-                Mild Cough
-              </label>
-            </div>
-          </div>
-        )}
-        {currentStep === 2 && (
-          <div className="modal-step">
-            <label>Where is your pain located?</label>
-            <div className="pain-location-options">
-              <label>
-                <input
-                  type="checkbox"
-                  name="painLocation"
-                  value="Head"
-                  onChange={handleChange}
-                />
-                Head
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painLocation"
-                  value="Chest"
-                  onChange={handleChange}
-                />
-                Chest
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painLocation"
-                  value="Back"
-                  onChange={handleChange}
-                />
-                Back
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painLocation"
-                  value="Legs"
-                  onChange={handleChange}
-                />
-                Legs
-              </label>
-            </div>
-          </div>
-        )}
-        {currentStep === 3 && (
-          <div className="modal-step">
-            <label>How severe is the pain on a scale of 1 to 10?</label>
-            <input
-              type="range"
-              name="painSeverity"
-              min="1"
-              max="10"
-              value={formData.painSeverity}
-              onChange={handleChange}
-            />
-            <p>Selected: {formData.painSeverity || 1}</p>
-          </div>
-        )}
-        {currentStep === 4 && (
-          <div className="modal-step">
-            <label>What kind of pain are you experiencing?</label>
-            <div className="pain-type-options">
-              <label>
-                <input
-                  type="checkbox"
-                  name="painType"
-                  value="Sharp"
-                  onChange={handleChange}
-                />
-                Sharp
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painType"
-                  value="Dull"
-                  onChange={handleChange}
-                />
-                Dull
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painType"
-                  value="Throbbing"
-                  onChange={handleChange}
-                />
-                Throbbing
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="painType"
-                  value="Burning"
-                  onChange={handleChange}
-                />
-                Burning
-              </label>
-            </div>
-          </div>
-        )}
-        <div className="modal-buttons">
-          <button onClick={handleBack} disabled={currentStep === 1}>
-            Back
-          </button>
-          <button onClick={handleNext}>
-            {currentStep === 4 ? 'Submit' : 'Next'}
-          </button>
+
+        <div className="progress-bar">
+          <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>1</div>
+          <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>2</div>
+          <div className={`step ${currentStep === 3 ? 'active' : ''}`}>3</div>
         </div>
+
+        <form className="symptom-form" onSubmit={(e) => e.preventDefault()}>
+          {currentStep === 1 && (
+            <>
+              <h2>Select Symptoms</h2>
+              <div className="checkbox-group">
+                {SYMPTOMS.map((symptom, i) => (
+                  <React.Fragment key={symptom}>
+                    <input
+                      type="checkbox"
+                      id={`symptom-${i}`}
+                      checked={formData.symptoms.includes(symptom)}
+                      onChange={() => handleCheckboxChange('symptoms', symptom)}
+                    />
+                    <label htmlFor={`symptom-${i}`}>{symptom}</label>
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+
+          {currentStep === 2 && (
+            <>
+              <h2>Pain Details</h2>
+              <h4>Pain Types</h4>
+              <div className="checkbox-group">
+                {PAIN_TYPES.map((type, i) => (
+                  <React.Fragment key={type}>
+                    <input
+                      type="checkbox"
+                      id={`painType-${i}`}
+                      checked={formData.painType.includes(type)}
+                      onChange={() => handleCheckboxChange('painType', type)}
+                    />
+                    <label htmlFor={`painType-${i}`}>{type}</label>
+                  </React.Fragment>
+                ))}
+              </div>
+
+              <h4>Pain Locations</h4>
+              <div className="checkbox-group">
+                {PAIN_LOCATIONS.map((loc, i) => (
+                  <React.Fragment key={loc}>
+                    <input
+                      type="checkbox"
+                      id={`painLocation-${i}`}
+                      checked={formData.painLocation.includes(loc)}
+                      onChange={() => handleCheckboxChange('painLocation', loc)}
+                    />
+                    <label htmlFor={`painLocation-${i}`}>{loc}</label>
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+
+          {currentStep === 3 && (
+            <>
+              <h2>Pain Level</h2>
+              <div className="slider-group">
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={formData.painLevel}
+                  onChange={handleSliderChange}
+                />
+                <span className="slider-value">{formData.painLevel}</span>
+              </div>
+              <p className="summary-note">Date: {formData.date}</p>
+            </>
+          )}
+
+          <div className="form-actions">
+            {currentStep > 1 && (
+              <button type="button" onClick={handleBack}>Back</button>
+            )}
+            {currentStep < 3 ? (
+              <button type="button" onClick={handleNext}>Next</button>
+            ) : (
+              <button type="button" className="submit-btn" onClick={handleSubmit}>
+                Submit Log
+              </button>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );
