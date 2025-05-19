@@ -162,3 +162,34 @@ exports.seed = async (knex) => {
     })),
   );
 };
+
+// Step 1: Seed medications
+await knex('medications').del(); // Clear existing medications
+await knex.raw('ALTER SEQUENCE medications_id_seq RESTART WITH 1');
+
+const medications = [
+  { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily' },
+  { name: 'Ibuprofen', dosage: '200mg', frequency: 'Every 6 hours' },
+  { name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily' },
+];
+
+await knex('medications').insert(medications);
+
+// Step 2: Get the freshly inserted users and meds
+const allUsers = await knex('users').select('id');
+const allMeds = await knex('medications').select('id');
+
+// Step 3: Seed user_medications
+await knex('user_medications').del();
+
+const today = new Date().toISOString().split('T')[0];
+
+const userMedications = allUsers.map((user, i) => ({
+  user_id: user.id,
+  medication_id: allMeds[i % allMeds.length].id, // cycle through meds
+  start_date: today,
+  end_date: null,
+  notes: 'Initial prescription',
+}));
+
+await knex('user_medications').insert(userMedications);
