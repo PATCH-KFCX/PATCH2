@@ -1,103 +1,87 @@
+/* Symptom Card Container */
 .symptom-card {
-  min-width: 220px;
-  max-width: 230px;
-  flex: 0 0 auto;
-  background: linear-gradient(90deg, #e0f7fa, #b2ebf2); /* Light blue gradient for cards */
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
-  font-size: 14px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid #00b4d8; /* Teal border for a clean medical look */
-}
-
-.symptom-card h3 {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #0077b6; /* Medical blue for headings */
-}
-
-.symptom-card p {
-  margin: 4px 0;
-  line-height: 1.4;
-  color: #333; /* Neutral text color for readability */
-}
-
-.appointment-buttons {
-  display: flex;
-  justify-content: center; /* Center the button horizontally */
-  margin-top: 12px;
-}
-
-.create-appointment-btn {
-  background: linear-gradient(90deg, #52b788, #40916c); /* Medical green gradient */
-  color: white;
-  padding: 10px 20px;
-  border: none;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 10px; /* Reduced padding */
+  margin-bottom: 10px; /* Reduced margin */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.create-appointment-btn:hover {
-  background: linear-gradient(90deg, #40916c, #52b788); /* Reverse gradient on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
+.symptom-card:hover {
+  transform: translateY(-3px); /* Slightly reduced hover effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.delete-log-btn {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #f44336; /* Red for delete */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.delete-log-btn:hover {
-  background-color: #d32f2f; /* Darker red on hover */
-}
-
-/* Symptom Cards Section */
-.symptom-cards {
+/* Card Header */
+.card-header {
   display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping */
-  gap: 20px;
-  width: 100%;
-  padding: 12px;
-  background-color: #f0f9ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid #0077b6;
-  max-height: 400px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px; /* Reduced margin */
 }
 
-.symptom-cards::-webkit-scrollbar {
-  height: 8px; /* Set the height of the horizontal scrollbar */
+.card-header h3 {
+  font-size: 1rem; /* Reduced font size */
+  color: #2c3e50;
+  margin: 0;
 }
 
-.symptom-cards::-webkit-scrollbar-thumb {
-  background-color: #90e0ef;
-  border-radius: 4px;
+.card-header .log-date {
+  font-size: 0.8rem; /* Reduced font size */
+  color: #7f8c8d;
 }
 
-.symptom-cards::-webkit-scrollbar-track {
-  background-color: #f0f9ff;
+/* Card Section */
+.card-section {
+  margin-bottom: 8px; /* Reduced margin */
 }
 
-.symptom-cards.empty {
-  min-height: 400px; /* Increase height when no cards are present */
-  padding: 20px; /* Add more padding for better spacing */
-  font-size: 16px;
-  color: #555; /* Neutral text color */
+.card-section strong {
+  display: block;
+  font-size: 0.9rem; /* Reduced font size */
+  color: #34495e;
+  margin-bottom: 4px; /* Reduced margin */
+}
+
+.card-section span,
+.card-section ul {
+  font-size: 0.8rem; /* Reduced font size */
+  color: #555;
+}
+
+.card-section ul {
+  list-style: disc;
+  padding-left: 15px; /* Reduced padding */
+  margin: 0;
+}
+
+/* Card Actions */
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.card-actions button {
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card-actions button:hover {
+  background-color: #16a085;
+}
+
+.card-actions .delete-btn {
+  background-color: #e74c3c;
+}
+
+.card-actions .delete-btn:hover {
+  background-color: #c0392b;
 }
