@@ -76,9 +76,9 @@ export default function Dashboard() {
       <div className="sidebar-card">
           <h2>Medication Page</h2>
           <p>Log Your Medicine.</p>
-          <Link to=''>
-          <button>Go To Medication Page</button>
-          </Link>
+          <Link to="/medication-tracker">
+  <button>Go To Medication Page</button>
+</Link>
       </div>
       </div>
 
