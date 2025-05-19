@@ -27,6 +27,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
           : [...current, value],
       };
     });
+
   };
 
   const handleSliderChange = (e) => {
@@ -45,59 +46,48 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
   };
 
   const handleSubmit = async () => {
-  try {
-    const response = await fetch('/api/symptoms', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      const newLog = await response.json();
-
-      console.log('✔ New log from backend:', newLog);
-      if (!newLog?.id) {
-        console.error('Missing log ID');
-        return;
-      }
-
-      onSubmit(newLog);
-      onClose();
-      setCurrentStep(1);
-      setFormData({
-        date: new Date().toISOString().split('T')[0],
-        symptoms: [],
-        painType: [],
-        painLocation: [],
-        painLevel: 5,
+    try {
+      const response = await fetch('/api/symptoms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(formData),
       });
-    }
-  } catch (err) {
-    console.error('Error saving log:', err);
-  }
-};
+
+      if (response.ok) {
+        const newLog = await response.json();
+        onSubmit(newLog);
+        onClose();
+        setCurrentStep(1);
+        setFormData({
+          date: today,
+          symptoms: [],
+          painType: [],
+          painLocation: [],
+          painLevel: 5,
+        });
+      }
+    } catch (err) {
+      console.error('Error saving log:', err);
+    };
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
-      <div className="modal">
-        <button className="close-button" onClick={onClose}>
+      <div className="modal-container">
+        <button className="modal-close-button" onClick={onClose}>
           &times;
         </button>
 
-        <div className="progress-bar">
-          <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>1</div>
-          <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>2</div>
-          <div className={`step ${currentStep === 3 ? 'active' : ''}`}>3</div>
-        </div>
+        <h2 className="modal-title">Symptom Log</h2>
 
-        <form className="symptom-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
           {currentStep === 1 && (
             <>
-              <h2>Select Symptoms</h2>
-              <div className="checkbox-group">
+              <h3 className="modal-subtitle">Select Symptoms</h3>
+              <div className="modal-checkbox-group">
                 {SYMPTOMS.map((symptom, i) => (
                   <React.Fragment key={symptom}>
                     <input
@@ -115,9 +105,9 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
 
           {currentStep === 2 && (
             <>
-              <h2>Pain Details</h2>
+              <h3 className="modal-subtitle">Pain Details</h3>
               <h4>Pain Types</h4>
-              <div className="checkbox-group">
+              <div className="modal-checkbox-group">
                 {PAIN_TYPES.map((type, i) => (
                   <React.Fragment key={type}>
                     <input
@@ -132,7 +122,8 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
               </div>
 
               <h4>Pain Locations</h4>
-              <div className="checkbox-group">
+
+              <div className="modal-checkbox-group">
                 {PAIN_LOCATIONS.map((loc, i) => (
                   <React.Fragment key={loc}>
                     <input
@@ -150,8 +141,9 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
 
           {currentStep === 3 && (
             <>
-              <h2>Pain Level</h2>
-              <div className="slider-group">
+
+              <h3 className="modal-subtitle">Pain Level</h3>
+              <div className="modal-slider-group">
                 <input
                   type="range"
                   min="1"
@@ -159,20 +151,25 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
                   value={formData.painLevel}
                   onChange={handleSliderChange}
                 />
-                <span className="slider-value">{formData.painLevel}</span>
+
+                <span className="modal-slider-value">{formData.painLevel}</span>
               </div>
-              <p className="summary-note">Date: {formData.date}</p>
+              <p className="modal-summary-note">Date: {formData.date}</p>
             </>
           )}
 
-          <div className="form-actions">
+          <div className="modal-actions">
             {currentStep > 1 && (
-              <button type="button" onClick={handleBack}>Back</button>
+              <button type="button" className="modal-back-button" onClick={handleBack}>
+                Back
+              </button>
             )}
             {currentStep < 3 ? (
-              <button type="button" onClick={handleNext}>Next</button>
+              <button type="button" className="modal-next-button" onClick={handleNext}>
+                Next
+              </button>
             ) : (
-              <button type="button" className="submit-btn" onClick={handleSubmit}>
+              <button type="button" className="modal-submit-button" onClick={handleSubmit}>
                 Submit Log
               </button>
             )}

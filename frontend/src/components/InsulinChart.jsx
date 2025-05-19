@@ -10,63 +10,49 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import '../styles/InsulinChart.css'; // Import your CSS styles
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const InsulinChart = ({ logs }) => {
-  // Prepare data for the chart
-  const chartData = {
-    labels: logs.map((log) => new Date(log.date).toLocaleDateString()), // X-axis labels (dates)
+export default function InsulinChart({ logs, size = 'large' }) {
+  const data = {
+    labels: logs.map(log => new Date(log.date).toLocaleDateString()),
     datasets: [
       {
         label: 'Insulin Levels',
-        data: logs.map((log) => log.level), // Y-axis data (insulin levels)
-        borderColor: '#0077b6', // Line color
-        backgroundColor: 'rgba(0, 119, 182, 0.2)', // Fill under the line
-        tension: 0.4, // Smooth curve
+        data: logs.map(log => log.level),
+        borderColor: '#0077b6',
+        backgroundColor: 'rgba(0, 119, 182, 0.2)',
+        tension: 0,
       },
     ],
   };
 
-  const chartOptions = {
+  const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Insulin Levels Over Time',
-      },
+      legend: { position: 'top' },
+      title: { display: true, text: 'Insulin Over Time' },
     },
     scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Date',
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Insulin Level',
-        },
-        beginAtZero: true,
-      },
+      x: { title: { display: true, text: 'Date' } },
+      y: { title: { display: true, text: 'Level' }, beginAtZero: true },
     },
   };
 
-  return <Line data={chartData} options={chartOptions} />;
-};
+const height = size === 'small' ? '250px' : '350px';
 
-export default InsulinChart;
+  return (
+    <div
+      style={{
+        height,
+        background: '#fff',
+        borderRadius: '8px',
+        padding: '20px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      }}
+    >
+      <Line data={data} options={options} />
+    </div>
+  );
+}

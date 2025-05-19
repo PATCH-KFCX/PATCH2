@@ -10,13 +10,14 @@ import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import UserPage from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 import DiabetesTracker from './pages/DiabetesTracker';
-
+import HealthDashboard from './pages/HealthDashboard';
+import MedicationTracker from './pages/MedicationTracker';
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
+
   useEffect(() => {
     const loadCurrentUser = async () => {
-      // we aren't concerned about an error happening here
       const [data] = await checkForLoggedInUser();
       if (data) setCurrentUser(data);
     };
@@ -35,7 +36,8 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/:id" element={<Dashboard />} />
           <Route path="/blood-sugar-tracker" element={<DiabetesTracker />} />
-          {/* Catch-all route for 404 Not Found */}
+          <Route path="/health-dashboard" element={<HealthDashboard />} /> 
+          <Route path="/medication-tracker" element={<MedicationTracker />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

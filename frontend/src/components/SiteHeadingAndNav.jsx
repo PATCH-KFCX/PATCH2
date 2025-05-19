@@ -8,19 +8,24 @@ export default function SiteHeadingAndNav() {
 
   return (
     <header className="site-header">
-      <a id="logo" href="/">
+      <NavLink id="logo" to="/">
         <span className="logo-icon">⚕️</span> PATCH
-      </a>
+      </NavLink>
       <nav>
         <ul className="nav-links">
-          <li>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-          </li>
           {currentUser ? (
             <>
               <li>
-                <NavLink to={`/users/${currentUser.id}`}>
-                  {currentUser.name}
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to={`/Health-Dashboard`} className="nav-button">
+                  Health Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={`/users/${currentUser.id}`} className="nav-button">
+                  My Profile
                 </NavLink>
               </li>
             </>
