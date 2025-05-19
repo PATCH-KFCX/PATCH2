@@ -19,7 +19,7 @@ const userControllers = require('./controllers/userControllers');
 // Route imports
 const symptomRoutes = require('./routes/symptomRoutes');
 const diabetesRoutes = require('./routes/DiabetesRoutes');
-const medicationRoutes = require('./routes/medicationRoutes');
+const medicationRoutes = require('./routes/MedicationRoutes');
 
 // Optional: Enable CORS in development
 if (process.env.NODE_ENV !== 'production') {
