@@ -10,11 +10,12 @@ import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import UserPage from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 import DiabetesTracker from './pages/DiabetesTracker';
-import HealthDashboard from './pages/HealthDashboard'; // ✅ NEW IMPORT
-
+import HealthDashboard from './pages/HealthDashboard';
+import MedicationTracker from './pages/MedicationTracker';
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
+
   useEffect(() => {
     const loadCurrentUser = async () => {
       const [data] = await checkForLoggedInUser();
@@ -28,7 +29,7 @@ export default function App() {
       <SiteHeadingAndNav />
       <main>
         <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/dashboard/:id" element={<Dashboard />} />
           <Route path="/blood-sugar-tracker" element={<DiabetesTracker />} />
           <Route path="/health-dashboard" element={<HealthDashboard />} /> 
+          <Route path="/medication-tracker" element={<MedicationTracker />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

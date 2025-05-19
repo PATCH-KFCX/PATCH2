@@ -30,6 +30,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(handleCookieSessions);
 app.use(logRoutes);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // Auth Routes
@@ -41,7 +42,7 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 // Routes that require authentication
 app.use('/api/symptoms', checkAuthentication, symptomRoutes); 
 app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); 
-app.use('/api/medications', checkAuthentication, medicationRoutes); 
+app.use('/api/medications', checkAuthentication, medicationRoutes);
 
 
 // User Routes
