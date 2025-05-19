@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import SymptomCard from '../components/SymptomCard';
 import SymptomModal from '../components/SymptomModal';
@@ -8,11 +9,13 @@ import '../styles/Dashboard.css';
 export default function Dashboard() {
   const [symptomLogs, setSymptomLogs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
+
         const response = await fetch('/api/symptoms', { credentials: 'include' });
         const logs = await response.json();
         setSymptomLogs(logs);
@@ -20,6 +23,7 @@ export default function Dashboard() {
         console.error('Error fetching symptom logs:', err);
       }
     };
+
     fetchLogs();
   }, []);
 
@@ -32,6 +36,7 @@ export default function Dashboard() {
         method: 'DELETE',
         credentials: 'include',
       });
+
       if (response.ok) {
         setSymptomLogs((prev) => prev.filter((log) => log.id !== logToDelete.id));
       }
@@ -42,6 +47,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
+
       <div className="sidebar">
         <div className="sidebar-card">
           <h2>Symptom Logs & Tracker</h2>
@@ -66,7 +72,17 @@ export default function Dashboard() {
             Go to Blood Sugar Tracker
           </button>
         </div>
+
+         {/* Medicine Section */}
+      <div className="sidebar-card">
+          <h2>Medication Page</h2>
+          <p>Log Your Medicine.</p>
+          <Link to=''>
+          <button>Go To Medication Page</button>
+          </Link>
       </div>
+      </div>
+
 
       <div className="main-content">
         <h1 className="dashboard-title">Symptom Logs Dashboard</h1>
@@ -79,11 +95,13 @@ export default function Dashboard() {
             <div className="no-data-message">NO DATA</div>
           )}
         </div>
+
         <div className="wide-chart-container">
           <SymptomFrequencyChart symptomLogs={symptomLogs} />
         </div>
       </div>
 
+      {/* Modal */}
       <SymptomModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

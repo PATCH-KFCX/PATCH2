@@ -1,8 +1,10 @@
+/* General layout for the dashboard */
 .dashboard-container {
   display: flex;
   height: 100vh;
   background-color: #f4f4f9;
   font-family: 'Arial', sans-serif;
+
   overflow: hidden;
 }
 
@@ -130,4 +132,3 @@
   width: 100% !important;
   height: 100% !important;
 }
-
