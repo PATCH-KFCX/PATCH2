@@ -1,0 +1,37 @@
+.medication-item {
+  padding: 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background-color: var(--bg-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px var(--shadow-light);
+}
+
+.medication-item p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.medication-item button {
+  background-color: #dc3545;
+  color: var(--bg-light);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.medication-item button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.medication-item button:active {
+  transform: translateY(0); /* Reset lift effect */
+}
