@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
-const { checkAuthentication } = require('../middleware/authMiddleware');
+const { checkAuthentication } = require('../middleware/checkAuthentication');
 
-// POST /medications - Create a new medication log
-router.post('/', checkAuthentication, async (req, res) => {
+// POST /api/medications - Create a new medication log
+router.post('/', async (req, res) => {
   const { name, dosage, unit, frequency } = req.body;
   const userId = req.session.userId;
 
@@ -23,8 +23,8 @@ router.post('/', checkAuthentication, async (req, res) => {
   }
 });
 
-// GET /medications - Fetch all medications for the logged-in user
-router.get('/', checkAuthentication, async (req, res) => {
+// GET /api/medications - Fetch all medications for the logged-in user
+router.get('/', async (req, res) => {
   const userId = req.session.userId;
 
   try {
@@ -36,31 +36,8 @@ router.get('/', checkAuthentication, async (req, res) => {
   }
 });
 
-// PATCH /medications/:id - Update a medication log
-router.patch('/:id', checkAuthentication, async (req, res) => {
-  const { id } = req.params;
-  const userId = req.session.userId;
-  const updates = req.body;
-
-  try {
-    const [updatedMedication] = await knex('medications')
-      .where({ id, user_id: userId })
-      .update(updates)
-      .returning('*');
-
-    if (!updatedMedication) {
-      return res.status(404).json({ error: 'Medication not found.' });
-    }
-
-    res.json(updatedMedication);
-  } catch (err) {
-    console.error('Error updating medication:', err);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
-});
-
-// DELETE /medications/:id - Delete a medication log
-router.delete('/:id', checkAuthentication, async (req, res) => {
+// DELETE /api/medications/:id - Delete a medication log
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const userId = req.session.userId;
 
