@@ -1,60 +1,165 @@
-.modal-overlay {
+:root {
+  --primary: #1abc9c;
+  --secondary: #16a085;
+  --bg-dark: #2c3e50;
+  --bg-light: #ffffff;
+  --text-dark: #34495e;
+  --text-muted: #7f8c8d;
+  --input-border: #e0e0e0;
+  --input-focus: #1abc9c;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
+/* Modal overlay */
+.insulin-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 1000;
 }
 
-.modal-content {
-  background-color: #fef9ec;
-  padding: 30px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+/* Modal container */
+.insulin-modal {
+  background-color: var(--bg-light);
+  border-radius: 16px; /* More rounded corners */
+  padding: 40px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 24px var(--shadow-dark); /* Deeper shadow for a modern look */
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+
+  /* Center the form inside the modal */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #e74c3c; /* Red on hover */
+}
+
+/* Modal title */
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.modal-content h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
-  color: #333;
+/* Form styles */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased spacing for a cleaner layout */
+  width: 100%; /* Ensure the form takes up the full width of the modal */
+  max-width: 400px; /* Limit the form width for better readability */
+  align-items: center; /* Center the form elements horizontally */
 }
 
-.modal-content input,
-.modal-content textarea {
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--input-border);
+  border-radius: 12px; /* Rounded corners for inputs */
+  font-size: 1rem;
+  background-color: #f9f9f9; /* Light background for inputs */
+  box-shadow: inset 0 2px 4px var(--shadow-light); /* Subtle inner shadow */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.modal-buttons {
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--input-focus); /* Teal border on focus */
+  box-shadow: 0 0 8px rgba(26, 188, 156, 0.5); /* Glow effect */
+}
+
+/* Form actions */
+.form-actions {
   display: flex;
   justify-content: space-between;
+  gap: 15px;
 }
 
-.modal-buttons button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  background-color: #4caf50;
+.submit-btn {
+  background-color: var(--primary); /* Teal */
   color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px; /* Rounded corners */
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex: 1;
 }
 
-.cancel-button {
-  background-color: #888;
+.submit-btn:hover {
+  background-color: var(--secondary); /* Darker teal */
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-.modal-buttons button:hover {
-  opacity: 0.9;
+.cancel-btn {
+  background-color: #e74c3c; /* Red */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px; /* Rounded corners */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background-color: #c0392b; /* Darker red */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

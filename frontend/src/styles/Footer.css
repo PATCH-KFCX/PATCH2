@@ -1,9 +1,49 @@
 .site-footer {
-  background-color: #fff4b8;
-  border-top: 1px solid #ccc;
+  background-color: #0077b6; /* Match the deep blue theme */
+  color: #ffffff; /* White text for contrast */
   text-align: center;
-  padding: 16px 0;
-  font-size: 14px;
-  color: #333;
-  margin-top: auto;
+  padding: 20px 0;
+  font-size: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  border-top: none;
+  position: absolute; /* Ensure the footer stays at the bottom */
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-links a {
+  color: #1abc9c;
+  font-size: 1.3rem;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #16a085;
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-links {
+    justify-content: center;
+  }
 }
