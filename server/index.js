@@ -26,20 +26,12 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 }
 
-<<<<<<< HEAD
-// Middleware
-// app.use(handleCookieSessions); // Adds a session property to each request representing the cookie
-app.use(logRoutes); // Print information about each incoming request
-app.use(express.json()); // Parse incoming request bodies as JSON
-app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the frontend
-=======
 // Middleware setup
 app.use(handleCookieSessions);
 app.use(logRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
->>>>>>> 63bd1b153e2ec9c18492b9d70ae31ac47e1698e5
 
 // Auth Routes
 app.post('/api/auth/register', authControllers.registerUser);
@@ -48,10 +40,9 @@ app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
 // Routes that require authentication
-app.use('/api/symptoms', checkAuthentication, symptomRoutes); 
-app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); 
+app.use('/api/symptoms', checkAuthentication, symptomRoutes);
+app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes);
 app.use('/api/medications', checkAuthentication, medicationRoutes);
-
 
 // User Routes
 
