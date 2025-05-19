@@ -27,6 +27,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
           : [...current, value],
       };
     });
+
   };
 
   const handleSliderChange = (e) => {
@@ -69,7 +70,10 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
     } catch (err) {
       console.error('Error saving log:', err);
     }
-  };
+  } catch (err) {
+    console.error('Error saving log:', err);
+  }
+};
 
   if (!isOpen) return null;
 
@@ -79,6 +83,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
         <button className="modal-close-button" onClick={onClose}>
           &times;
         </button>
+
         <h2 className="modal-title">Symptom Log</h2>
 
         <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
@@ -120,6 +125,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
               </div>
 
               <h4>Pain Locations</h4>
+
               <div className="modal-checkbox-group">
                 {PAIN_LOCATIONS.map((loc, i) => (
                   <React.Fragment key={loc}>
@@ -138,6 +144,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
 
           {currentStep === 3 && (
             <>
+
               <h3 className="modal-subtitle">Pain Level</h3>
               <div className="modal-slider-group">
                 <input
@@ -147,6 +154,7 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
                   value={formData.painLevel}
                   onChange={handleSliderChange}
                 />
+
                 <span className="modal-slider-value">{formData.painLevel}</span>
               </div>
               <p className="modal-summary-note">Date: {formData.date}</p>

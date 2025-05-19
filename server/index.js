@@ -39,11 +39,13 @@ app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
 // Routes that require authentication
-app.use('/api/symptoms', checkAuthentication, symptomRoutes); // ✅ symptom routes
-app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); // ✅ diabetes tracker
-app.use('/api/medications', checkAuthentication, medicationRoutes); // ✅ medication routes
+app.use('/api/symptoms', checkAuthentication, symptomRoutes); 
+app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); 
+app.use('/api/medications', checkAuthentication, medicationRoutes); 
+
 
 // User Routes
+
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
