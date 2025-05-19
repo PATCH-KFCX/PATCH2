@@ -69,11 +69,8 @@ export default function SymptomModal({ isOpen, onClose, onSubmit }) {
       }
     } catch (err) {
       console.error('Error saving log:', err);
-    }
-  } catch (err) {
-    console.error('Error saving log:', err);
-  }
-};
+    };
+  };
 
   if (!isOpen) return null;
 
