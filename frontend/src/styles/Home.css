@@ -1,3 +1,7 @@
+body, html {
+  overflow: hidden; /* Disable scrolling */
+}
+
 .home-container {
   min-height: 100vh;
   background-color: #f4f4f9;
@@ -10,7 +14,7 @@
 .home-header {
   background-color: #0077b6; /* deep blue */
   color: white;
-  padding: 60px 20px;
+  padding: 20px 20px 40px; /* Added bottom padding */
   text-align: center;
 }
 
@@ -20,17 +24,17 @@
 }
 
 .hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem; /* Keep the font size as is */
+  margin-bottom: 20px; /* Slightly increased margin */
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1px; /* Slightly increased letter spacing */
   color: #ffffff;
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  font-size: 1.1rem; /* Slightly larger font size for paragraph */
+  margin-bottom: 25px; /* Slightly increased margin */
 }
 
 .cta-button {
@@ -51,7 +55,7 @@
 }
 
 .features-section {
-  padding: 60px 20px;
+  padding: 6px 20px;
   text-align: center;
 }
 
