@@ -22,7 +22,7 @@ export default function HomePage() {
       </header>
 
       <section className="features-section">
-        <h2 className="section-title">Features</h2>
+        <h2 className="section-title"></h2>
         <div className="features-grid">
           {[
             { title: 'Symptom Tracker', desc: 'Log and review symptoms over time.' },
