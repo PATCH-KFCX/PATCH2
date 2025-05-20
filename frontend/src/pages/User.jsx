@@ -48,10 +48,15 @@ export default function UserPage() {
     console.log("Bio saved:", bio);
   };
 
-  if (error) return <p>Sorry, there was a problem loading user. Please try again later.</p>;
+  if (error)
+    return (
+      <p>Sorry, there was a problem loading user. Please try again later.</p>
+    );
   if (!userProfile) return null;
 
-  const profileUsername = isCurrentUserProfile ? currentUser.name : userProfile.name;
+  const profileUsername = isCurrentUserProfile
+    ? currentUser.name
+    : userProfile.name;
 
   return (
     <div className="user-container">
@@ -66,8 +71,24 @@ export default function UserPage() {
 
         {isCurrentUserProfile && (
           <>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="upload-input" />
-            <UpdateUsernameForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
+            <div className="centered-container">
+              <label htmlFor="profile-upload" className="upload-button">
+                Upload Profile Picture
+              </label>
+            </div>
+
+            <input
+              id="profile-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="upload-input"
+            />
+
+            <UpdateUsernameForm
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
           </>
         )}
 
@@ -75,8 +96,14 @@ export default function UserPage() {
           <h3>Bio</h3>
           {isCurrentUserProfile ? (
             <>
-              <textarea value={bio} onChange={(e) => setBio(e.target.value)} className="bio-input" />
-              <button className="save-button" onClick={handleBioSave}>Save Bio</button>
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="bio-input"
+              />
+              <button className="save-button" onClick={handleBioSave}>
+                Save Bio
+              </button>
             </>
           ) : (
             <p className="bio-text">{bio || "This user has no bio."}</p>
@@ -84,7 +111,9 @@ export default function UserPage() {
         </div>
 
         {isCurrentUserProfile && (
-          <button className="logout-button" onClick={handleLogout}>Log Out</button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log Out
+          </button>
         )}
       </div>
     </div>

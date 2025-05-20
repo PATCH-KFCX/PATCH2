@@ -17,6 +17,7 @@ exports.up = function (knex) {
   });
 };
 
+
 // This function runs when the migration is rolled back (e.g., `knex migrate:rollback`)
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists('users'); // Deletes the users table if it exists
