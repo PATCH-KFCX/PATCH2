@@ -1,144 +1,92 @@
 import React, { useState, useEffect } from 'react';
+import { fetchMedications, addMedication, deleteMedication } from '../adapters/medications-adapter';
 import '../styles/MedicationTracker.css';
-import MedicationCard from '../components/MedicationCard';
-
-const COMMON_MEDICATIONS = [
-  'Ibuprofen', 'Paracetamol', 'Amoxicillin', 'Metformin', 'Aspirin',
-  'Atorvastatin', 'Omeprazole', 'Losartan', 'Levothyroxine', 'Albuterol',
-  'Gabapentin', 'Hydrochlorothiazide', 'Sertraline', 'Citalopram', 'Prednisone'
-];
-const UNITS = ['mg', 'ml', 'g', 'tablets', 'capsules'];
-const FREQUENCIES = ['Once a day', 'Twice a day', 'Three times a day', 'Every 6 hours', 'Every 8 hours'];
 
 export default function MedicationTracker() {
   const [medications, setMedications] = useState([]);
-  const [formData, setFormData] = useState({
-    name: '',
-    dosage: '',
-    unit: 'mg',
-    frequency: 'Once a day',
-  });
+  const [form, setForm] = useState({ name: '', dosage: '', days: '' });
 
   useEffect(() => {
-    const fetchMedications = async () => {
+    const loadMedications = async () => {
       try {
-        const response = await fetch('/api/medications', { credentials: 'include' });
-        const data = await response.json();
-        setMedications(data);
+        const meds = await fetchMedications();
+        console.log('💊 Meds fetched:', meds);
+        setMedications(Array.isArray(meds) ? meds : []); // Ensure medications is always an array
       } catch (err) {
         console.error('Error fetching medications:', err);
       }
     };
 
-    fetchMedications();
+    loadMedications();
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/medications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const newMedication = await response.json();
-        setMedications((prev) => [...prev, newMedication]);
-        setFormData({ name: '', dosage: '', unit: 'mg', frequency: 'Once a day' });
-      }
+      const newMed = await addMedication(form);
+      setMedications((prev) => [...prev, newMed]); // Add the new medication to the state
+      setForm({ name: '', dosage: '', days: '' }); // Reset the form
     } catch (err) {
-      console.error('Error adding medication:', err);
+      console.error('Error submitting medication:', err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/medications/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        setMedications((prev) => prev.filter((med) => med.id !== id));
-      }
+      await deleteMedication(id);
+      setMedications((prev) => prev.filter((med) => med.id !== id)); // Remove the deleted medication from the state
     } catch (err) {
       console.error('Error deleting medication:', err);
     }
   };
 
   return (
-    <div className="medication-tracker-container">
-      <h1>Medication Tracker</h1>
+    <div className="medication-tracker">
+      <h2>Medication Tracker</h2>
 
-      <form className="medication-form" onSubmit={handleSubmit}>
-        {/* Autocomplete for Medication Name */}
+      <form onSubmit={handleSubmit} className="med-form">
         <input
-          type="text"
           name="name"
-          list="medication-list"
-          placeholder="Medication Name"
-          value={formData.name}
-          onChange={handleInputChange}
+          placeholder="Medication name"
+          value={form.name}
+          onChange={handleChange}
           required
         />
-        <datalist id="medication-list">
-          {COMMON_MEDICATIONS.map((med) => (
-            <option key={med} value={med} />
-          ))}
-        </datalist>
-
-        {/* Combined Dosage and Unit */}
-        <div className="dosage-unit-group">
-          <input
-            type="number"
-            name="dosage"
-            placeholder="Dosage"
-            value={formData.dosage}
-            onChange={handleInputChange}
-            required
-          />
-          <select
-            name="unit"
-            value={formData.unit}
-            onChange={handleInputChange}
-            required
-          >
-            {UNITS.map((unit) => (
-              <option key={unit} value={unit}>
-                {unit}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Dropdown for Frequency */}
-        <select
-          name="frequency"
-          value={formData.frequency}
-          onChange={handleInputChange}
+        <input
+          name="dosage"
+          placeholder="Dosage"
+          value={form.dosage}
+          onChange={handleChange}
           required
-        >
-          {FREQUENCIES.map((freq) => (
-            <option key={freq} value={freq}>
-              {freq}
-            </option>
-          ))}
-        </select>
-
+        />
+        <input
+          name="days"
+          placeholder="Days (e.g. Mon,Wed,Fri)"
+          value={form.days}
+          onChange={handleChange}
+          required
+        />
         <button type="submit">Add Medication</button>
       </form>
 
-      <div className="medication-list">
-        {medications.map((med) => (
-          <MedicationCard key={med.id} medication={med} onDelete={handleDelete} />
-        ))}
+      <div className="medication-cards">
+        {Array.isArray(medications) && medications.length > 0 ? (
+          medications.map((med) => (
+            <div key={med.id} className="med-card">
+              <h3>{med.name}</h3>
+              <p><strong>Dosage:</strong> {med.dosage}</p>
+              <p><strong>Days Taken:</strong> {med.days}</p>
+              <button onClick={() => handleDelete(med.id)}>🗑 Delete</button>
+            </div>
+          ))
+        ) : (
+          <p>No medications found.</p>
+        )}
       </div>
     </div>
   );
