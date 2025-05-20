@@ -77,8 +77,8 @@ export default function Dashboard() {
           <h2>Medication Page</h2>
           <p>Log Your Medicine.</p>
           <Link to="/medication-tracker">
-  <button>Go To Medication Page</button>
-</Link>
+    <button className="sidebar-button">Go to Medication Tracker</button>
+  </Link>
       </div>
       </div>
 

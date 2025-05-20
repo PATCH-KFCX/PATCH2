@@ -1,4 +1,5 @@
 const SymptomLog = require('../models/SymptomLog');
+const knex = require('../db/knex');
 
 // POST /api/symptoms
 exports.create = async (req, res) => {
@@ -40,5 +41,26 @@ exports.remove = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Error deleting symptom log' });
+  }
+};
+
+// Update a symptom log
+exports.updateSymptom = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { symptom, severity, notes, date } = req.body;
+    const [updated] = await knex('symptoms')
+      .where({ id })
+      .update({ symptom, severity, notes, date }, [
+        'id',
+        'symptom',
+        'severity',
+        'notes',
+        'date',
+      ]);
+    if (!updated) return res.status(404).json({ error: 'Not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
