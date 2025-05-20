@@ -1,49 +1,56 @@
 .site-footer {
-  background-color: #0077b6; /* Match the deep blue theme */
-  color: #ffffff; /* White text for contrast */
-  text-align: center;
-  padding: 20px 0;
-  font-size: 1rem;
-  font-family: 'Segoe UI', sans-serif;
-  border-top: none;
-  position: absolute; /* Ensure the footer stays at the bottom */
+  position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
+  width: 97.9%; /* Reduce width to 90% of the viewport */
+  background-color: #0077b6; /* Match the home header color (deep blue) */
+  padding: 10px 20px; /* Smaller padding */
+  text-align: center;
+  font-size: 0.9rem; /* Smaller font size */
+  color: #ffffff; /* Change footer text color to white */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+  overflow: hidden; /* Prevent content from overflowing */
+  border-radius: 8px; /* Optional: Add rounded corners */
 }
 
 .footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 10px; /* Add spacing between items */
 }
 
 .footer-links {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap; /* Allow links to wrap if needed */
+  justify-content: flex-start; /* Align links to the left */
+  margin-left: 20px; /* Add margin to move links further left */
 }
 
 .footer-links a {
-  color: #1abc9c;
-  font-size: 1.3rem;
-  transition: color 0.2s ease;
+  margin: 0 10px;
+  color: #ffffff; /* Neutral white color for icons */
+  font-size: 1.2rem; /* Adjust icon size */
+  transition: color 0.3s ease;
   text-decoration: none;
 }
 
 .footer-links a:hover {
-  color: #16a085;
+  color: #1abc9c; /* Change link color to white on hover */
 }
 
 @media (max-width: 600px) {
   .footer-content {
-    flex-direction: column;
+    flex-direction: column; /* Stack content vertically */
     gap: 10px;
     text-align: center;
   }
 
   .footer-links {
-    justify-content: center;
+    justify-content: center; /* Center links on smaller screens */
+    margin-left: 0; /* Reset margin for smaller screens */
   }
 }

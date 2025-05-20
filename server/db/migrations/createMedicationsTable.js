@@ -3,14 +3,13 @@ exports.up = function (knex) {
     table.increments('id').primary();
     table
       .integer('user_id')
-      .notNullable()
+      .unsigned()
       .references('id')
       .inTable('users')
       .onDelete('CASCADE');
     table.string('name').notNullable();
-    table.decimal('dosage').notNullable();
-    table.string('unit').notNullable(); // e.g., mg, ml
-    table.string('frequency').notNullable(); // e.g., "Twice a day"
+    table.string('dosage').notNullable();
+    table.string('days').notNullable();
     table.timestamps(true, true);
   });
 };
