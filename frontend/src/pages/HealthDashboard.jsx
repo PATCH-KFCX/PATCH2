@@ -75,6 +75,13 @@ export default function HealthDashboard() {
 
   return (
     <div className="health-dashboard">
+      {/* Greeting Header */}
+      <header className="health-dashboard-greeting-header">
+        <h1 className="health-dashboard-greeting-text">
+          <em>Welcome to your Health Dashboard, {currentUser?.name || "User"}!</em>
+        </h1>
+      </header>
+
       <div className="dashboard-body">
         {/* Symptom Logs */}
         <div className="dashboard-column">
