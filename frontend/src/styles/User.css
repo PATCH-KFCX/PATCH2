@@ -3,7 +3,7 @@
   justify-content: center;
   padding: 40px;
   background-color: #f4f4f9;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .user-card {
@@ -118,4 +118,51 @@ h1 {
 .logout-button:hover {
   background-color: #c0392b; /* Darker red on hover */
   transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.update-name {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  margin: 1rem auto;
+  background-color: #1abc9c;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.update-name:hover {
+  background-color: #16a085;
+  transform: scale(1.05);
+}
+
+.upload-input {
+  display: none;
+}
+
+.upload-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 1rem auto;
+  background-color: #1abc9c;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.upload-button:hover {
+  background-color: #16a085;
+  transform: scale(1.05);
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
 }

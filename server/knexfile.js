@@ -3,6 +3,8 @@ const path = require('path');
 
 const migrationsDirectory = path.join(__dirname, 'db/migrations');
 const seedsDirectory = path.join(__dirname, 'db/seeds');
+console.log('Connecting to DB:', process.env.PG_DB);
+
 
 module.exports = {
   development: {
@@ -12,7 +14,7 @@ module.exports = {
       port: process.env.PG_PORT || 5432,
       user: process.env.PG_USER || 'postgres',
       password: process.env.PG_PASS || 'postgres',
-      database: process.env.PG_DB || 'symptom_logger',
+      database: process.env.PG_DB || 'patch2_clean',
     },
     migrations: {
       directory: migrationsDirectory,
