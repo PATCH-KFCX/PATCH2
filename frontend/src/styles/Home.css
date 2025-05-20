@@ -1,6 +1,4 @@
-body, html {
-  overflow: hidden; /* Disable scrolling */
-}
+
 
 .home-container {
   min-height: 100vh;
@@ -9,6 +7,7 @@ body, html {
   color: #2c3e50;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Disable scrolling for the home page */
 }
 
 .home-header {

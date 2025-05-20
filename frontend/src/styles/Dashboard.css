@@ -21,9 +21,13 @@
 .sidebar-card {
   background-color: #34495e;
   padding: 20px;
-  margin-bottom: 25px;
   border-radius: 10px;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  /* Remove margin-bottom here */
+}
+
+.sidebar-card:not(:last-child) {
+  margin-bottom: 25px; /* Equal spacing between cards */
 }
 
 .sidebar-card h2 {
