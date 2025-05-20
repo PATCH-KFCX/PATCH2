@@ -40,10 +40,9 @@ app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
 // Routes that require authentication
-app.use('/api/symptoms', checkAuthentication, symptomRoutes); 
-app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes); 
+app.use('/api/symptoms', checkAuthentication, symptomRoutes);
+app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes);
 app.use('/api/medications', checkAuthentication, medicationRoutes);
-
 
 // User Routes
 
