@@ -22,12 +22,25 @@ export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
     });
   });
 
-  // Generate a unique color for each symptom
+  // Medically themed color palette (blues, greens, teals, soft reds)
+  const medicalColors = [
+    '#0077b6', // blue
+    '#48cae4', // light blue
+    '#90e0ef', // pale blue
+    '#00b4d8', // teal
+    '#43aa8b', // green
+    '#b7e4c7', // mint
+    '#f9dcc4', // soft beige
+    '#f28482', // soft red
+    '#ffb4a2', // peach
+    '#adb5bd', // gray
+  ];
+
+  // Assign colors from the palette, looping if needed
   const generateColors = (count) => {
     const colors = [];
     for (let i = 0; i < count; i++) {
-      const hue = (i * 137.5) % 360; // Spread colors evenly across the hue spectrum
-      colors.push(`hsl(${hue}, 70%, 60%)`); // HSL color format
+      colors.push(medicalColors[i % medicalColors.length]);
     }
     return colors;
   };
@@ -42,7 +55,7 @@ export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
       {
         label: 'Frequency',
         data: symptomData,
-        backgroundColor: backgroundColors, // Assign unique colors to each bar
+        backgroundColor: backgroundColors,
       },
     ],
   };
