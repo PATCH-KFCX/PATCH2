@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
   const { name, age, email, password } = req.body;
@@ -12,7 +12,7 @@ exports.registerUser = async (req, res) => {
     res.send(user);
   } catch (err) {
     if (err.message === 'Email is already in use') {
-      return res.status(409).send({ message: err.message }); // 409 Conflict
+      return res.status(409).send({ message: err.message });
     }
     console.error(err);
     res.status(500).send({ message: 'Server error during registration' });
@@ -20,52 +20,36 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  // console.log('Login attempt:', req.body); // Optional: Debug login attempts
-
-  // Request needs a body
-  if (!req.body) {
-    return res.status(400).send({ message: "Email and password required" });
-  }
-
-  // Body needs a username and password
   const { email, password } = req.body;
-  console.log(`TESTING EMAIL: ${email}, PASSWORD: ${password}`);
   if (!email || !password) {
-    return res.status(400).send({ message: "Email and password required" });
+    return res.status(400).send({ message: 'Email and password required' });
   }
 
-  // Username must be valid
   const user = await User.findByEmail(email);
   if (!user) {
-    return res.status(404).send({ message: "Email not found." });
+    return res.status(404).send({ message: 'Email not found.' });
   }
 
-  // Password must match
   const isPasswordValid = await user.isValidPassword(password);
   if (!isPasswordValid) {
-    return res.status(401).send({ message: "Invalid credentials." });
+    return res.status(401).send({ message: 'Invalid credentials.' });
   }
 
-  // Add the user id to the cookie and send the user data back
   req.session.userId = user.id;
+  console.log('✅ Session after login:', req.session);
   res.send(user);
 };
 
 exports.showMe = async (req, res) => {
-  // console.log('Checking current session'); // Optional: Debug auth check
-
-  // no cookie with an id => Not authenticated.
   if (!req.session.userId) {
-    return res.status(401).send({ message: "User must be authenticated." });
+    return res.status(401).send({ message: 'User must be authenticated.' });
   }
 
-  // cookie with an id => here's your user info!
   const user = await User.find(req.session.userId);
   res.send(user);
 };
 
 exports.logoutUser = (req, res) => {
-  // console.log('🚪 User logged out'); // Optional: Debug logout
-  req.session = null; // "erase" the cookie
-  res.status(204).send({ message: "User logged out." });
+  req.session = null;
+  res.status(204).send({ message: 'User logged out.' });
 };

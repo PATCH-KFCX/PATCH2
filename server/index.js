@@ -1,4 +1,3 @@
-// Imports
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
@@ -6,60 +5,67 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware imports
+// --- Middleware Imports ---
 const handleCookieSessions = require('./middleware/handleCookieSessions');
-const checkAuthentication = require('./middleware/checkAuthentication');
+const checkAuthentication = require('./middleware/authMiddleware');
 const logRoutes = require('./middleware/logRoutes');
 const logErrors = require('./middleware/logErrors');
 
-// Controller imports
+// --- Controller Imports ---
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 
-// Route imports
+// --- Route Imports ---
 const symptomRoutes = require('./routes/symptomRoutes');
 const diabetesRoutes = require('./routes/DiabetesRoutes');
 const medicationRoutes = require('./routes/MedicationRoutes');
 
-// Optional: Enable CORS in development
-if (process.env.NODE_ENV !== 'production') {
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-}
+// --- Enable CORS BEFORE sessions ---
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
-// Middleware setup
+// --- Use sessions BEFORE routes ---
 app.use(handleCookieSessions);
-app.use(logRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(logRoutes);
+
+// --- Static Files ---
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Auth Routes
+// --- Auth Routes (public) ---
 app.post('/api/auth/register', authControllers.registerUser);
 app.post('/api/auth/login', authControllers.loginUser);
 app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
-// Routes that require authentication
+// --- Auth-Protected Routes ---
 app.use('/api/symptoms', checkAuthentication, symptomRoutes);
 app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes);
 app.use('/api/medications', checkAuthentication, medicationRoutes);
-
-// User Routes
-
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
-// Fallback Route for React frontend
+// --- Optional Debug Route ---
+app.get('/api/debug-session', (req, res) => {
+  console.log('🧪 Session:', req.session);
+  res.json(req.session || {});
+});
+
+// --- Fallback Route for React SPA ---
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) return next();
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
-// Error Logging
 app.use(logErrors);
 
-// Start server
+// --- Start Server ---
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`✅ Server running at http://localhost:${port}/`);
