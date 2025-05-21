@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+app.set('trust proxy', 1); // Trust Render's proxy for secure cookies
 
 // --- Middleware Imports ---
 const handleCookieSessions = require('./middleware/handleCookieSessions');
@@ -23,7 +24,7 @@ const medicationRoutes = require('./routes/MedicationRoutes');
 // --- Enable CORS BEFORE sessions ---
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://patch2.onrender.com', // <-- use your actual frontend URL
     credentials: true,
   })
 );
