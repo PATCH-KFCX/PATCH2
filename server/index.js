@@ -58,12 +58,6 @@ app.get('/api/debug-session', (req, res) => {
   res.json(req.session || {});
 });
 
-// --- Fallback Route for React SPA ---
-app.get('*', (req, res, next) => {
-  if (req.originalUrl.startsWith('/api')) return next();
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
-
 app.use(logErrors);
 
 // --- Start Server ---
