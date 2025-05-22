@@ -4,6 +4,15 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+const db = require('./db/knex');
+
+db.migrate
+  .latest()
+  .then(() => console.log('✅ Migrations complete'))
+  .catch((err) => {
+    console.error('❌ Migration failed', err);
+    process.exit(1); // prevent server from running if DB is bad
+  });
 app.set('trust proxy', 1);
 
 // --- Middleware Imports ---
