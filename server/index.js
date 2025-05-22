@@ -1,65 +1,95 @@
-// Imports
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
+const db = require('./db/knex');
 
-// Middleware imports
+db.migrate
+  .latest()
+  .then(() => console.log('✅ Migrations complete'))
+  .catch((err) => {
+    console.error('❌ Migration failed', err);
+    process.exit(1);
+  });
+
+app.set('trust proxy', 1);
+
+// --- Middleware ---
 const handleCookieSessions = require('./middleware/handleCookieSessions');
-const checkAuthentication = require('./middleware/checkAuthentication');
+const checkAuthentication = require('./middleware/authMiddleware');
 const logRoutes = require('./middleware/logRoutes');
 const logErrors = require('./middleware/logErrors');
 
-// Controller imports
+// --- Controllers ---
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 
-// Route imports
+// --- Routes ---
 const symptomRoutes = require('./routes/symptomRoutes');
 const diabetesRoutes = require('./routes/DiabetesRoutes');
 const medicationRoutes = require('./routes/MedicationRoutes');
 
-// Optional: Enable CORS in development
-if (process.env.NODE_ENV !== 'production') {
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-}
+// --- Enable CORS ---
+app.use(
+  cors({
+    origin: 'https://patch2.onrender.com', // your frontend deployment URL
+    credentials: true,
+  })
+);
 
-// Middleware setup
+// --- Core middleware ---
 app.use(handleCookieSessions);
-app.use(logRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(logRoutes);
+
+// --- Serve static files ---
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Auth Routes
+// --- Auth routes (public) ---
 app.post('/api/auth/register', authControllers.registerUser);
 app.post('/api/auth/login', authControllers.loginUser);
 app.get('/api/auth/me', authControllers.showMe);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
-// Routes that require authentication
-app.use('/api/symptoms', checkAuthentication, symptomRoutes);
-app.use('/api/diabetes-logs', checkAuthentication, diabetesRoutes);
+// --- Debug middleware to test route access ---
+app.use(
+  '/api/symptoms',
+  (req, res, next) => {
+    console.log('📥 /api/symptoms hit');
+    next();
+  },
+  checkAuthentication,
+  symptomRoutes
+);
+
+app.use(
+  '/api/diabetes-logs',
+  (req, res, next) => {
+    console.log('📥 /api/diabetes-logs hit');
+    next();
+  },
+  checkAuthentication,
+  diabetesRoutes
+);
+
 app.use('/api/medications', checkAuthentication, medicationRoutes);
-
-// User Routes
-
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 
-// Fallback Route for React frontend
-app.get('*', (req, res, next) => {
-  if (req.originalUrl.startsWith('/api')) return next();
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+// --- Debug session route ---
+app.get('/api/debug-session', (req, res) => {
+  console.log('🧪 Session:', req.session);
+  res.json(req.session || {});
 });
 
-// Error Logging
+// --- Error handling ---
 app.use(logErrors);
 
-// Start server
+// --- Launch server ---
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);

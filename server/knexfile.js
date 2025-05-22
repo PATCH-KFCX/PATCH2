@@ -3,13 +3,13 @@ const path = require('path');
 
 const migrationsDirectory = path.join(__dirname, 'db/migrations');
 const seedsDirectory = path.join(__dirname, 'db/seeds');
-console.log('Connecting to DB:', process.env.PG_DB);
 
+console.log('Connecting to DB:', process.env.DATABASE_URL);
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.PG_CONNECTION_STRING || {
+    connection: process.env.DATABASE_URL || {
       host: process.env.PG_HOST || '127.0.0.1',
       port: process.env.PG_PORT || 5432,
       user: process.env.PG_USER || 'postgres',
@@ -26,7 +26,8 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: process.env.PG_CONNECTION_STRING,
+    connection: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
     migrations: {
       directory: migrationsDirectory,
     },

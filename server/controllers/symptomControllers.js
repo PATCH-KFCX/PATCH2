@@ -4,14 +4,19 @@ const knex = require('../db/knex');
 // POST /api/symptoms
 exports.create = async (req, res) => {
   const { userId } = req.session;
-  if (!userId) return res.status(401).send({ message: 'Not authenticated.' });
+  if (!userId) return res.status(401).json({ message: 'Not authenticated.' });
 
   try {
     const newLog = await SymptomLog.create(userId, req.body);
-    res.status(201).send(newLog);
+
+    if (!newLog) {
+      return res.status(500).json({ message: 'Failed to save symptom log' });
+    }
+
+    res.status(201).json(newLog);
   } catch (err) {
-    console.error(err);
-    res.status(500).send({ message: 'Error saving symptom log' });
+    console.error('❌ Error saving symptom log:', err);
+    res.status(500).json({ message: 'Server error saving symptom log' });
   }
 };
 

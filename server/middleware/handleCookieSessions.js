@@ -1,8 +1,9 @@
 const cookieSession = require('cookie-session');
 
-const handleCookieSessions = cookieSession({
-  name: 'session', // this creates a req.session property holding the cookie
-  secret: process.env.SESSION_SECRET, // this secret is used to hash the cookie
+module.exports = cookieSession({
+  name: 'session',
+  secret: process.env.SESSION_SECRET,
+  maxAge: 24 * 60 * 60 * 1000,
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production',
 });
-
-module.exports = handleCookieSessions;

@@ -69,13 +69,59 @@ export default function SymptomFrequencyChart({ symptomLogs, size = 'large' }) {
       title: {
         display: true,
         text: 'Most Frequent Symptoms Logged',
+        color: '#222',
+        font: {
+          size: 20,
+          family: "'Inter', 'Segoe UI', Arial, sans-serif",
+          weight: 'bold',
+        },
+        padding: { top: 10, bottom: 20 },
+      },
+      tooltip: {
+        backgroundColor: '#fff',
+        titleColor: '#0077b6',
+        bodyColor: '#222',
+        borderColor: '#90e0ef',
+        borderWidth: 1,
+        titleFont: { weight: 'bold' },
+        bodyFont: { family: "'Inter', 'Segoe UI', Arial, sans-serif" },
+        padding: 12,
+        cornerRadius: 8,
       },
     },
     scales: {
       x: {
         beginAtZero: true,
-        title: { display: true, text: 'Count' },
+        title: { display: true, text: 'Count', color: '#555', font: { size: 14 } },
+        grid: {
+          color: '#e9ecef',
+          borderDash: [4, 4],
+          drawBorder: false,
+        },
+        ticks: {
+          color: '#555',
+          font: { family: "'Inter', 'Segoe UI', Arial, sans-serif" },
+        },
       },
+      y: {
+        grid: { display: false, drawBorder: false },
+        ticks: {
+          color: '#222',
+          font: { size: 15, family: "'Inter', 'Segoe UI', Arial, sans-serif" },
+          padding: 8,
+        },
+      },
+    },
+    elements: {
+      bar: {
+        borderRadius: 12,
+        borderSkipped: false,
+        hoverBackgroundColor: '#48cae4',
+      },
+    },
+    animation: {
+      duration: 900,
+      easing: 'easeOutQuart',
     },
   };
 
