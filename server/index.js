@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-app.set('trust proxy', 1); // Trust proxy for secure cookies on Render
+app.set('trust proxy', 1);
 
 // --- Middleware Imports ---
 const handleCookieSessions = require('./middleware/handleCookieSessions');
