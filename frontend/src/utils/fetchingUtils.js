@@ -1,11 +1,4 @@
-// Define the base URL from the environment (Render will inject it)
 const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
-
-// Default GET options
-const basicFetchOptions = {
-  method: 'GET',
-  credentials: 'include',
-};
 
 // DELETE request options
 export const deleteOptions = {
@@ -53,10 +46,17 @@ export const fetchHandler = async (url, options = {}) => {
       });
     }
 
-    const isJson = (headers.get('content-type') || '').includes(
-      'application/json'
-    );
-    const responseData = await (isJson ? response.json() : response.text());
+    const contentType = headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json');
+
+    // ✅ Safely parse JSON only if content exists
+    let responseData = null;
+    if (isJson) {
+      const text = await response.text();
+      responseData = text ? JSON.parse(text) : null;
+    } else {
+      responseData = await response.text();
+    }
 
     return [responseData, null];
   } catch (error) {
