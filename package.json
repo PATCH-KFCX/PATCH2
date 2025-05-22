@@ -13,7 +13,7 @@
     "dev:frontend": "cd frontend && npm run dev",
     "connect": "psql -U postgres -d react_auth_example",
     "lint": "eslint . --fix",
-     "render-build": "cd frontend && npm install && npm run build && cd ../server && npm install",
+    "render-build": "cd frontend && npm install && npm run build && cd ../server && npm install"
   },
   "keywords": [],
   "author": "",
