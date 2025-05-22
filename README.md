@@ -1,12 +1,13 @@
-# Project Name
+# Patch
 
-> Project Mission Statement
+> A web platform that empowers individuals—especially those managing chronic conditions like diabetes—to track symptoms, medications, insulin use, and pain levels in one centralized, user-friendly space. PATCH bridges the communication gap between patients and healthcare providers by organizing health data into a clear, visual timeline that improves diagnosis and care outcomes.
 
 ## Team
 
-  - teamMember: **Scrum Master, Developer**
-  - teamMember: **Developer**
-  - teamMember: **Developer**
+  - Fernando Martinez: **Scrum Master, Full Stack Developer**
+  - Xavier Hertzog: **Frontend Developer**
+  - Caleb Johnson: **Frontend Developer**
+  - Kristopher Noel: **Backend Developer**
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -31,11 +32,11 @@ Before you can actually start building, you need to create a database and config
 ```sh
 # Replace these variables with your Postgres server information
 # These values are used by knexfile.js to connect to your postgres server
-PG_HOST='127.0.0.1'
+PG_HOST=127.0.0.1
 PG_PORT=5432
-PG_USER='itsamemario'
-PG_PASS='12345'
-PG_DB='my_react_express_auth_database'
+PG_USER=postgres
+PG_PASS=postgres
+PG_DB=patch2_clean
 
 # Replace session secret with your own random string!
 # This is used by handleCookieSessions to hash your cookie data 
@@ -65,7 +66,7 @@ cd server && npm start
 - Postgresql
 - React
 - Knex
-- etc...
+- BCrypt HASH
 
 ## Project Proposal
 
@@ -73,7 +74,7 @@ See [PROPOSAL.md](PROPOSAL.md) for more details on the project proposal.
 
 ## Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECTS_TAB).
+View the project roadmap [here](https://github.com/orgs/PATCH-KFCX/projects/2).
 
 ## Contributing
 
