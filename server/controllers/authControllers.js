@@ -3,19 +3,21 @@ const User = require('../models/User');
 exports.registerUser = async (req, res) => {
   const { name, age, email, password } = req.body;
   if (!name || !age || !email || !password) {
-    return res.status(400).send({ message: 'Email and password required' });
+    return res.status(400).send({ message: 'Missing required fields' });
   }
 
   try {
-    const user = await User.create(name, age, email, password);
+    console.log('Creating user with:', { name, age, email });
+
+    const user = await User.create(name, age, email, password); // <- likely where it fails
     req.session.userId = user.id;
     res.send(user);
   } catch (err) {
-    if (err.message === 'Email is already in use') {
-      return res.status(409).send({ message: err.message });
-    }
-    console.error(err);
-    res.status(500).send({ message: 'Server error during registration' });
+    console.error('Error during registration:', err); //debugging
+
+    return res
+      .status(500)
+      .send({ message: 'Server error during registration' });
   }
 };
 
