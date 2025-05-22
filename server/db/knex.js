@@ -1,9 +1,15 @@
-// Load environment variables from the .env file
+// Load environment variables
+require('dotenv').config();
+
+// Determine environment
 const env = process.env.NODE_ENV || 'development';
 
-// Import the correct configuration based on the environment (development, production, etc.)
+// Get the correct knex configuration
 const config = require('../knexfile')[env];
 
-// Export a new Knex instance using the selected environment config
-// This allows the rest of the app to use the database connection easily
+// Debug log
+console.log(`ENV: ${env}`);
+console.log('DB config:', config.connection);
+
+// Export the knex instance
 module.exports = require('knex')(config);
