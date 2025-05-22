@@ -1,8 +1,8 @@
 # Patch
 
 Authors: 
-- Xavier Hertzog
 - Fernando Martinez
+- Xavier Hertzog
 - Caleb Johnson
 - Kristopher Noel
 
