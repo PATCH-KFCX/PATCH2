@@ -42,13 +42,6 @@ const DiabetesTracker = () => {
             + Add Blood Sugar Log
           </button>
         </div>
-        <div className="sidebar-card">
-          <h2>Symptom Tracker</h2>
-          <p>Monitor your symptoms and pain history.</p>
-          <a href="/dashboard" className="sidebar-button">
-            Go to Symptom Tracker
-          </a>
-        </div>
       </div>
 
       <div className="main-content">
