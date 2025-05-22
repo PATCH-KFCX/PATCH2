@@ -24,28 +24,415 @@
 }
 
 .medication-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* --- Modern Medical Card Styling --- */
+.medication-item,
+.med-card {
+  background: linear-gradient(120deg, #f7fafc 80%, #eaf6fb 100%);
+  border: 1.5px solid #b6e0fe;
+  border-radius: 14px;
+  padding: 18px 16px 16px 16px;
+  margin-bottom: 0;
+  transition: box-shadow 0.18s, border-color 0.18s, transform 0.15s;
+  box-shadow: 0 4px 18px rgba(0,119,182,0.10), 0 1.5px 4px rgba(67,170,139,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+  max-width: 250px;
+  box-sizing: border-box;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  position: relative;
+  border-left: 6px solid #43aa8b; /* subtle accent */
+}
+
+.medication-item::before,
+.med-card::before {
+  content: "💊";
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 1.5rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.medication-item h3,
+.med-card h3 {
+  font-size: 1.09rem;
+  color: #0077b6;
+  margin-bottom: 7px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.medication-item p,
+.med-card p {
+  font-size: 0.97rem;
+  color: #263238;
+  margin: 0 0 4px 0;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.medication-item strong,
+.med-card strong {
+  color: #43aa8b;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.medication-item button,
+.med-card button {
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 16px;
+  cursor: pointer;
+  font-size: 0.97rem;
+  font-weight: 600;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+  box-shadow: 0 2px 8px rgba(255,77,79,0.10);
+  margin-top: 8px;
+  align-self: flex-end;
+  letter-spacing: 0.03em;
+}
+
+.medication-item button:hover,
+.med-card button:hover {
+  background-color: #d9363e;
+  box-shadow: 0 4px 16px rgba(217,54,62,0.13);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.medication-item button:active,
+.med-card button:active {
+  transform: translateY(0) scale(1);
+}
+
+/* Add a subtle divider between sections in the card */
+.medication-item p:not(:last-child),
+.med-card p:not(:last-child) {
+  border-bottom: 1px dashed #e0e0e0;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.days-dropdown-wrapper {
+  position: relative;
+  min-width: 120px;
+  flex: 1;
+}
+
+.days-dropdown-toggle {
+  background: #f9fafb;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  min-width: 80px;
+  max-width: 120px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.97rem;
+  color: #263238;
+  transition: border 0.18s, box-shadow 0.18s, background 0.18s;
+  box-shadow: 0 1px 3px rgba(44, 62, 80, 0.03);
+}
+.days-dropdown-toggle:focus {
+  outline: 2px solid #43aa8b;
+  outline-offset: 2px;
+}
+.days-dropdown-arrow {
+  margin-left: 8px;
+  font-size: 1.1em;
+  color: #1976d2;
+}
+
+.days-dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #cfd8dc;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(25, 118, 210, 0.10);
+  z-index: 20;
+  padding: 8px 0 4px 0;
+  min-width: 120px;
+  width: 100%;
+  animation: dropdownFadeIn 0.18s;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-8px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.days-dropdown-clear {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #1976d2;
+  text-align: left;
+  padding: 7px 16px 7px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.97em;
+  border-radius: 0;
+  transition: background 0.15s;
+  letter-spacing: 0.01em;
+}
+.days-dropdown-clear:hover {
+  background: #e3f2fd;
+}
+
+.days-dropdown-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 4px 0 6px 0;
+}
+
+.days-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 0.98em;
+  gap: 8px;
+  border-radius: 5px;
+  transition: background 0.13s;
+  color: #263238;
+}
+.days-dropdown-item:hover {
+  background: #f1f8fe;
+}
+.days-dropdown-item input[type="checkbox"] {
+  accent-color: #1976d2;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.days-checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 10px;
+  align-items: center;
+  margin-top: 2px;
 }
-
-.med-card {
-  background-color: #f0f4f8;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  width: 250px;
+.days-checkbox-label {
+  background: #f9fafb;
+  border-radius: 5px;
+  padding: 2px 6px;           /* Reduced vertical and horizontal padding */
+  font-size: 0.95em;          /* Slightly smaller font */
+  color: #263238;
+  border: 1px solid #e0e0e0;
+  transition: border 0.15s, background 0.15s;
+  line-height: 1.1;           /* Tighter vertical spacing */
 }
-
-.med-card h3 {
-  margin: 0 0 0.5rem;
+.days-checkbox-label input[type="checkbox"] {
+  accent-color: #43aa8b;
+  margin-right: 3px;
+  width: 15px;                /* Smaller checkbox */
+  height: 15px;
+  min-width: 15px;
+  min-height: 15px;
 }
-
-.med-card button {
-  background-color: #cc0000;
-  color: white;
+.days-checkbox-label:hover {
+  border: 1.5px solid #43aa8b;
+  background: #f1f8fe;
+}
+.days-checkbox-clear {
+  background: none;
   border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  margin-top: 10px;
+  color: #0077b6;
+  cursor: pointer;
+  font-size: 0.97em;
+  font-weight: 500;
+  padding: 0 6px;
+  border-radius: 5px;
+  transition: background 0.15s;
+}
+.days-checkbox-clear:hover {
+  background: #eaf6fb;
+}
+
+.medical-bg {
+  background: linear-gradient(120deg, #f7fafc 60%, #eaf6fb 100%);
+  min-height: 100vh;
+  padding: 2.5rem 0.5rem 2rem 0.5rem;
+}
+
+.medication-header {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.medication-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.medication-header h2 {
+  color: #0077b6;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: 0.5px;
+}
+
+.medication-subtitle {
+  color: #43aa8b;
+  font-size: 1.08rem;
+  margin: 0;
+  font-weight: 400;
+}
+
+.minimalist-form {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,119,182,0.06);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  margin: 0 auto 2.5rem auto;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.med-form-row {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.med-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 90px;
+}
+
+.med-form-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-size: 1rem;
+  background: #f9fafb;
+  color: #263238;
+  transition: border 0.18s, box-shadow 0.18s;
+}
+
+.med-form-input:focus {
+  border: 1.5px solid #43aa8b;
+  outline: none;
+  background: #fff;
+}
+
+.med-form-submit {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 12px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(0,119,182,0.06);
+}
+
+.med-form-submit:hover {
+  background: #43aa8b;
+}
+
+.minimalist-cards {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.no-meds-message {
+  color: #888;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 14px;
+  margin: 14px 0;
+  text-align: center;
+  font-weight: 400;
+  border: 1px solid #e5e7eb;
+  display: block;
+  width: 100%;
+}
+
+.scrollable-med-cards {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto 2.5rem auto;
+  overflow-y: auto;
+  max-height: 340px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,119,182,0.06);
+  padding: 1.2rem;
+  scrollbar-width: thin;
+  scrollbar-color: #b6e0fe #f8fafc;
+  /* Remove grid here to avoid conflict */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .minimalist-form, .minimalist-cards {
+    max-width: 98vw;
+    min-width: 0;
+  }
+  .med-form_row {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .medication-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .medication-item,
+  .med-card {
+    max-width: 98vw;
+    min-width: 0;
+  }
+}
+@media (max-width: 600px) {
+  .medication-cards {
+    grid-template-columns: 1fr;
+  }
+  .medication-item,
+  .med-card {
+    max-width: 100vw;
+    padding: 14px 7px 12px 10px;
+  }
 }
