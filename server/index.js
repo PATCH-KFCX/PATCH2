@@ -6,9 +6,53 @@ const cors = require('cors');
 const app = express();
 const db = require('./db/knex');
 
-db.migrate
-  .latest()
-  .then(() => console.log('✅ Migrations complete'))
+// Test database connection with retry logic
+async function testDatabaseConnection(maxRetries = 3, retryDelay = 5000) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`🔍 Testing database connection (attempt ${attempt}/${maxRetries})...`);
+      await db.raw('SELECT 1');
+      console.log('✅ Database connection successful');
+      return true;
+    } catch (error) {
+      console.error(`❌ Database connection failed (attempt ${attempt}/${maxRetries}):`);
+      console.error('Error:', error.message);
+      console.error('Code:', error.code);
+      console.error('Hostname:', error.hostname);
+      console.error('Database URL format check:', process.env.DATABASE_URL ? 'Present' : 'Missing');
+      
+      if (error.code === 'ENOTFOUND') {
+        console.error('DNS lookup failed. This usually means:');
+        console.error('1. The database hostname is incorrect');
+        console.error('2. The database is not accessible from this network');
+        console.error('3. The DATABASE_URL environment variable is wrong');
+      }
+      
+      // If this isn't the last attempt, wait before retrying
+      if (attempt < maxRetries) {
+        console.log(`⏳ Retrying in ${retryDelay / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+      }
+    }
+  }
+  
+  return false;
+}
+
+// Run database connection test and migrations
+testDatabaseConnection()
+  .then(async (connected) => {
+    if (!connected) {
+      console.error('❌ Cannot connect to database. Exiting...');
+      process.exit(1);
+    }
+    
+    console.log('🔄 Running database migrations...');
+    return db.migrate.latest();
+  })
+  .then(() => {
+    console.log('✅ Migrations complete');
+  })
   .catch((err) => {
     console.error('❌ Migration failed', err);
     process.exit(1);
@@ -44,6 +88,27 @@ app.use(handleCookieSessions);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logRoutes);
+
+// --- Health check endpoint ---
+app.get('/api/health', async (req, res) => {
+  try {
+    await db.raw('SELECT 1');
+    res.json({ 
+      status: 'healthy', 
+      database: 'connected',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development'
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      status: 'unhealthy', 
+      database: 'disconnected',
+      error: error.message,
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development'
+    });
+  }
+});
 
 // --- Serve static files ---
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
