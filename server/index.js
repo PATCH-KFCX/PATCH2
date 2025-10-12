@@ -137,7 +137,8 @@ const medicationRoutes = require('./routes/MedicationRoutes');
 const allowedOrigins = [
   'http://localhost:5173', // Vite dev server
   'http://localhost:3000', // Alternative local dev
-  'https://patch2-backend.onrender.com', // Your current backend URL
+  'https://patch2-backend.onrender.com', // Old backend URL
+  'https://patch2.onrender.com', // New backend URL
 ];
 
 // Add any other production URLs if needed
@@ -156,9 +157,8 @@ app.use(
         return callback(null, true);
       }
       
-      // Allow requests from the same host (since frontend and backend are served together)
-      const url = new URL(origin);
-      if (url.host === 'patch2-backend.onrender.com') {
+      // Allow all Render domains since we're serving frontend + backend together
+      if (origin && origin.includes('onrender.com')) {
         return callback(null, true);
       }
       
