@@ -7,15 +7,25 @@ const app = express();
 const db = require('./db/knex');
 
 // Test database connection with retry logic
-async function testDatabaseConnection(maxRetries = 5, retryDelay = 10000) {
+async function testDatabaseConnection(maxRetries = 5, retryDelay = 15000) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    let testDb = null;
+    
     try {
       console.log(`🔍 Testing database connection (attempt ${attempt}/${maxRetries})...`);
       
-      // First try to establish a raw connection
-      await db.raw('SELECT 1 as test');
+      // Create a fresh connection for each test to avoid pool issues
+      const config = require('./knexfile')[process.env.NODE_ENV || 'production'];
+      testDb = require('knex')(config);
+      
+      // Simple connection test
+      await testDb.raw('SELECT 1 as test');
       console.log('✅ Database connection successful');
+      
+      // Clean up test connection
+      await testDb.destroy();
       return true;
+      
     } catch (error) {
       console.error(`❌ Database connection failed (attempt ${attempt}/${maxRetries}):`);
       console.error('Error:', error.message);
@@ -30,20 +40,23 @@ async function testDatabaseConnection(maxRetries = 5, retryDelay = 10000) {
         console.error('3. The DATABASE_URL environment variable is wrong');
       } else if (error.message.includes('Connection terminated unexpectedly')) {
         console.error('Connection terminated - this usually means:');
-        console.error('1. Database is still starting up');
-        console.error('2. Connection pool settings need adjustment');
-        console.error('3. Network connectivity issues');
-        console.error('4. Database server is overloaded');
+        console.error('1. Database is still starting up (most likely)');
+        console.error('2. Network connectivity issues');
+        console.error('3. Database server is overloaded');
+      } else if (error.message.includes('Unable to acquire a connection')) {
+        console.error('Connection pool exhausted - this usually means:');
+        console.error('1. Previous connections were not properly closed');
+        console.error('2. Database is not accepting new connections');
+        console.error('3. Connection limit reached');
       }
       
-      // Clean up any existing connections
-      try {
-        if (db && db.destroy) {
-          await db.destroy();
+      // Clean up test connection
+      if (testDb) {
+        try {
+          await testDb.destroy();
+        } catch (destroyError) {
+          console.log('Test connection cleanup attempted');
         }
-      } catch (destroyError) {
-        // Ignore destroy errors
-        console.log('Connection cleanup attempted');
       }
       
       // If this isn't the last attempt, wait before retrying
@@ -62,27 +75,41 @@ async function startServer() {
   try {
     // Test database connection
     const connected = await testDatabaseConnection();
+    
     if (!connected) {
-      console.error('❌ Cannot connect to database. Exiting...');
-      process.exit(1);
+      console.error('❌ Database connection test failed after all retries.');
+      console.error('⚠️  Starting server anyway - it may work once database becomes available.');
+      console.error('📝 Check /api/health endpoint to monitor database status.');
+    } else {
+      // Only run migrations if connection test passed
+      console.log('🔄 Running database migrations...');
+      await db.migrate.latest();
+      console.log('✅ Migrations complete');
     }
     
-    // Run migrations
-    console.log('🔄 Running database migrations...');
-    await db.migrate.latest();
-    console.log('✅ Migrations complete');
-    
-    // Start the server only after database is ready
+    // Start the server
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`🚀 Server running at http://localhost:${port}/`);
       console.log(`🌐 Frontend available at: http://localhost:${port}/`);
       console.log(`🔌 API health check: http://localhost:${port}/api/health`);
+      
+      if (!connected) {
+        console.log('⚠️  Database may not be ready - API endpoints might fail initially');
+      }
     });
     
   } catch (err) {
     console.error('❌ Server startup failed:', err);
-    process.exit(1);
+    
+    // Try to start server anyway for debugging
+    console.log('🔄 Attempting to start server without database...');
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`🚀 Server running at http://localhost:${port}/ (database connection failed)`);
+      console.log(`🌐 Frontend available at: http://localhost:${port}/`);
+      console.log(`🔌 Check /api/health for database status`);
+    });
   }
 }
 
