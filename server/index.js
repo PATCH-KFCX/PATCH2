@@ -57,24 +57,37 @@ async function testDatabaseConnection(maxRetries = 5, retryDelay = 10000) {
   return false;
 }
 
-// Run database connection test and migrations
-testDatabaseConnection()
-  .then(async (connected) => {
+// Initialize database and start server
+async function startServer() {
+  try {
+    // Test database connection
+    const connected = await testDatabaseConnection();
     if (!connected) {
       console.error('❌ Cannot connect to database. Exiting...');
       process.exit(1);
     }
     
+    // Run migrations
     console.log('🔄 Running database migrations...');
-    return db.migrate.latest();
-  })
-  .then(() => {
+    await db.migrate.latest();
     console.log('✅ Migrations complete');
-  })
-  .catch((err) => {
-    console.error('❌ Migration failed', err);
+    
+    // Start the server only after database is ready
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`🚀 Server running at http://localhost:${port}/`);
+      console.log(`🌐 Frontend available at: http://localhost:${port}/`);
+      console.log(`🔌 API health check: http://localhost:${port}/api/health`);
+    });
+    
+  } catch (err) {
+    console.error('❌ Server startup failed:', err);
     process.exit(1);
-  });
+  }
+}
+
+// Start the application
+startServer();
 
 app.set('trust proxy', 1);
 
@@ -155,6 +168,15 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+// --- Simple test endpoint ---
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Server is running!', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // --- Serve static files ---
 const frontendDistPath = path.join(__dirname, '../frontend/dist');
 console.log('🔍 Checking for frontend build at:', frontendDistPath);
@@ -212,11 +234,22 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
+// --- Global error handler for unhandled errors ---
+app.use((err, req, res, next) => {
+  console.error('🔥 Unhandled error:', err);
+  console.error('Request URL:', req.url);
+  console.error('Request method:', req.method);
+  
+  if (res.headersSent) {
+    return next(err);
+  }
+  
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // --- Error handling ---
 app.use(logErrors);
-
-// --- Launch server ---
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
