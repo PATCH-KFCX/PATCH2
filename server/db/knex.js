@@ -11,14 +11,29 @@ const config = require('../knexfile')[env];
 console.log(`ENV: ${env}`);
 console.log('DB config:', config.connection);
 
-if (typeof config.connection === 'string') {
+if (typeof config.connection === 'object' && config.connection.connectionString) {
   // Parse the DATABASE_URL to show components (without password)
+  try {
+    const url = new URL(config.connection.connectionString);
+    console.log('Database connection details:');
+    console.log(`  Protocol: ${url.protocol}`);
+    console.log(`  Hostname: ${url.hostname}`);
+    console.log(`  Port: ${url.port || '5432'}`);
+    console.log(`  Database: ${url.pathname.substring(1)}`);
+    console.log(`  Username: ${url.username}`);
+    console.log(`  Has password: ${url.password ? 'Yes' : 'No'}`);
+    console.log(`  SSL enabled: ${config.connection.ssl ? 'Yes' : 'No'}`);
+  } catch (e) {
+    console.log('Could not parse DATABASE_URL:', e.message);
+  }
+} else if (typeof config.connection === 'string') {
+  // Handle direct string connection
   try {
     const url = new URL(config.connection);
     console.log('Database connection details:');
     console.log(`  Protocol: ${url.protocol}`);
     console.log(`  Hostname: ${url.hostname}`);
-    console.log(`  Port: ${url.port || 'default'}`);
+    console.log(`  Port: ${url.port || '5432'}`);
     console.log(`  Database: ${url.pathname.substring(1)}`);
     console.log(`  Username: ${url.username}`);
     console.log(`  Has password: ${url.password ? 'Yes' : 'No'}`);

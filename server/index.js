@@ -7,11 +7,13 @@ const app = express();
 const db = require('./db/knex');
 
 // Test database connection with retry logic
-async function testDatabaseConnection(maxRetries = 3, retryDelay = 5000) {
+async function testDatabaseConnection(maxRetries = 5, retryDelay = 10000) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       console.log(`🔍 Testing database connection (attempt ${attempt}/${maxRetries})...`);
-      await db.raw('SELECT 1');
+      
+      // First try to establish a raw connection
+      await db.raw('SELECT 1 as test');
       console.log('✅ Database connection successful');
       return true;
     } catch (error) {
@@ -26,6 +28,22 @@ async function testDatabaseConnection(maxRetries = 3, retryDelay = 5000) {
         console.error('1. The database hostname is incorrect');
         console.error('2. The database is not accessible from this network');
         console.error('3. The DATABASE_URL environment variable is wrong');
+      } else if (error.message.includes('Connection terminated unexpectedly')) {
+        console.error('Connection terminated - this usually means:');
+        console.error('1. Database is still starting up');
+        console.error('2. Connection pool settings need adjustment');
+        console.error('3. Network connectivity issues');
+        console.error('4. Database server is overloaded');
+      }
+      
+      // Clean up any existing connections
+      try {
+        if (db && db.destroy) {
+          await db.destroy();
+        }
+      } catch (destroyError) {
+        // Ignore destroy errors
+        console.log('Connection cleanup attempted');
       }
       
       // If this isn't the last attempt, wait before retrying
