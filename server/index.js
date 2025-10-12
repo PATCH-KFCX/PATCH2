@@ -94,9 +94,36 @@ const diabetesRoutes = require('./routes/DiabetesRoutes');
 const medicationRoutes = require('./routes/MedicationRoutes');
 
 // --- Enable CORS ---
+const allowedOrigins = [
+  'http://localhost:5173', // Vite dev server
+  'http://localhost:3000', // Alternative local dev
+  'https://patch2-backend.onrender.com', // Your current backend URL
+];
+
+// Add any other production URLs if needed
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(
   cors({
-    origin: 'https://patch2.onrender.com', // your frontend deployment URL
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, postman, etc.)
+      if (!origin) return callback(null, true);
+      
+      // Allow same-origin requests (frontend and backend on same domain)
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      }
+      
+      // Allow requests from the same host (since frontend and backend are served together)
+      const url = new URL(origin);
+      if (url.host === 'patch2-backend.onrender.com') {
+        return callback(null, true);
+      }
+      
+      callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
@@ -129,7 +156,18 @@ app.get('/api/health', async (req, res) => {
 });
 
 // --- Serve static files ---
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+console.log('🔍 Checking for frontend build at:', frontendDistPath);
+
+// Check if frontend build exists
+const fs = require('fs');
+if (fs.existsSync(frontendDistPath)) {
+  console.log('✅ Frontend build found, serving static files');
+  app.use(express.static(frontendDistPath));
+} else {
+  console.log('❌ Frontend build not found at expected path');
+  console.log('Make sure the build command runs: cd frontend && npm run build');
+}
 
 // --- Auth routes (public) ---
 app.post('/api/auth/register', authControllers.registerUser);
@@ -167,6 +205,11 @@ app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
 app.get('/api/debug-session', (req, res) => {
   console.log('🧪 Session:', req.session);
   res.json(req.session || {});
+});
+
+// --- Catch-all handler: send back React's index.html file for client-side routing ---
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // --- Error handling ---
