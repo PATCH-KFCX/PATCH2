@@ -1,4 +1,5 @@
 require('dotenv').config();
+const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -19,118 +20,19 @@ async function testDatabaseConnection(maxRetries = 5, retryDelay = 15000) {
       testDb = require('knex')(config);
       
       // Simple connection test
-      await testDb.raw('SELECT 1 as test');
-      console.log('✅ Database connection successful');
-      
-      // Clean up test connection
-      await testDb.destroy();
-      return true;
-      
-    } catch (error) {
-      console.error(`❌ Database connection failed (attempt ${attempt}/${maxRetries}):`);
-      console.error('Error:', error.message);
-      console.error('Code:', error.code);
-      console.error('Hostname:', error.hostname);
-      console.error('Database URL format check:', process.env.DATABASE_URL ? 'Present' : 'Missing');
-      
-      if (error.code === 'ENOTFOUND') {
-        console.error('DNS lookup failed. This usually means:');
-        console.error('1. The database hostname is incorrect');
-        console.error('2. The database is not accessible from this network');
-        console.error('3. The DATABASE_URL environment variable is wrong');
-      } else if (error.message.includes('Connection terminated unexpectedly')) {
-        console.error('Connection terminated - this usually means:');
-        console.error('1. Database is still starting up (most likely)');
-        console.error('2. Network connectivity issues');
-        console.error('3. Database server is overloaded');
-      } else if (error.message.includes('Unable to acquire a connection')) {
-        console.error('Connection pool exhausted - this usually means:');
-        console.error('1. Previous connections were not properly closed');
-        console.error('2. Database is not accepting new connections');
-        console.error('3. Connection limit reached');
+
+      // Only start the server if running locally (not in Vercel serverless)
+      if (require.main === module) {
+        const port = process.env.PORT || 3000;
+        app.listen(port, () => {
+          console.log(`🚀 Server running at http://localhost:${port}/`);
+          console.log(`🌐 Frontend available at: http://localhost:${port}/`);
+          console.log(`🔌 API health check: http://localhost:${port}/api/health`);
+        });
       }
-      
-      // Clean up test connection
-      if (testDb) {
-        try {
-          await testDb.destroy();
-        } catch (destroyError) {
-          console.log('Test connection cleanup attempted');
-        }
-      }
-      
-      // If this isn't the last attempt, wait before retrying
-      if (attempt < maxRetries) {
-        console.log(`⏳ Retrying in ${retryDelay / 1000} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
-      }
-    }
-  }
-  
-  return false;
-}
 
-// Initialize database and start server
-async function startServer() {
-  try {
-    // Test database connection
-    const connected = await testDatabaseConnection();
-    
-    if (!connected) {
-      console.error('❌ Database connection test failed after all retries.');
-      console.error('⚠️  Starting server anyway - it may work once database becomes available.');
-      console.error('📝 Check /api/health endpoint to monitor database status.');
-    } else {
-      // Only run migrations if connection test passed
-      console.log('🔄 Running database migrations...');
-      await db.migrate.latest();
-      console.log('✅ Migrations complete');
-    }
-    
-    // Start the server
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-      console.log(`🚀 Server running at http://localhost:${port}/`);
-      console.log(`🌐 Frontend available at: http://localhost:${port}/`);
-      console.log(`🔌 API health check: http://localhost:${port}/api/health`);
-      
-      if (!connected) {
-        console.log('⚠️  Database may not be ready - API endpoints might fail initially');
-      }
-    });
-    
-  } catch (err) {
-    console.error('❌ Server startup failed:', err);
-    
-    // Try to start server anyway for debugging
-    console.log('🔄 Attempting to start server without database...');
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-      console.log(`🚀 Server running at http://localhost:${port}/ (database connection failed)`);
-      console.log(`🌐 Frontend available at: http://localhost:${port}/`);
-      console.log(`🔌 Check /api/health for database status`);
-    });
-  }
-}
-
-
-// Only start the server if running locally (not in Vercel serverless)
-if (require.main === module) {
-  startServer();
-}
-
-// Export the app for Vercel serverless functions
-module.exports = app;
-
-app.set('trust proxy', 1);
-
-// --- Middleware ---
-const handleCookieSessions = require('./middleware/handleCookieSessions');
-const checkAuthentication = require('./middleware/authMiddleware');
-const logRoutes = require('./middleware/logRoutes');
-const logErrors = require('./middleware/logErrors');
-
-// --- Controllers ---
+      // Export the app for Vercel serverless functions
+      module.exports = app;
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 
@@ -191,8 +93,8 @@ app.get('/api/health', async (req, res) => {
       environment: process.env.NODE_ENV || 'development'
     });
   } catch (error) {
-    res.status(500).json({ 
-      status: 'unhealthy', 
+    res.status(500).json({
+      status: 'unhealthy',
       database: 'disconnected',
       error: error.message,
       timestamp: new Date().toISOString(),
