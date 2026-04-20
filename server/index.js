@@ -113,8 +113,14 @@ async function startServer() {
   }
 }
 
-// Start the application
-startServer();
+
+// Only start the server if running locally (not in Vercel serverless)
+if (require.main === module) {
+  startServer();
+}
+
+// Export the app for Vercel serverless functions
+module.exports = app;
 
 app.set('trust proxy', 1);
 
