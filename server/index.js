@@ -25,9 +25,7 @@ async function testDatabaseConnection(maxRetries = 5, retryDelay = 15000) {
       if (require.main === module) {
         const port = process.env.PORT || 3000;
         app.listen(port, () => {
-          console.log(`🚀 Server running at http://localhost:${port}/`);
-          console.log(`🌐 Frontend available at: http://localhost:${port}/`);
-          console.log(`🔌 API health check: http://localhost:${port}/api/health`);
+          console.log(`Server running at http://localhost:${port}/`);
         });
       }
 
