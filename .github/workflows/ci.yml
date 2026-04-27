@@ -8,9 +8,6 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app-next
     steps:
       - uses: actions/checkout@v4
 
@@ -18,7 +15,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: app-next/package-lock.json
 
       - run: npm ci
 
