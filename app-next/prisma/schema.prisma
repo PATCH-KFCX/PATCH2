@@ -1,0 +1,207 @@
+// PATCH — Prisma schema
+// Replaces the legacy Knex migrations from PATCH2/server/db/migrations.
+// Conventions:
+//   - cuid2 string IDs (generated in app code via @paralleldrive/cuid2)
+//   - All user-owned tables cascade-delete from User
+//   - Multi-select fields use Postgres text[] (no comma-separated strings)
+//   - Auth.js v5 Prisma adapter tables: Account, Session, VerificationToken
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = []
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // pooled, used at runtime
+  directUrl = env("DIRECT_URL") // unpooled, used by prisma migrate
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Auth.js (v5) tables
+// ─────────────────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  name          String?
+  bio           String?
+  avatarUrl     String?
+  timezone      String    @default("America/New_York")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  symptomLogs  SymptomLog[]
+  diabetesLogs DiabetesLog[]
+  medications  Medication[]
+  shareLinks   ShareLink[]
+  reminders    Reminder[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Domain models
+// ─────────────────────────────────────────────────────────────────────────────
+
+model SymptomLog {
+  id            String   @id @default(cuid())
+  userId        String
+  occurredAt    DateTime
+  severity      Int // 1-10
+  notes         String?
+  symptoms      String[] // Postgres text[]
+  painTypes     String[]
+  painLocations String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, occurredAt])
+}
+
+enum GlucoseContext {
+  FASTING
+  PRE_MEAL
+  POST_MEAL
+  BEDTIME
+  RANDOM
+}
+
+model DiabetesLog {
+  id           String         @id @default(cuid())
+  userId       String
+  measuredAt   DateTime
+  glucoseMgDl  Int
+  context      GlucoseContext
+  carbsGrams   Int?
+  insulinUnits Float?
+  notes        String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, measuredAt])
+}
+
+model Medication {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  dosage    String // e.g. "500 mg"
+  form      String? // tablet, capsule, injection, ...
+  active    Boolean  @default(true)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedules MedicationSchedule[]
+  doses     MedicationDose[]
+
+  @@index([userId])
+}
+
+model MedicationSchedule {
+  id           String    @id @default(cuid())
+  medicationId String
+  timesOfDay   String[] // ["08:00","20:00"] in user TZ
+  daysOfWeek   Int[] // 0-6 (Sun-Sat); empty = daily
+  startsOn     DateTime
+  endsOn       DateTime?
+  createdAt    DateTime  @default(now())
+
+  medication Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+
+  @@index([medicationId])
+}
+
+model MedicationDose {
+  id           String   @id @default(cuid())
+  medicationId String
+  takenAt      DateTime
+  skipped      Boolean  @default(false)
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  medication Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+
+  @@index([medicationId, takenAt])
+}
+
+model ShareLink {
+  id        String    @id @default(cuid())
+  userId    String
+  token     String    @unique // 32-byte random hex
+  scope     Json // { symptoms, diabetes, medications, range:{from,to} }
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum ReminderKind {
+  MED_DAILY
+  LOG_STREAK
+  WEEKLY_SUMMARY
+}
+
+model Reminder {
+  id         String       @id @default(cuid())
+  userId     String
+  kind       ReminderKind
+  enabled    Boolean      @default(true)
+  config     Json // kind-specific config (e.g., { hour:8, minute:0 })
+  lastSentAt DateTime?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, kind])
+}
