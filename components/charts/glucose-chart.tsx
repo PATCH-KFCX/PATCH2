@@ -19,12 +19,9 @@ import {
   CONTEXT_VALUES,
   type GlucoseContextValue,
 } from "@/lib/diabetes/labels";
+import type { GlucosePoint } from "@/lib/charts/transforms";
 
-export interface GlucosePoint {
-  measuredAt: string; // ISO
-  glucoseMgDl: number;
-  context: GlucoseContextValue;
-}
+export type { GlucosePoint };
 
 export function GlucoseChart({
   data,

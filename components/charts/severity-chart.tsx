@@ -11,11 +11,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { SeverityPoint } from "@/lib/charts/transforms";
 
-export interface SeverityPoint {
-  occurredAt: string; // ISO string
-  severity: number;
-}
+export type { SeverityPoint };
 
 export function SeverityChart({ data }: { data: SeverityPoint[] }) {
   const points = useMemo(
@@ -88,15 +86,4 @@ export function SeverityChart({ data }: { data: SeverityPoint[] }) {
   );
 }
 
-export function pointsFromLogs(
-  logs: Array<{ occurredAt: string | Date; severity: number }>,
-): SeverityPoint[] {
-  return logs.map((l) => ({
-    occurredAt:
-      typeof l.occurredAt === "string"
-        ? l.occurredAt
-        : l.occurredAt.toISOString(),
-    severity: l.severity,
-  }));
-}
 
