@@ -130,17 +130,3 @@ export function GlucoseChart({
   );
 }
 
-export function pointsFromDiabetesLogs(
-  logs: Array<{
-    measuredAt: Date | string;
-    glucoseMgDl: number;
-    context: GlucoseContextValue;
-  }>,
-): GlucosePoint[] {
-  return logs.map((l) => ({
-    measuredAt:
-      typeof l.measuredAt === "string" ? l.measuredAt : l.measuredAt.toISOString(),
-    glucoseMgDl: l.glucoseMgDl,
-    context: l.context,
-  }));
-}

@@ -15,8 +15,8 @@ import {
 } from "@/components/charts/severity-chart";
 import {
   GlucoseChart,
-  pointsFromDiabetesLogs,
 } from "@/components/charts/glucose-chart";
+import { pointsFromDiabetesLogs } from "@/lib/charts/transforms";
 import { adherenceFor, summarizeSchedule } from "@/lib/medications/adherence";
 import { diabetesStats } from "@/lib/diabetes/a1c";
 import { parseRange } from "@/lib/dashboard/range";
@@ -234,7 +234,7 @@ export default async function DashboardPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SeverityChart data={pointsFromLogs(severityChartLogs)} />
+            <SeverityChart data={severityChartLogs} />
           </CardContent>
         </Card>
         <Card>

@@ -11,8 +11,8 @@ import { Separator } from "@/components/ui/separator";
 import { DiabetesFilters } from "./diabetes-filters";
 import {
   GlucoseChart,
-  pointsFromDiabetesLogs,
 } from "@/components/charts/glucose-chart";
+import { pointsFromDiabetesLogs } from "@/lib/charts/transforms";
 import { diabetesLogQuery } from "@/lib/validators/diabetes";
 import {
   CONTEXT_COLORS,

@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SymptomsFilters } from "./symptoms-filters";
-import { SeverityChart, pointsFromLogs } from "@/components/charts/severity-chart";
+import { SeverityChart } from "@/components/charts/severity-chart";
+import { pointsFromLogs } from "@/lib/charts/transforms";
 import { symptomLogQuery } from "@/lib/validators/symptom";
 
 export const metadata = { title: "Symptoms — PATCH" };

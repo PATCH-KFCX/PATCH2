@@ -2,11 +2,18 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
 import { UserMenu } from "@/components/layout/user-menu";
+import { VerifyBanner } from "@/components/layout/verify-banner";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  const userMeta = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, emailVerified: true },
+  });
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
@@ -42,6 +49,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
+      {userMeta && !userMeta.emailVerified && (
+        <VerifyBanner email={userMeta.email} />
+      )}
       <main className="flex-1 px-6 py-8">
         <div className="max-w-5xl mx-auto">{children}</div>
       </main>

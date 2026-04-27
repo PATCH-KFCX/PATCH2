@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -10,8 +12,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { signupInput, type SignupInput } from "@/lib/validators/user";
 
 export function SignupForm() {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
 
   const {
     register,
@@ -36,18 +39,23 @@ export function SignupForm() {
       setError(data.error ?? "Something went wrong. Try again.");
       return;
     }
-    setDone(values.email.toLowerCase());
-  }
 
-  if (done) {
-    return (
-      <Alert>
-        <AlertDescription>
-          We sent a verification link to <strong>{done}</strong>. Click it to
-          activate your account, then sign in.
-        </AlertDescription>
-      </Alert>
-    );
+    // Auto-sign-in. Email verification is now optional (banner on dashboard).
+    const result = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+    if (!result || result.error) {
+      setError(
+        "Account created, but auto-sign-in failed. Try signing in manually.",
+      );
+      return;
+    }
+    startTransition(() => {
+      router.push("/dashboard");
+      router.refresh();
+    });
   }
 
   return (
@@ -93,6 +101,10 @@ export function SignupForm() {
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? "Creating account…" : "Create account"}
       </Button>
+      <p className="text-xs text-muted-foreground text-center">
+        We&apos;ll send a verification link to your email — you can verify
+        anytime from your dashboard.
+      </p>
     </form>
   );
 }
