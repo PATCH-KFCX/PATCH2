@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/card";
 import {
   SeverityChart,
-  pointsFromLogs,
 } from "@/components/charts/severity-chart";
+import { pointsFromLogs } from "@/lib/charts/transforms";
 import {
   GlucoseChart,
 } from "@/components/charts/glucose-chart";
@@ -234,7 +234,7 @@ export default async function DashboardPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SeverityChart data={severityChartLogs} />
+            <SeverityChart data={pointsFromLogs(severityChartLogs)} />
           </CardContent>
         </Card>
         <Card>
