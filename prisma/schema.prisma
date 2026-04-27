@@ -8,6 +8,9 @@
 
 generator client {
   provider        = "prisma-client-js"
+  // Vercel runs Node 20 on Amazon Linux (rhel-openssl-3.0.x). Pinning both
+  // targets ensures the right native binary ships in the deployment.
+  binaryTargets   = ["native", "rhel-openssl-3.0.x"]
   previewFeatures = []
 }
 
